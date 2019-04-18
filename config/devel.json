@@ -1,6 +1,9 @@
 {
   "server": {
-    "host":"localhost",
-    "port":"80888"
+    "http":{
+      "host":"localhost",
+      "port":"80888",
+      "protocol":"http"
+    }
   }
 }
