@@ -32,4 +32,6 @@ int main (int argc, char *argv[])
   init();
 
   BOOST_LOG_TRIVIAL(info) << "Starting Morphine version " << MORPHINE_VERSION_MAJOR << "." << MORPHINE_VERSION_MINOR;
+
+  return EXIT_SUCCESS;
 }
