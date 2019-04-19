@@ -2,7 +2,7 @@
 #include <boost/log/utility/setup.hpp>
 #include <boost/config/user.hpp>
 
-#include "MorphineInfo.hpp"
+#include "info.h"
  
 void init()
 {

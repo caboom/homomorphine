@@ -15,13 +15,8 @@ namespace Morphine
       unordered_map<string, string> options;
 
     public:
-      string getOption(string option) {
-        return options[option];
-      }
-
-      void setOption(string option, string value) {
-        options[option] = value;
-      }
+      string getOption(string option);
+      void setOption(string option, string value);
   };
 }
 
