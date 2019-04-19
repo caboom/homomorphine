@@ -23,7 +23,7 @@ configure_file (
 ADD_DEFINITIONS(-DBOOST_LOG_DYN_LINK)
 
 # set the package requirements
-find_package(Boost 1.60 REQUIRED COMPONENTS log)
+find_package(Boost 1.60 REQUIRED COMPONENTS log program_options)
 find_package(Threads)
 
 include_directories(${Boost_INCLUDE_DIRS})
@@ -32,7 +32,6 @@ link_directories(${Boost_LIBRARY_DIRS})
 # what to build...
 set(SRC_FILES
    src/morphine.cpp
-   src/options.cpp
    src/config.cpp)
 
 add_executable(morphine ${SRC_FILES})

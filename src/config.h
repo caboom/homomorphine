@@ -7,8 +7,17 @@
 
 using namespace std;
 
-namespace Morphine {
+namespace Morphine 
+{
 
+  class Config 
+  {
+
+    public:
+      ~Config();
+
+      void init(string file);
+  };
 }
 
 #endif
