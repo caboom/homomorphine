@@ -1,6 +1,7 @@
 #include "interface.h"
 
-namespace Morphine {
+namespace Morphine 
+{
 
   string Interface::getHost() 
   {

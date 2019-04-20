@@ -9,6 +9,7 @@
 
 #include "info.h"
 #include "config.h"
+#include "server.h"
 
 using namespace std;
 using namespace Morphine;
@@ -68,6 +69,7 @@ unordered_map<string, string>* parseCommandLine(int argc, char *argv[])
 int main (int argc, char *argv[])
 {
   Config config;
+  Server server;
   unordered_map<string, string>* options;
 
   // initialize logger 
@@ -83,10 +85,12 @@ int main (int argc, char *argv[])
 
   // parse configuration 
   config.init((*options)["config"]);
-  BOOST_LOG_TRIVIAL(error) << config;
 
   // start morphine
   BOOST_LOG_TRIVIAL(info) << "Starting Morphine version " << MORPHINE_VERSION_MAJOR << "." << MORPHINE_VERSION_MINOR;  
+
+  server.init(config);
+  server.run();
 
   return EXIT_SUCCESS;
 }

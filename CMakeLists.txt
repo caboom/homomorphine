@@ -34,7 +34,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 set(SRC_FILES
    src/morphine.cpp
    src/config.cpp
-   src/interface.cpp)
+   src/interface.cpp
+   src/server.cpp)
 
 add_executable(morphine ${SRC_FILES})
 
