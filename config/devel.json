@@ -1,9 +1,10 @@
 {
-  "server": {
+  "interfaces": {
     "http":{
       "host":"localhost",
       "port":"80888",
-      "protocol":"http"
+      "protocol":"http",
+      "backend":"seal"
     }
   }
 }

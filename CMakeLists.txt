@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.0.0)
 project (morphine)
 
 # set C++ version to 11
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 17)
 
 if (POLICY CMP0025)
   cmake_policy(SET CMP0025 NEW)
@@ -23,6 +23,7 @@ configure_file (
 ADD_DEFINITIONS(-DBOOST_LOG_DYN_LINK)
 
 # set the package requirements
+find_package(cpprestsdk REQUIRED)
 find_package(Boost 1.60 REQUIRED COMPONENTS log program_options)
 find_package(Threads)
 
@@ -32,9 +33,10 @@ link_directories(${Boost_LIBRARY_DIRS})
 # what to build...
 set(SRC_FILES
    src/morphine.cpp
-   src/config.cpp)
+   src/config.cpp
+   src/interface.cpp)
 
 add_executable(morphine ${SRC_FILES})
 
 # link libraries
-target_link_libraries(morphine ${Boost_LIBRARIES} Threads::Threads)
+target_link_libraries(morphine ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest)
