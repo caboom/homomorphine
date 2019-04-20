@@ -1,4 +1,4 @@
-#include "config.h"
+#include "config.hpp"
 
 namespace Morphine 
 {
@@ -23,6 +23,11 @@ namespace Morphine
 
       this->interfaces[value.first] = interface;
     }
+  }
+
+  map<string, Interface> Config::getInterfaces() 
+  {
+    return this->interfaces;
   }
 
   std::ostream& operator<<(std::ostream &strm, const Config &config) 

@@ -7,9 +7,9 @@
 #include <boost/config/user.hpp>
 #include <boost/program_options.hpp>
 
-#include "info.h"
-#include "config.h"
-#include "server.h"
+#include "info.hpp"
+#include "config.hpp"
+#include "server.hpp"
 
 using namespace std;
 using namespace Morphine;

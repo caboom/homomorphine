@@ -7,7 +7,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#include "interface.h"
+#include "interface.hpp"
 
 namespace pt = boost::property_tree;
 
@@ -33,6 +33,7 @@ namespace Morphine
       ~Config();
 
       void init(string &file);
+      map<string, Interface> getInterfaces();
   };
 }
 

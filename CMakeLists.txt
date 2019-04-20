@@ -15,8 +15,8 @@ set (MORPHINE_VERSION_MINOR 1)
 
 # pass the information to source code
 configure_file (
-  "src/info.h.in"
-  "src/info.h"
+  "src/info.hpp.in"
+  "src/info.hpp"
 )
 
 # dynamic link to Boost libraries
