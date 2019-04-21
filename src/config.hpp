@@ -34,6 +34,7 @@ namespace Morphine
 
       void init(string &file);
       map<string, Interface> getInterfaces();
+      int interfacesSize();
   };
 }
 

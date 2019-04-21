@@ -30,6 +30,11 @@ namespace Morphine
     return this->interfaces;
   }
 
+  int Config::interfacesSize() 
+  {
+    return this->interfaces.size();
+  }
+
   std::ostream& operator<<(std::ostream &strm, const Config &config) 
   {
     for (auto& [key, value] : config.interfaces) {

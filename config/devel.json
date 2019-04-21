@@ -2,7 +2,7 @@
   "interfaces": {
     "http":{
       "host":"localhost",
-      "port":"80888",
+      "port":"20888",
       "protocol":"http",
       "backend":"seal"
     }

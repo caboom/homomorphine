@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <exception>
 #include <iostream>
+#include <signal.h>
 #include <boost/log/trivial.hpp>
 #include <boost/log/utility/setup.hpp>
 #include <boost/config/user.hpp>
@@ -13,8 +14,17 @@
 
 using namespace std;
 using namespace Morphine;
- 
-void init()
+
+static Config config;
+static Server server;
+static int s_interrupted = 0;
+
+static void s_signal_handler (int signal_value)
+{
+    s_interrupted = signal_value;
+}
+
+static void s_init()
 {
   static const std::string COMMON_FMT("[%TimeStamp%][%Severity%]:  %Message%");
 
@@ -65,15 +75,33 @@ unordered_map<string, string>* parseCommandLine(int argc, char *argv[])
   return options;
 }
 
+void eventLoop() {
+  struct sigaction action;
+  action.sa_handler = s_signal_handler;
+  action.sa_flags = 0;
+  sigemptyset (&action.sa_mask);
+  sigaction (SIGINT, &action, NULL);
+  sigaction (SIGTERM, &action, NULL);
+
+  while (true) { 
+	  if (s_interrupted) {
+      server.stop();
+
+	    action.sa_handler = SIG_DFL; 
+	    sigaction(SIGINT, &action, NULL);
+	    raise(SIGINT);
+    }
+
+    sleep(1);
+	}
+}
 
 int main (int argc, char *argv[])
 {
-  Config config;
-  Server server;
   unordered_map<string, string>* options;
 
-  // initialize logger 
-  init();
+  // initialize logger & signal handler
+  s_init();
 
   // parse command line arguments
   options = parseCommandLine(argc, argv); 
@@ -91,6 +119,9 @@ int main (int argc, char *argv[])
 
   server.init(config);
   server.run();
+
+  // wait for SIGINT or SIGTERM
+  eventLoop();
 
   return EXIT_SUCCESS;
 }
