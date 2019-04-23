@@ -37,6 +37,7 @@ set(SRC_FILES
    src/interface.cpp
    src/server.cpp
    src/api.cpp
+   src/backend.cpp
    src/seal_backend.cpp)
 
 add_executable(morphine ${SRC_FILES})
