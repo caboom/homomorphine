@@ -40,7 +40,10 @@ set(SRC_FILES
    src/backend.cpp
    src/seal_backend.cpp)
 
-add_executable(morphine ${SRC_FILES})
+# build both service and library
+add_executable(morphine-service ${SRC_FILES})
+add_library(morphine SHARED ${SRC_FILES})
 
 # link libraries
+target_link_libraries(morphine-service ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest)
 target_link_libraries(morphine ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest)
