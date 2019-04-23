@@ -1,10 +1,3 @@
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <thread>
-#include <chrono>
-#include <ctime>
-#include <signal.h>
 #include <cpprest/http_listener.h>
 
 #include "config.hpp"
@@ -27,6 +20,12 @@ namespace Morphine
 
       http_listener startService(Interface &interface);
       void stopService(http_listener &listener);
+
+      void handle_get(http_request message);
+      void handle_put(http_request message);
+      void handle_post(http_request message);
+
+    http_listener m_listener;
 
     public:
       void init(Config &config);

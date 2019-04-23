@@ -15,7 +15,6 @@
 using namespace std;
 using namespace Morphine;
 
-static Config config;
 static Server server;
 static int s_interrupted = 0;
 
@@ -47,7 +46,7 @@ static void s_init()
 #endif
 }
 
-unordered_map<string, string>* parseCommandLine(int argc, char *argv[]) 
+static unordered_map<string, string>* parseCommandLine(int argc, char *argv[]) 
 {
   unordered_map<string, string>* options = new unordered_map<string, string>();
 
@@ -75,7 +74,7 @@ unordered_map<string, string>* parseCommandLine(int argc, char *argv[])
   return options;
 }
 
-void eventLoop() {
+static void eventLoop() {
   struct sigaction action;
   action.sa_handler = s_signal_handler;
   action.sa_flags = 0;
@@ -98,6 +97,7 @@ void eventLoop() {
 
 int main (int argc, char *argv[])
 {
+  Config config;
   unordered_map<string, string>* options;
 
   // initialize logger & signal handler
@@ -121,7 +121,7 @@ int main (int argc, char *argv[])
   server.run();
 
   // wait for SIGINT or SIGTERM
-  eventLoop();
+  eventLoop();  
 
   return EXIT_SUCCESS;
 }

@@ -11,10 +11,10 @@
 
 namespace pt = boost::property_tree;
 
+using namespace std;
+
 #ifndef _MORPHINE_CONFIG_H_
 #define _MORPHINE_CONFIG_H_
-
-using namespace std;
 
 namespace Morphine 
 {

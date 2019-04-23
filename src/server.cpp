@@ -39,6 +39,10 @@ namespace Morphine
     http_listener listener(U(uri));
 	  listener.open().wait();
 
+    listener.support(methods::GET, std::bind(&Server::handle_get, this, std::placeholders::_1));
+    listener.support(methods::PUT, std::bind(&Server::handle_put, this, std::placeholders::_1));
+    listener.support(methods::POST, std::bind(&Server::handle_post, this, std::placeholders::_1));
+
     return listener;
   }
 
@@ -46,4 +50,26 @@ namespace Morphine
   {
     listener.close().wait();
   }
+
+  void Server::handle_get(http_request message)
+  {
+    BOOST_LOG_TRIVIAL(info) << "GET request: ";
+
+    message.reply(status_codes::OK, "");
+  }
+
+  void Server::handle_put(http_request message)
+  {
+    BOOST_LOG_TRIVIAL(info) << "PUT request: ";
+
+    message.reply(status_codes::OK, "");
+  }
+
+  void Server::handle_post(http_request message)
+  {
+    BOOST_LOG_TRIVIAL(info) << "POST request: ";
+
+    message.reply(status_codes::OK, "");
+  }
+
 }
