@@ -38,6 +38,7 @@ set(SRC_FILES
    src/server.cpp
    src/api.cpp
    src/backend.cpp
+   src/backend_factory.cpp
    src/seal_backend.cpp)
 
 # build both service and library
