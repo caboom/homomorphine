@@ -26,6 +26,7 @@ ADD_DEFINITIONS(-DBOOST_LOG_DYN_LINK)
 find_package(cpprestsdk REQUIRED)
 find_package(Boost 1.60 REQUIRED COMPONENTS log program_options)
 find_package(Threads)
+find_package(SEAL 3.2.0 EXACT REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
@@ -46,5 +47,5 @@ add_executable(morphine-service ${SRC_FILES})
 add_library(morphine SHARED ${SRC_FILES})
 
 # link libraries
-target_link_libraries(morphine-service ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest)
-target_link_libraries(morphine ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest)
+target_link_libraries(morphine-service ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
+target_link_libraries(morphine ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
