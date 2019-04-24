@@ -1,0 +1,3 @@
+// Service Info
+#define MORPHINE_VERSION_MAJOR 0
+#define MORPHINE_VERSION_MINOR 1
