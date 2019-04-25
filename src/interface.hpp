@@ -1,12 +1,12 @@
 #include <string>
 #include <iostream>
 
-#ifndef _MORPHINE_INTERFACE_H_
-#define _MORPHINE_INTERFACE_H_
+#ifndef _HOMOMORPHINE_INTERFACE_H_
+#define _HOMOMORPHINE_INTERFACE_H_
 
 using namespace std;
 
-namespace Morphine 
+namespace Homomorphine 
 {
   class Interface {
     private:

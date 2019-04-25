@@ -1,6 +1,6 @@
 
 cmake_minimum_required (VERSION 3.0.0)
-project (morphine)
+project (homomorphine)
 
 # set C++ version to 11
 set (CMAKE_CXX_STANDARD 17)
@@ -10,8 +10,8 @@ if (POLICY CMP0025)
 endif ()
 
 # morphine version
-set (MORPHINE_VERSION_MAJOR 0)
-set (MORPHINE_VERSION_MINOR 1)
+set (HOMOMORPHINE_VERSION_MAJOR 0)
+set (HOMOMORPHINE_VERSION_MINOR 1)
 
 # pass the information to source code
 configure_file (
@@ -33,7 +33,7 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 # what to build...
 set(SRC_FILES
-   src/morphine.cpp
+   src/homomorphine.cpp
    src/config.cpp
    src/interface.cpp
    src/server.cpp
@@ -43,9 +43,9 @@ set(SRC_FILES
    src/seal_backend.cpp)
 
 # build both service and library
-add_executable(morphine-service ${SRC_FILES})
-add_library(morphine SHARED ${SRC_FILES})
+add_executable(homomorphine-service ${SRC_FILES})
+add_library(homomorphine SHARED ${SRC_FILES})
 
 # link libraries
-target_link_libraries(morphine-service ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
-target_link_libraries(morphine ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
+target_link_libraries(homomorphine-service ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
+target_link_libraries(homomorphine ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)

@@ -13,7 +13,7 @@
 #include "server.hpp"
 
 using namespace std;
-using namespace Morphine;
+using namespace Homomorphine;
 
 static Server server;
 static int s_interrupted = 0;
@@ -115,7 +115,7 @@ int main (int argc, char *argv[])
   config.init((*options)["config"]);
 
   // start morphine
-  BOOST_LOG_TRIVIAL(info) << "Starting Morphine version " << MORPHINE_VERSION_MAJOR << "." << MORPHINE_VERSION_MINOR;  
+  BOOST_LOG_TRIVIAL(info) << "Starting Homomorphine version " << HOMOMORPHINE_VERSION_MAJOR << "." << HOMOMORPHINE_VERSION_MINOR;  
 
   server.init(config);
   server.run();

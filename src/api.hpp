@@ -1,9 +1,9 @@
 #include <iostream>
 
-#ifndef _MORPHINE_API_H_
-#define _MORPHINE_API_H_
+#ifndef _HOMOMORPHINE_API_H_
+#define _HOMOMORPHINE_API_H_
 
-namespace Morphine 
+namespace Homomorphine 
 {
   class Api
   {

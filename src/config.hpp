@@ -13,10 +13,10 @@ namespace pt = boost::property_tree;
 
 using namespace std;
 
-#ifndef _MORPHINE_CONFIG_H_
-#define _MORPHINE_CONFIG_H_
+#ifndef _HOMOMORPHINE_CONFIG_H_
+#define _HOMOMORPHINE_CONFIG_H_
 
-namespace Morphine 
+namespace Homomorphine 
 {
   struct debug_settings
   {

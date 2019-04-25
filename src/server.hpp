@@ -3,15 +3,15 @@
 #include "config.hpp"
 #include "interface.hpp"
 
-#ifndef _MORPHINE_SERVER_H_
-#define _MORPHINE_SERVER_H_
+#ifndef _HOMOMORPHINE_SERVER_H_
+#define _HOMOMORPHINE_SERVER_H_
 
 using namespace std;
 using namespace web::http::experimental::listener;
 using namespace web::http;
 using namespace web;
 
-namespace Morphine 
+namespace Homomorphine 
 {
   class Server {
     private:

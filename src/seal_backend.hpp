@@ -4,12 +4,12 @@
 using namespace seal;
 using namespace std;
 
-#ifndef _MORPHINE_SEAL_BACKED_H_
-#define _MORPHINE_SEAL_BACKED_H_
+#ifndef _HOMOMORPHINE_SEAL_BACKED_H_
+#define _HOMOMORPHINE_SEAL_BACKED_H_
 
 #include "backend.hpp"
 
-namespace Morphine 
+namespace Homomorphine 
 {
   enum SealAlgorithmType { 
     SEAL_BFV, SEAL_CKKS, SEAL_UNKNOWN

@@ -1,6 +1,6 @@
 #include "backend.hpp"
 
-namespace Morphine {
+namespace Homomorphine {
   
   void Backend::setParams(map<string, string> &params) 
   {

@@ -1,6 +1,6 @@
 #include "interface.hpp"
 
-namespace Morphine 
+namespace Homomorphine 
 {
 
   string Interface::getHost() 

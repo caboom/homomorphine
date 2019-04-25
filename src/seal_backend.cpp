@@ -1,6 +1,6 @@
 #include "seal_backend.hpp"
 
-namespace Morphine 
+namespace Homomorphine 
 {
   SealBackend::~SealBackend() { }
 

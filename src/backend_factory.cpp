@@ -1,6 +1,6 @@
 #include "backend_factory.hpp"
 
-namespace Morphine 
+namespace Homomorphine 
 {
   Backend* BackendFactory::create(BackendType type)
   {
