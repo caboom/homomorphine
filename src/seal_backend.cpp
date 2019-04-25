@@ -40,12 +40,12 @@ namespace homomorphine
     // check if there is poly modulus degree option
     params.count("poly_modulus_degree") ?
       this->encryption_params->set_poly_modulus_degree(stoi(this->params["poly_modulus_degree"])) :
-      this->encryption_params->set_poly_modulus_degree(2048);
+      this->encryption_params->set_poly_modulus_degree(Constants::SEAL_POLY_MODULUS_DEGREE);
 
     // check if there is coefficient modulus option
     params.count("coeff_modulus") ?
       this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(stoi(this->params["coeff_modulus"]))) :
-      this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(2048));
+      this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(Constants::SEAL_COEFF_MODULUS));
 
     // use default recommendation for now
     this->encryption_params->set_plain_modulus(1 << 8);
@@ -69,6 +69,21 @@ namespace homomorphine
   pair <PublicKey, SecretKey> SealBackend::generatePublicAndSecretKey() 
   {
     return pair<PublicKey, SecretKey> (this->generatePublicKey(), this->generateSecretKey());
+  }
+
+  string SealBackend::getEncodedPublicKey() 
+  {
+
+  }
+
+  string SealBackend::getEncodedSecretKey() 
+  {
+    
+  }
+
+  pair <string, string> SealBackend::getEncodedKeys() 
+  {
+
   }
 
 }

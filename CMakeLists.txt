@@ -34,6 +34,7 @@ link_directories(${Boost_LIBRARY_DIRS})
 # what to build...
 set(SRC_FILES
    src/homomorphine.cpp
+   src/constants.cpp
    src/config.cpp
    src/interface.cpp
    src/server.cpp

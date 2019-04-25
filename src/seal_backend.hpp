@@ -4,11 +4,13 @@
 #include <iostream>
 #include <utility>
 #include <seal/seal.h>
+#include <boost/archive/iterators/base64_from_binary.hpp>
+
+#include "backend.hpp"
+#include "constants.hpp"
 
 using namespace seal;
 using namespace std;
-
-#include "backend.hpp"
 
 namespace homomorphine 
 {
@@ -37,6 +39,9 @@ namespace homomorphine
       PublicKey generatePublicKey();
       SecretKey generateSecretKey();
       pair <PublicKey, SecretKey> generatePublicAndSecretKey();
+      string getEncodedPublicKey();
+      string getEncodedSecretKey();
+      pair <string, string> getEncodedKeys();
   };
 }
 
