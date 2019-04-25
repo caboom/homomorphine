@@ -6,7 +6,7 @@
 
 using namespace std;
 
-namespace Homomorphine 
+namespace homomorphine 
 {
   class Interface {
     private:

@@ -1,6 +1,6 @@
 #include "backend_factory.hpp"
 
-namespace Homomorphine 
+namespace homomorphine 
 {
   Backend* BackendFactory::create(BackendType type)
   {

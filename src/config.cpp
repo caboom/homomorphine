@@ -1,6 +1,6 @@
 #include "config.hpp"
 
-namespace Homomorphine 
+namespace homomorphine 
 {
   Config::~Config() 
   {

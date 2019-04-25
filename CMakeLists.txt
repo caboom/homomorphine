@@ -60,7 +60,7 @@ foreach(testSrc ${TEST_SRCS})
   
   add_executable(${testName} ${testSrc})
 
-  target_link_libraries(${testName} ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
+  target_link_libraries(${testName} ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal homomorphine)
 
   set_target_properties(${testName} 
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY

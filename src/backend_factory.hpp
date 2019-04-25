@@ -9,7 +9,7 @@
 
 using namespace std;
 
-namespace Homomorphine 
+namespace homomorphine 
 {
   enum BackendType { 
     B_SEAL, B_HELib, B_UNKNOWN

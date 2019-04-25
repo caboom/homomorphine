@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-namespace Homomorphine 
+namespace homomorphine 
 {
   class Api
   {

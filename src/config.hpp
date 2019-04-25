@@ -16,7 +16,7 @@ using namespace std;
 
 namespace pt = boost::property_tree;
 
-namespace Homomorphine 
+namespace homomorphine 
 {
   struct debug_settings
   {

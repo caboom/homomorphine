@@ -13,7 +13,7 @@
 #include "server.hpp"
 
 using namespace std;
-using namespace Homomorphine;
+using namespace homomorphine;
 
 static Server server;
 static int s_interrupted = 0;

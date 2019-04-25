@@ -1,6 +1,6 @@
 #include "server.hpp"
 
-namespace Homomorphine 
+namespace homomorphine 
 {
   void Server::init(Config &config) 
   {

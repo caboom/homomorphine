@@ -1,14 +1,21 @@
 #include "seal_backend.hpp"
 
-namespace Homomorphine 
+namespace homomorphine 
 {
   SealBackend::~SealBackend() { }
 
-  void SealBackend::setAlgorithm(string algorithm) {
+  void SealBackend::setAlgorithm(string algorithm) 
+  {
     this->type = getAlgorithmType(algorithm);
   }
 
-  SealAlgorithmType SealBackend::getAlgorithmType(string name) {
+  void SealBackend::setAlgorithm(SealAlgorithmType algorithm) 
+  {
+    this->type = algorithm;
+  }
+
+  SealAlgorithmType SealBackend::getAlgorithmType(string name) 
+  {
     boost::algorithm::to_lower(name);
 
     if (name == "bfv") return SEAL_BFV;
@@ -17,7 +24,8 @@ namespace Homomorphine
     return SEAL_UNKNOWN;
   }
 
-  void SealBackend::init() {
+  void SealBackend::init() 
+  {
     if (this->type == SEAL_BFV) { 
       this->initBFV();
     } else {
@@ -25,7 +33,8 @@ namespace Homomorphine
     }
   }
 
-  void SealBackend::initBFV() {
+  void SealBackend::initBFV() 
+  {
     this->encryption_params = new EncryptionParameters(scheme_type::BFV);
 
     // check if there is poly modulus degree option
@@ -47,15 +56,18 @@ namespace Homomorphine
     this->keygen = new KeyGenerator(context);
   }
 
-  PublicKey SealBackend::generatePublicKey() {
+  PublicKey SealBackend::generatePublicKey() 
+  {
     return this->keygen->public_key();
   }
 
-  SecretKey SealBackend::generateSecretKey() {
+  SecretKey SealBackend::generateSecretKey() 
+  {
     return this->keygen->secret_key();
   } 
 
-  pair <PublicKey, SecretKey> SealBackend::generatePublicAndSecretKey() {
+  pair <PublicKey, SecretKey> SealBackend::generatePublicAndSecretKey() 
+  {
     return pair<PublicKey, SecretKey> (this->generatePublicKey(), this->generateSecretKey());
   }
 

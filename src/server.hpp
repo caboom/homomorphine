@@ -11,7 +11,7 @@ using namespace web::http::experimental::listener;
 using namespace web::http;
 using namespace web;
 
-namespace Homomorphine 
+namespace homomorphine 
 {
   class Server {
     private:

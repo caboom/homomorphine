@@ -10,12 +10,11 @@ using namespace std;
 
 #include "backend.hpp"
 
-namespace Homomorphine 
+namespace homomorphine 
 {
   enum SealAlgorithmType { 
     SEAL_BFV, SEAL_CKKS, SEAL_UNKNOWN
   }; 
-
 
   class SealBackend : public Backend
   {
@@ -33,6 +32,7 @@ namespace Homomorphine
       ~SealBackend();
       void init();
       void setAlgorithm(string algorithm);
+      void setAlgorithm(SealAlgorithmType algorithm);
 
       PublicKey generatePublicKey();
       SecretKey generateSecretKey();
