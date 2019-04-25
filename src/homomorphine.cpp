@@ -83,16 +83,16 @@ static void eventLoop() {
   sigaction (SIGTERM, &action, NULL);
 
   while (true) { 
-	  if (s_interrupted) {
+    if (s_interrupted) {
       server.stop();
 
-	    action.sa_handler = SIG_DFL; 
-	    sigaction(SIGINT, &action, NULL);
-	    raise(SIGINT);
+      action.sa_handler = SIG_DFL; 
+      sigaction(SIGINT, &action, NULL);
+      raise(SIGINT);  
     }
 
     sleep(1);
-	}
+  }
 }
 
 int main (int argc, char *argv[])
