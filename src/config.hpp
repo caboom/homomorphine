@@ -1,3 +1,6 @@
+#ifndef _HOMOMORPHINE_CONFIG_H_
+#define _HOMOMORPHINE_CONFIG_H_
+
 #include <boost/foreach.hpp>
 #include <string>
 #include <map>
@@ -9,12 +12,9 @@
 
 #include "interface.hpp"
 
-namespace pt = boost::property_tree;
-
 using namespace std;
 
-#ifndef _HOMOMORPHINE_CONFIG_H_
-#define _HOMOMORPHINE_CONFIG_H_
+namespace pt = boost::property_tree;
 
 namespace Homomorphine 
 {
@@ -27,7 +27,7 @@ namespace Homomorphine
   {
     private: 
       map<string, Interface> interfaces;
-      friend std::ostream& operator<<(std::ostream&, const Config&);
+      friend ostream& operator<<(ostream&, const Config&);
 
     public:
       ~Config();

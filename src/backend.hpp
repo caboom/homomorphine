@@ -1,3 +1,6 @@
+#ifndef _HOMOMORPHINE_BACKEND_H_
+#define _HOMOMORPHINE_BACKEND_H_
+
 #include <string>
 #include <map>
 #include <iostream>
@@ -5,9 +8,6 @@
 #include <boost/algorithm/string.hpp>
 
 using namespace std;
-
-#ifndef _HOMOMORPHINE_BACKEND_H_
-#define _HOMOMORPHINE_BACKEND_H_
 
 namespace Homomorphine 
 {

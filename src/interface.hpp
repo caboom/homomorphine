@@ -1,8 +1,8 @@
-#include <string>
-#include <iostream>
-
 #ifndef _HOMOMORPHINE_INTERFACE_H_
 #define _HOMOMORPHINE_INTERFACE_H_
+
+#include <string>
+#include <iostream>
 
 using namespace std;
 

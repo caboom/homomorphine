@@ -1,11 +1,11 @@
+#ifndef _HOMOMORPHINE_SEAL_BACKED_H_
+#define _HOMOMORPHINE_SEAL_BACKED_H_
+
 #include <iostream>
 #include <seal/seal.h>
 
 using namespace seal;
 using namespace std;
-
-#ifndef _HOMOMORPHINE_SEAL_BACKED_H_
-#define _HOMOMORPHINE_SEAL_BACKED_H_
 
 #include "backend.hpp"
 

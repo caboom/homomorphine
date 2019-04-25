@@ -1,10 +1,10 @@
+#ifndef _HOMOMORPHINE_SERVER_H_
+#define _HOMOMORPHINE_SERVER_H_
+
 #include <cpprest/http_listener.h>
 
 #include "config.hpp"
 #include "interface.hpp"
-
-#ifndef _HOMOMORPHINE_SERVER_H_
-#define _HOMOMORPHINE_SERVER_H_
 
 using namespace std;
 using namespace web::http::experimental::listener;

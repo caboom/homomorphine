@@ -1,13 +1,13 @@
-#include <string>
-#include <boost/algorithm/string.hpp>
-
-using namespace std;
-
 #ifndef _HOMOMORPHINE_BACKEND_FACTORY_H_
 #define _HOMOMORPHINE_BACKEND_FACTORY_H_
 
+#include <string>
+#include <boost/algorithm/string.hpp>
+
 #include "backend.hpp"
 #include "seal_backend.hpp"
+
+using namespace std;
 
 namespace Homomorphine 
 {
