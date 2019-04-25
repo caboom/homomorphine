@@ -2,6 +2,11 @@
 
 namespace homomorphine 
 {
+  Backend* BackendFactory::create(string type)
+  {
+    return create(getType(type));
+  }
+
   Backend* BackendFactory::create(BackendType type)
   {
     return new SealBackend();

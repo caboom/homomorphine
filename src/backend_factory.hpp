@@ -18,6 +18,7 @@ namespace homomorphine
   class BackendFactory
   {
     public:
+      static Backend* create(string type);
       static Backend* create(BackendType type);
       static BackendType getType(string name);
   };
