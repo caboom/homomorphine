@@ -24,7 +24,7 @@ ADD_DEFINITIONS(-DBOOST_LOG_DYN_LINK)
 
 # set the package requirements
 find_package(cpprestsdk REQUIRED)
-find_package(Boost 1.60 REQUIRED COMPONENTS log program_options)
+find_package(Boost 1.60 REQUIRED COMPONENTS log program_options unit_test_framework)
 find_package(Threads)
 find_package(SEAL 3.2.0 EXACT REQUIRED)
 
@@ -49,3 +49,28 @@ add_library(homomorphine SHARED ${SRC_FILES})
 # link libraries
 target_link_libraries(homomorphine-service ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
 target_link_libraries(homomorphine ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
+
+# tests for homomorphine
+enable_testing()
+
+file(GLOB TEST_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} test/*.cpp)
+
+foreach(testSrc ${TEST_SRCS})
+  get_filename_component(testName ${testSrc} NAME_WE)
+  
+  add_executable(${testName} ${testSrc})
+
+  target_link_libraries(${testName} ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
+
+  set_target_properties(${testName} 
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_output
+  )
+
+  #Finally add it to test execution - 
+  #Notice the WORKING_DIRECTORY and COMMAND
+  add_test(NAME ${testName} 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test_output 
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test_output/${testName}
+  )
+endforeach(testSrc)
