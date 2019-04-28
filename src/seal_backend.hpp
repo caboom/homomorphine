@@ -3,7 +3,13 @@
 
 #include <iostream>
 #include <utility>
+#include <sstream>
+#include <string>
 #include <seal/seal.h>
+#include <boost/archive/iterators/base64_from_binary.hpp>
+#include <boost/archive/iterators/insert_linebreaks.hpp>
+#include <boost/archive/iterators/transform_width.hpp>
+#include <boost/archive/iterators/ostream_iterator.hpp>
 #include <boost/archive/iterators/base64_from_binary.hpp>
 
 #include "backend.hpp"
@@ -11,6 +17,7 @@
 
 using namespace seal;
 using namespace std;
+using namespace boost::archive::iterators;
 
 namespace homomorphine 
 {
@@ -29,6 +36,7 @@ namespace homomorphine
 
       SealAlgorithmType getAlgorithmType(string name);
       void initBFV();
+      string uuencodeStream(stringstream &key_stream);
 
     public:
       ~SealBackend();
@@ -38,10 +46,10 @@ namespace homomorphine
 
       PublicKey generatePublicKey();
       SecretKey generateSecretKey();
-      pair <PublicKey, SecretKey> generatePublicAndSecretKey();
-      string getEncodedPublicKey();
-      string getEncodedSecretKey();
-      pair <string, string> getEncodedKeys();
+      pair<PublicKey, SecretKey> generateKeys();
+      string generateEncodedPublicKey();
+      string generateEncodedSecretKey();
+      pair<string, string> generateEncodedKeys();
   };
 }
 

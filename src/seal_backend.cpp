@@ -66,24 +66,60 @@ namespace homomorphine
     return this->keygen->secret_key();
   } 
 
-  pair <PublicKey, SecretKey> SealBackend::generatePublicAndSecretKey() 
+  pair<PublicKey, SecretKey> SealBackend::generateKeys() 
   {
-    return pair<PublicKey, SecretKey> (this->generatePublicKey(), this->generateSecretKey());
+    return pair<PublicKey, SecretKey> (this->keygen->public_key(), this->keygen->secret_key());
   }
 
-  string SealBackend::getEncodedPublicKey() 
+  string SealBackend::generateEncodedPublicKey() 
   {
+    std::stringstream key_stream;
+    PublicKey public_key = this->keygen->public_key();
 
+    public_key.save(key_stream);
+
+    return uuencodeStream(key_stream);   
   }
 
-  string SealBackend::getEncodedSecretKey() 
+  string SealBackend::generateEncodedSecretKey() 
   {
-    
+    std::stringstream key_stream;
+    SecretKey secret_key = this->keygen->secret_key();
+
+    secret_key.save(key_stream);
+
+    return uuencodeStream(key_stream);
   }
 
-  pair <string, string> SealBackend::getEncodedKeys() 
+  pair<string, string> SealBackend::generateEncodedKeys() 
   {
+    return pair<string, string> (this->generateEncodedPublicKey(), this->generateEncodedSecretKey());
+  }
 
+  string SealBackend::uuencodeStream(stringstream &key_stream) {
+    std::stringstream uuencoded_stream;
+    std::string key_string = key_stream.str();
+
+    typedef 
+        insert_linebreaks<         // insert line breaks every 72 characters
+            base64_from_binary<    // convert binary values to base64 characters
+                transform_width<   // retrieve 6 bit integers from a sequence of 8 bit bytes
+                    const char *,
+                    6,
+                    8
+                >
+            > 
+            ,72
+        > 
+        base64_text; // compose all the above operations in to a new iterator
+
+    std::copy(
+        base64_text(key_string.c_str()),
+        base64_text(key_string.c_str() + key_string.size()),
+        boost::archive::iterators::ostream_iterator<char>(uuencoded_stream)
+    ); 
+
+    return uuencoded_stream.str();
   }
 
 }
