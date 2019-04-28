@@ -56,19 +56,57 @@ namespace homomorphine
     this->keygen = new KeyGenerator(context);
   }
 
+  PublicKey SealBackend::getPublicKey()
+  {
+    return this->public_key;
+  }
+  
+  SecretKey SealBackend::getSecretKey()
+  {
+    return this->secret_key;
+  }
+
+  pair<PublicKey, SecretKey> SealBackend::getKeys()
+  {
+    return pair<PublicKey, SecretKey> (this->public_key, this->secret_key);
+  }
+
+  void SealBackend::setPublicKey(PublicKey public_key)
+  {
+    this->public_key = public_key;
+  }
+  
+  void SealBackend::setSecretKey(SecretKey secret_key)
+  {
+    this->secret_key = secret_key;
+  }
+  
+  void SealBackend::setKeys(PublicKey public_key, SecretKey secret_key)
+  {
+    this->public_key = public_key;
+    this->secret_key = secret_key;
+  }
+
   PublicKey SealBackend::generatePublicKey() 
   {
-    return this->keygen->public_key();
+    this->public_key = this->keygen->public_key();
+
+    return this->public_key;
   }
 
   SecretKey SealBackend::generateSecretKey() 
   {
-    return this->keygen->secret_key();
+    this->secret_key = this->keygen->secret_key();
+
+    return this->secret_key;
   } 
 
   pair<PublicKey, SecretKey> SealBackend::generateKeys() 
   {
-    return pair<PublicKey, SecretKey> (this->keygen->public_key(), this->keygen->secret_key());
+    this->public_key = this->keygen->public_key(); 
+    this->secret_key = this->keygen->secret_key();
+
+    return pair<PublicKey, SecretKey> (this->public_key, this->secret_key);
   }
 
   string SealBackend::generateEncodedPublicKey() 

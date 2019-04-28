@@ -21,6 +21,9 @@ namespace homomorphine
       virtual ~Backend() {}
       virtual void setAlgorithm(string algorithm) {}
       virtual void init() {}
+      virtual string generateEncodedPublicKey() = 0;
+      virtual string generateEncodedSecretKey() = 0;
+      virtual pair<string, string> generateEncodedKeys() = 0;
 
       map<string, string> getParams();
       void setParams(map<string, string> &params); 

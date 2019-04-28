@@ -33,6 +33,8 @@ namespace homomorphine
       KeyGenerator *keygen;
       SealAlgorithmType type;
       EncryptionParameters *encryption_params;
+      PublicKey public_key;
+      SecretKey secret_key;
 
       SealAlgorithmType getAlgorithmType(string name);
       void initBFV();
@@ -43,13 +45,19 @@ namespace homomorphine
       void init();
       void setAlgorithm(string algorithm);
       void setAlgorithm(SealAlgorithmType algorithm);
-
-      PublicKey generatePublicKey();
-      SecretKey generateSecretKey();
-      pair<PublicKey, SecretKey> generateKeys();
       string generateEncodedPublicKey();
       string generateEncodedSecretKey();
       pair<string, string> generateEncodedKeys();
+
+      PublicKey getPublicKey();
+      SecretKey getSecretKey();
+      pair<PublicKey, SecretKey> getKeys();
+      void setPublicKey(PublicKey public_key);
+      void setSecretKey(SecretKey secret_key);
+      void setKeys(PublicKey public_key, SecretKey secret_key);
+      PublicKey generatePublicKey();
+      SecretKey generateSecretKey();
+      pair<PublicKey, SecretKey> generateKeys();
   };
 }
 
