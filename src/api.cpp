@@ -51,29 +51,33 @@ namespace homomorphine
       backend = BackendFactory::create(path[0]);  
       backend->setAlgorithm(path[1]);
       backend->init();
-    } catch(exception& e) 
+
+      if (path[2] == "public_key") {
+        response.setStatus(status_codes::OK);
+        response.setContent(backend->generateEncodedPublicKey());
+      }
+      else if (path[2] == "secret_key") {
+        response.setStatus(status_codes::OK);
+        response.setContent(backend->generateEncodedSecretKey());
+      }
+      else if (path[2] == "keys") {
+        response.setStatus(status_codes::OK);
+        pair<string, string> keys = backend->generateEncodedKeys();
+        response.setContent(keys.first + "\n\n" + keys.second);
+      }
+      else {
+        response.setStatus(status_codes::NotFound);
+        response.setContent("Unknown method " + path[2]);
+      }
+    } catch(BackendException& e)
     {
       BOOST_LOG_TRIVIAL(error) << "Failed to create backend: " << path[0]; 
       response.setStatus(status_codes::BadRequest);
       response.setContent("Failed to create backend");
-    }
-
-    if (path[2] == "public_key") {
-      response.setStatus(status_codes::OK);
-      response.setContent(backend->generateEncodedPublicKey());
-    } 
-    else if (path[2] == "secret_key") {
-      response.setStatus(status_codes::OK);
-      response.setContent(backend->generateEncodedSecretKey());
-    } 
-    else if (path[2] == "keys") {
-      response.setStatus(status_codes::OK);
-      pair<string, string> keys = backend->generateEncodedKeys();
-      response.setContent(keys.first + "\n\n" + keys.second);
-    } 
-    else {
-      response.setStatus(status_codes::NotFound);
-      response.setContent("Unknown method " + path[2]);
+    } catch (exception& e) {
+      BOOST_LOG_TRIVIAL(error) << "Failed to create backend: " << path[0];
+      response.setStatus(status_codes::BadRequest);
+      response.setContent("Failed to create backend");
     }
 
     return response;

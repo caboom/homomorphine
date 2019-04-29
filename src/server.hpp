@@ -2,6 +2,8 @@
 #define _HOMOMORPHINE_SERVER_H_
 
 #include <cpprest/http_listener.h>
+#include <boost/log/trivial.hpp>
+#include <boost/log/utility/setup.hpp>
 
 #include "api.hpp"
 #include "config.hpp"

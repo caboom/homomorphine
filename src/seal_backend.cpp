@@ -29,7 +29,8 @@ namespace homomorphine
     if (this->type == SEAL_BFV) { 
       this->initBFV();
     } else {
-      throw BackendException("Unknown backend: ");
+      BOOST_LOG_TRIVIAL(error) << "Unknown backend: " << this->type;
+      throw BackendException("Unknown backend");
     }
   }
 
