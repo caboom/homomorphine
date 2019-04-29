@@ -53,9 +53,27 @@ namespace homomorphine
 
   void Server::handle_get(http_request message)
   {
-    BOOST_LOG_TRIVIAL(info) << "GET request: ";
+    Api api;
+    auto path = http::uri::split_path(http::uri::decode(message.relative_uri().path()));
 
-    message.reply(status_codes::OK, "");
+    if (path.size() < 1) {
+      BOOST_LOG_TRIVIAL(error) << "Backend not set"; 
+      message.reply(status_codes::NotFound, "Backend not set"); 
+    } 
+    else if (path.size() < 2) {
+      BOOST_LOG_TRIVIAL(error) << "Algorithm not set"; 
+      message.reply(status_codes::NotFound, "Algorithm not set");
+    } 
+    else if (path.size() < 3) {
+      BOOST_LOG_TRIVIAL(error) << "Method not set"; 
+      message.reply(status_codes::NotFound, "Method not set");
+    } 
+    else {
+      BOOST_LOG_TRIVIAL(info) << "GET request: " << path[0] << " -> " << path[1];
+      ApiResponse response = api.get(path);
+    
+      message.reply(response.getStatus(), response.getContent());
+    }
   }
 
   void Server::handle_put(http_request message)

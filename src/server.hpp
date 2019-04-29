@@ -3,6 +3,7 @@
 
 #include <cpprest/http_listener.h>
 
+#include "api.hpp"
 #include "config.hpp"
 #include "interface.hpp"
 
@@ -17,6 +18,7 @@ namespace homomorphine
     private:
       Config config;
       map<string, http_listener> listeners;
+      vector<string> get_methods {"public_key", "secret_key", "keys"};
 
       http_listener startService(Interface &interface);
       void stopService(http_listener &listener);
