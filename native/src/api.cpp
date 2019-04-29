@@ -126,8 +126,6 @@ namespace homomorphine
       response.setContent("Failed to create backend");
     }
 
-    cout <<  value << endl;
-
     return response;
   }
 
