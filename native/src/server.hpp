@@ -26,10 +26,9 @@ namespace homomorphine
       void stopService(http_listener &listener);
 
       void handle_get(http_request message);
-      void handle_put(http_request message);
       void handle_post(http_request message);
 
-    http_listener m_listener;
+      pair<status_code, string> checkRequest(vector<string> &path);
 
     public:
       void init(Config &config);

@@ -34,14 +34,15 @@ namespace homomorphine
       string getContent();
       void setContent(string content);
       string getHeaderElement(string &key);
-      void setHeaderElement(string &key, string& value);
+      void setHeaderElement(string &key, string &value);
       map<string, string> getHeader();
   };
 
   class Api
   {
     public:
-      ApiResponse get(vector<string> &path); 
+      ApiResponse get(vector<string> &path);
+      ApiResponse post(vector<string> &path, string body);
   };
 }
 

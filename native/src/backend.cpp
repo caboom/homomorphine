@@ -1,7 +1,11 @@
 #include "backend.hpp"
 
 namespace homomorphine {
-  
+
+  //
+  // Backend class implementation
+  //
+
   void Backend::setParams(map<string, string> &params) 
   {
     this->params = params;
@@ -21,6 +25,10 @@ namespace homomorphine {
   {
     this->params[key] = value;
   }
+
+  //
+  // BackendException class implementation
+  //
 
   BackendException::BackendException(const char* msg) 
   {

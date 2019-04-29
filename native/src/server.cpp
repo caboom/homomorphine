@@ -40,7 +40,6 @@ namespace homomorphine
 	  listener.open().wait();
 
     listener.support(methods::GET, std::bind(&Server::handle_get, this, std::placeholders::_1));
-    listener.support(methods::PUT, std::bind(&Server::handle_put, this, std::placeholders::_1));
     listener.support(methods::POST, std::bind(&Server::handle_post, this, std::placeholders::_1));
 
     return listener;
@@ -55,39 +54,49 @@ namespace homomorphine
   {
     Api api;
     auto path = http::uri::split_path(http::uri::decode(message.relative_uri().path()));
+    auto [status, content] = checkRequest(path);
 
-    if (path.size() < 1) {
-      BOOST_LOG_TRIVIAL(error) << "Backend not set"; 
-      message.reply(status_codes::NotFound, "Backend not set"); 
-    } 
-    else if (path.size() < 2) {
-      BOOST_LOG_TRIVIAL(error) << "Algorithm not set"; 
-      message.reply(status_codes::NotFound, "Algorithm not set");
-    } 
-    else if (path.size() < 3) {
-      BOOST_LOG_TRIVIAL(error) << "Method not set"; 
-      message.reply(status_codes::NotFound, "Method not set");
-    } 
+    if (status != status_codes::OK) {
+      message.reply(status, content);
+    }
     else {
       BOOST_LOG_TRIVIAL(info) << "GET request: " << path[0] << " -> " << path[1];
+
       ApiResponse response = api.get(path);
-    
       message.reply(response.getStatus(), response.getContent());
     }
   }
 
-  void Server::handle_put(http_request message)
-  {
-    BOOST_LOG_TRIVIAL(info) << "PUT request: ";
-
-    message.reply(status_codes::OK, "");
-  }
-
   void Server::handle_post(http_request message)
   {
-    BOOST_LOG_TRIVIAL(info) << "POST request: ";
+    Api api;
+    auto path = http::uri::split_path(http::uri::decode(message.relative_uri().path()));
+    auto [status, content] = checkRequest(path);
 
-    message.reply(status_codes::OK, "");
+    if (status != status_codes::OK) {
+      message.reply(status, content);
+    }
+    else {
+      BOOST_LOG_TRIVIAL(info) << "GET request: " << path[0] << " -> " << path[1];
+
+      ApiResponse response = api.post(path, message.extract_string().get());
+      message.reply(response.getStatus(), response.getContent());
+    }
+  }
+
+  pair<status_code, string> Server::checkRequest(vector<string> &path)
+  {
+    if (path.size() < 1) {
+      return std::make_pair(status_codes::NotFound, "Backend not set");
+    }
+    else if (path.size() < 2) {
+      return std::make_pair(status_codes::NotFound, "Algorithm not set");
+    }
+    else if (path.size() < 3) {
+      return std::make_pair(status_codes::NotFound, "Method not set");
+    }
+
+    return std::make_pair(status_codes::OK, "");
   }
 
 }
