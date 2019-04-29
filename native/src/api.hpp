@@ -24,18 +24,13 @@ namespace homomorphine
   {
     private:
       status_code status = status_codes::OK;
-      string content;
-      map<string, string> header;
+      json::value content;
 
     public:
-      ~ApiResponse();
       status_code getStatus();
       void setStatus(status_code status);
-      string getContent();
-      void setContent(string content);
-      string getHeaderElement(string &key);
-      void setHeaderElement(string &key, string &value);
-      map<string, string> getHeader();
+      json::value getContent();
+      void setContent(json::value &content);
   };
 
   class Api
