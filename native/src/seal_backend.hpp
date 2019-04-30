@@ -9,10 +9,12 @@
 #include <boost/log/trivial.hpp>
 #include <boost/log/utility/setup.hpp>
 #include <boost/archive/iterators/base64_from_binary.hpp>
+#include <boost/archive/iterators/binary_from_base64.hpp>
 #include <boost/archive/iterators/insert_linebreaks.hpp>
 #include <boost/archive/iterators/transform_width.hpp>
 #include <boost/archive/iterators/ostream_iterator.hpp>
-#include <boost/archive/iterators/base64_from_binary.hpp>
+#include <boost/archive/iterators/remove_whitespace.hpp>
+
 
 #include "backend.hpp"
 #include "constants.hpp"
@@ -41,6 +43,7 @@ namespace homomorphine
       SealAlgorithmType getAlgorithmType(string name);
       void initBFV();
       string uuencodeStream(stringstream &key_stream);
+      void uudecodeString(string encoded_key, stringstream &key_stream);
 
     public:
       ~SealBackend();
@@ -50,6 +53,7 @@ namespace homomorphine
       string generateEncodedPublicKey();
       string generateEncodedSecretKey();
       pair<string, string> generateEncodedKeys();
+      vector<string> encrypt(string encoded_public_key, vector<int> values);
 
       PublicKey getPublicKey();
       SecretKey getSecretKey();

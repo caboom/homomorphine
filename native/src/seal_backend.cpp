@@ -135,22 +135,54 @@ namespace homomorphine
     return pair<string, string> (this->generateEncodedPublicKey(), this->generateEncodedSecretKey());
   }
 
-  string SealBackend::uuencodeStream(stringstream &key_stream) {
+  vector<string> SealBackend::encrypt(string encoded_public_key, vector<int> values)
+  {
+    Ciphertext cypher;
+    PublicKey public_key;
+    std::stringstream cypher_stream;
+    vector<string> serialized_cyphers;
+    vector<Plaintext> plain_text;
+    Encryptor encryptor(this->context, public_key);
+    Evaluator evaluator(this->context);
+    IntegerEncoder encoder(this->context);
+    std::stringstream key_stream;
+
+    // uudecode key
+    this->uudecodeString(encoded_public_key, key_stream);
+    public_key.load(this->context, key_stream);
+     
+    // encode all the values
+    for (auto&& value : values) {
+      plain_text.push_back(encoder.encode(value));
+    }
+
+    // encrypt and encode all the cyphertexts
+    for (auto&& plain_text_value: plain_text) {
+      encryptor.encrypt(plain_text[0], cypher);
+      cypher.save(cypher_stream);
+      serialized_cyphers.push_back(uuencodeStream(cypher_stream));
+    }
+
+    return serialized_cyphers;
+  }
+
+  string SealBackend::uuencodeStream(stringstream &key_stream) 
+  {
     std::stringstream uuencoded_stream;
     std::string key_string = key_stream.str();
-
+    
     typedef 
-        insert_linebreaks<         // insert line breaks every 72 characters
-            base64_from_binary<    // convert binary values to base64 characters
-                transform_width<   // retrieve 6 bit integers from a sequence of 8 bit bytes
-                    const char *,
-                    6,
-                    8
-                >
-            > 
-            ,72
+      insert_linebreaks<         // insert line breaks every 72 characters
+        base64_from_binary<    // convert binary values to base64 characters
+          transform_width<   // retrieve 6 bit integers from a sequence of 8 bit bytes
+            const char *,
+            6,
+            8
+          >
         > 
-        base64_text; // compose all the above operations in to a new iterator
+        ,72
+      > 
+      base64_text; // compose all the above operations in to a new iterator
 
     std::copy(
         base64_text(key_string.c_str()),
@@ -159,6 +191,27 @@ namespace homomorphine
     ); 
 
     return uuencoded_stream.str();
+  }
+
+  void SealBackend::uudecodeString(string encoded_key, stringstream &key_stream)
+  {
+    typedef 
+      transform_width< 
+        binary_from_base64<
+          remove_whitespace<
+            const char *
+          > 
+        >,
+        8,
+        6 
+      > 
+      text_base64;
+
+    std::copy(
+      text_base64(encoded_key.c_str()),
+      text_base64(encoded_key.c_str() + encoded_key.size()),
+      boost::archive::iterators::ostream_iterator<char>(key_stream)
+    ); 
   }
 
 }

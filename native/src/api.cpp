@@ -83,7 +83,7 @@ namespace homomorphine
       response.setContent(response_body);
     } 
     // whoops, now this is tricky...
-    catch (int e) 
+    catch (exception& e) 
     {
       response_body[U("error")] = json::value(U("Failed to process the request"));
       BOOST_LOG_TRIVIAL(error) << "Failed to process the request";
@@ -104,7 +104,7 @@ namespace homomorphine
     try 
     {
       if (path[2] == "encrypt") {
-        response_body[U("error")] = json::value(U("OK"));
+        response_body[U("error")] = json::value(U(""));
 
         response.setStatus(status_codes::OK);
         response.setContent(response_body);
