@@ -99,12 +99,20 @@ namespace homomorphine
     Backend* backend;
     ApiResponse response;
     json::value response_body;
-    json::value obj = json::value::parse(body);
 
     try 
     {
+      json::value obj = json::value::parse(body);
+
+      backend = BackendFactory::create(path[0]);  
+      backend->setAlgorithm(path[1]);
+      backend->init();
+
       if (path[2] == "encrypt") {
         response_body[U("error")] = json::value(U(""));
+
+        cout << obj[U("public_key")] << endl;
+        cout << obj[U("value")] << endl;
 
         response.setStatus(status_codes::OK);
         response.setContent(response_body);

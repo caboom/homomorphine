@@ -135,41 +135,36 @@ namespace homomorphine
     return pair<string, string> (this->generateEncodedPublicKey(), this->generateEncodedSecretKey());
   }
 
-  vector<string> SealBackend::encrypt(string encoded_public_key, vector<int> values)
+  string SealBackend::encryptValue(string encoded_public_key, int value)
   {
     Ciphertext cypher;
     PublicKey public_key;
-    std::stringstream cypher_stream;
-    vector<string> serialized_cyphers;
-    vector<Plaintext> plain_text;
+    stringstream cypher_stream;
+    stringstream key_stream;
+    string encrypted_value;
+    Plaintext plain_text;
+
     Encryptor encryptor(this->context, public_key);
     Evaluator evaluator(this->context);
     IntegerEncoder encoder(this->context);
-    std::stringstream key_stream;
 
     // uudecode key
     this->uudecodeString(encoded_public_key, key_stream);
     public_key.load(this->context, key_stream);
      
-    // encode all the values
-    for (auto&& value : values) {
-      plain_text.push_back(encoder.encode(value));
-    }
+    // encode and encrypt the value
+    plain_text = encoder.encode(value);
+    encryptor.encrypt(plain_text, cypher);
+    cypher.save(cypher_stream);
+    encrypted_value = uuencodeStream(cypher_stream);
 
-    // encrypt and encode all the cyphertexts
-    for (auto&& plain_text_value: plain_text) {
-      encryptor.encrypt(plain_text[0], cypher);
-      cypher.save(cypher_stream);
-      serialized_cyphers.push_back(uuencodeStream(cypher_stream));
-    }
-
-    return serialized_cyphers;
+    return encrypted_value;
   }
 
   string SealBackend::uuencodeStream(stringstream &key_stream) 
   {
-    std::stringstream uuencoded_stream;
-    std::string key_string = key_stream.str();
+    stringstream uuencoded_stream;
+    string key_string = key_stream.str();
     
     typedef 
       insert_linebreaks<         // insert line breaks every 72 characters
@@ -185,9 +180,9 @@ namespace homomorphine
       base64_text; // compose all the above operations in to a new iterator
 
     std::copy(
-        base64_text(key_string.c_str()),
-        base64_text(key_string.c_str() + key_string.size()),
-        boost::archive::iterators::ostream_iterator<char>(uuencoded_stream)
+      base64_text(key_string.c_str()),
+      base64_text(key_string.c_str() + key_string.size()),
+      boost::archive::iterators::ostream_iterator<char>(uuencoded_stream)
     ); 
 
     return uuencoded_stream.str();

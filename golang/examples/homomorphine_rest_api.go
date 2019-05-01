@@ -1,11 +1,19 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
+
+type Encrypt struct {
+	PublicKey string `json:"public_key"`
+	Value     int    `json:"value"`
+}
 
 /********************************************************************************
 * This example will show you how to use Homomorphine RESTful API to
@@ -19,9 +27,38 @@ func main() {
 
 	log.Printf("Sending API queries at http://%s:%d", *host, *port)
 
-	log.Println("Fetching private and secret key...")
-	resp, err := http.Get(fmt.Sprintf("http://%s:%d/seal/bfv/keys/", *host, *port))
+	//
+	// get the generated public and secret key
+	//
+	log.Println("Fetching public and secret key...")
+	keys_resp, err := http.Get(fmt.Sprintf("http://%s:%d/seal/bfv/keys/", *host, *port))
 
-	log.Println(resp)
-	log.Println(err)
+	if err != nil {
+		fmt.Errorf("Error: %s", err)
+		os.Exit(1)
+	}
+
+	var keys map[string]interface{}
+	json.NewDecoder(keys_resp.Body).Decode(&keys)
+
+	//
+	// encrypt the random integer using public key
+	//
+	encrypt := &Encrypt{
+		PublicKey: keys["public_key"].(string),
+		Value:     100}
+
+	encrypt_request, err := json.Marshal(encrypt)
+	if err != nil {
+		fmt.Errorf("Error: %s", err)
+		os.Exit(1)
+	}
+
+	encrypt_resp, err := http.Post(fmt.Sprintf("http://%s:%d/seal/bfv/keys/", *host, *port), "application/json", bytes.NewBuffer(encrypt_request))
+	if err != nil {
+		fmt.Errorf("Error: %s", err)
+		os.Exit(1)
+	}
+
+	log.Println(encrypt_resp)
 }

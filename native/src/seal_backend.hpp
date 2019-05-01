@@ -53,7 +53,7 @@ namespace homomorphine
       string generateEncodedPublicKey();
       string generateEncodedSecretKey();
       pair<string, string> generateEncodedKeys();
-      vector<string> encrypt(string encoded_public_key, vector<int> values);
+      string encryptValue(string encoded_public_key, int value);
 
       PublicKey getPublicKey();
       SecretKey getSecretKey();

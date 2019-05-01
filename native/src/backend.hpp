@@ -25,7 +25,7 @@ namespace homomorphine
       virtual string generateEncodedPublicKey() = 0;
       virtual string generateEncodedSecretKey() = 0;
       virtual pair<string, string> generateEncodedKeys() = 0;
-      virtual vector<string> encrypt(string encoded_public_key, vector<int> values) = 0; 
+      virtual string encryptValue(string encoded_public_key, int value) = 0; 
 
       map<string, string> getParams();
       void setParams(map<string, string> &params); 
