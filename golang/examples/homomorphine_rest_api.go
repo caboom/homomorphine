@@ -54,11 +54,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	encrypt_resp, err := http.Post(fmt.Sprintf("http://%s:%d/seal/bfv/keys/", *host, *port), "application/json", bytes.NewBuffer(encrypt_request))
+	encrypt_resp, err := http.Post(fmt.Sprintf("http://%s:%d/seal/bfv/encrypt/", *host, *port), "application/json", bytes.NewBuffer(encrypt_request))
 	if err != nil {
 		fmt.Errorf("Error: %s", err)
 		os.Exit(1)
 	}
 
-	log.Println(encrypt_resp)
+	var encrypted_value map[string]interface{}
+	json.NewDecoder(encrypt_resp.Body).Decode(&encrypted_value)
+
+	log.Println(encrypted_value["encrypted_value"])
 }

@@ -108,11 +108,13 @@ namespace homomorphine
       backend->setAlgorithm(path[1]);
       backend->init();
 
+      // encrypt the value
       if (path[2] == "encrypt") {
-        response_body[U("error")] = json::value(U(""));
-
-        cout << obj[U("public_key")] << endl;
-        cout << obj[U("value")] << endl;
+        response_body[U("encrypted_value")] = json::value(
+          backend->encryptValue(
+            obj[U("public_key")].as_string(),
+            obj[U("value")].as_integer()
+        ));
 
         response.setStatus(status_codes::OK);
         response.setContent(response_body);
@@ -129,7 +131,7 @@ namespace homomorphine
     catch (exception& e) 
     {
       response_body[U("error")] = json::value(U("Failed to process the request"));
-      BOOST_LOG_TRIVIAL(error) << "Failed to process the request";
+      BOOST_LOG_TRIVIAL(error) << "Failed to process the request: " << e.what();
 
       response.setStatus(status_codes::BadRequest);
       response.setContent(response_body);
