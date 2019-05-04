@@ -24,7 +24,7 @@ ADD_DEFINITIONS(-DBOOST_LOG_DYN_LINK)
 
 # set the package requirements
 find_package(cpprestsdk REQUIRED)
-find_package(Boost 1.60 REQUIRED COMPONENTS log program_options unit_test_framework)
+find_package(Boost 1.60 REQUIRED COMPONENTS log program_options unit_test_framework random)
 find_package(Threads)
 find_package(SEAL 3.2.0 EXACT REQUIRED)
 
