@@ -1,11 +1,12 @@
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE "SEAL Backend Test"
+#define BOOST_TEST_MODULE seal
 
-
+#include <string>
+#include <iostream>
 #include <utility>
 #include <iostream>
 #include <exception>
-#include <boost/test/unit_test.hpp>
+#include <boost/test/included/unit_test.hpp>
 
 #include "../src/seal_backend.hpp"
 
@@ -15,7 +16,7 @@ using namespace homomorphine;
 // Test SEAL backend
 BOOST_AUTO_TEST_CASE( test_constructor )
 {
-  BOOST_TEST_MESSAGE( "Testing a SEAL homomorphic encryption backend" );
+  BOOST_TEST_MESSAGE( "Testing a SEAL homomorphic encryption backend..." );
 
   SealBackend seal;
   
