@@ -110,6 +110,25 @@ namespace homomorphine
     this->secret_key = secret_key;
   }
 
+  string SealBackend::getEncodedCipher()
+  {
+    string encoded_cipher;
+    stringstream cipher_stream;
+
+    this->cipher.save(cipher_stream);
+    encoded_cipher = Util::uuencodeStream(cipher_stream);
+
+    return encoded_cipher; 
+  }
+      
+  void SealBackend::setEncodedCipher(string encoded_cipher)
+  {
+    stringstream cipher_stream;
+
+    Util::uudecodeString(encoded_cipher, cipher_stream);
+    this->cipher.save(cipher_stream);
+  }
+
   PublicKey SealBackend::generatePublicKey() 
   {
     this->public_key = this->keygen->public_key();
@@ -159,8 +178,7 @@ namespace homomorphine
 
   string SealBackend::encryptValue(int value)
   {
-    Ciphertext cypher;
-    stringstream cypher_stream;
+    stringstream cipher_stream;
     string encrypted_value;
     Plaintext plain_text;
 
@@ -170,11 +188,54 @@ namespace homomorphine
      
     // encode and encrypt the value
     plain_text = encoder.encode(value);
-    encryptor.encrypt(plain_text, cypher);
-    cypher.save(cypher_stream);
-    encrypted_value = Util::uuencodeStream(cypher_stream);
+    encryptor.encrypt(plain_text, this->cipher);
+    this->cipher.save(cipher_stream);
+    encrypted_value = Util::uuencodeStream(cipher_stream);
 
     return encrypted_value;
+  }
+
+  int SealBackend::decrypt()
+  {
+    Plaintext plain_result;
+    IntegerEncoder encoder(this->context);
+    Decryptor decryptor(this->context, this->secret_key);
+
+    decryptor.decrypt(this->cipher, plain_result);
+
+    return encoder.decode_int32(plain_result);
+  }
+
+  void SealBackend::add(int value)
+  {
+    Evaluator evaluator(this->context);
+    IntegerEncoder encoder(this->context);
+    Encryptor encryptor(this->context, this->public_key);
+    Plaintext plaintext_value = encoder.encode(value);
+    Ciphertext encrypted_value;
+
+    encryptor.encrypt(plaintext_value, encrypted_value);
+
+    evaluator.add_inplace(this->cipher, encrypted_value);
+  }
+
+  void SealBackend::negate()
+  {
+    Evaluator evaluator(this->context);
+    evaluator.negate_inplace(this->cipher);
+  }
+      
+  void SealBackend::multiply(int value)
+  {
+    Evaluator evaluator(this->context);
+    IntegerEncoder encoder(this->context);
+    Encryptor encryptor(this->context, this->public_key);
+    Plaintext plaintext_value = encoder.encode(value);
+    Ciphertext encrypted_value;
+
+    encryptor.encrypt(plaintext_value, encrypted_value);
+
+    evaluator.multiply_inplace(this->cipher, encrypted_value);
   }
 
 }

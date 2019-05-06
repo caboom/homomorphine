@@ -83,3 +83,39 @@ BOOST_AUTO_TEST_CASE( encryption_test )
   seal_encrypt.setPublicKey(keys.first);
   seal_encrypt.encryptValue(1000);
 }
+
+// SEAL backend encryption test
+BOOST_AUTO_TEST_CASE( operations_test )
+{
+  BOOST_TEST_MESSAGE( "Testing a SEAL encryption..." );
+
+  int result;
+  SealBackend seal;
+  
+  seal.setAlgorithm(SEAL_BFV);
+  seal.init();
+
+  // test generating regular keys
+  seal.generateKeys();
+
+  // test generating uuencoded keys
+  pair<string, string> keys = seal.generateEncodedKeys();
+
+  // encrypt using a new object
+  SealBackend seal_encrypt;
+
+  seal_encrypt.setAlgorithm(SEAL_BFV);
+  seal_encrypt.init();
+
+  seal_encrypt.setPublicKey(keys.first);
+  seal_encrypt.encryptValue(1000);
+
+  seal_encrypt.add(20);
+  seal_encrypt.negate();
+  seal_encrypt.multiply(10);
+
+  seal_encrypt.setSecretKey(keys.second);
+  
+  BOOST_TEST_MESSAGE( "==== VALUE:" );
+  BOOST_TEST_MESSAGE( seal_encrypt.decrypt() );
+}
