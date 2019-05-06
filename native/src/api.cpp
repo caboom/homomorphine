@@ -120,6 +120,15 @@ namespace homomorphine
         response.setStatus(status_codes::OK);
         response.setContent(response_body);
       }
+      // decrypt the value using a secret key
+      if (path[2] == "decrypt") {
+        backend->setPublicKey(obj[U("secret_key")].as_string());
+        backend->setEncodedCipher(obj[U("encrypted_value")].as_string());
+
+        response_body[U("value")] = json::value(backend->decrypt());
+        response.setStatus(status_codes::OK);
+        response.setContent(response_body);
+      }
     } 
     catch(BackendException& e)
     {

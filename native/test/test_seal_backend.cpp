@@ -110,12 +110,13 @@ BOOST_AUTO_TEST_CASE( operations_test )
   seal_encrypt.setPublicKey(keys.first);
   seal_encrypt.encryptValue(1000);
 
+  // do some basic numeric operations
   seal_encrypt.add(20);
   seal_encrypt.negate();
   seal_encrypt.multiply(10);
 
   seal_encrypt.setSecretKey(keys.second);
   
-  BOOST_TEST_MESSAGE( "==== VALUE:" );
-  BOOST_TEST_MESSAGE( seal_encrypt.decrypt() );
+  // check the result
+  BOOST_TEST ( seal_encrypt.decrypt() == -10200 );
 }
