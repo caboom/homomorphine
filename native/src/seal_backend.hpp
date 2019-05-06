@@ -45,7 +45,7 @@ namespace homomorphine
       string generateEncodedPublicKey();
       string generateEncodedSecretKey();
       pair<string, string> generateEncodedKeys();
-      string encryptValue(string encoded_public_key, int value);
+      string encryptValue(int value);
 
       PublicKey getPublicKey();
       SecretKey getSecretKey();
@@ -53,6 +53,9 @@ namespace homomorphine
       void setPublicKey(PublicKey public_key);
       void setSecretKey(SecretKey secret_key);
       void setKeys(PublicKey public_key, SecretKey secret_key);
+      void setPublicKey(string public_key);
+      void setSecretKey(string secret_key);
+      void setKeys(string public_key, string secret_key);
       PublicKey generatePublicKey();
       SecretKey generateSecretKey();
       pair<PublicKey, SecretKey> generateKeys();

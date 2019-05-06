@@ -108,11 +108,12 @@ namespace homomorphine
       backend->setAlgorithm(path[1]);
       backend->init();
 
-      // encrypt the value
+      // encrypt the value using a public key
       if (path[2] == "encrypt") {
+        backend->setPublicKey(obj[U("public_key")].as_string());
+
         response_body[U("encrypted_value")] = json::value(
           backend->encryptValue(
-            obj[U("public_key")].as_string(),
             obj[U("value")].as_integer()
         ));
 

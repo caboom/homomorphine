@@ -67,6 +67,28 @@ namespace homomorphine
     return this->secret_key;
   }
 
+  void SealBackend::setPublicKey(string public_key)
+  {
+    stringstream key_stream;
+    Util::uudecodeString(public_key, key_stream);
+
+    this->public_key.load(this->context, key_stream);
+  }
+      
+  void SealBackend::setSecretKey(string secret_key)
+  {
+    stringstream key_stream;
+    Util::uudecodeString(secret_key, key_stream);
+    
+    this->secret_key.load(this->context, key_stream); 
+  }
+
+  void SealBackend::setKeys(string public_key, string secret_key)
+  {
+    this->setPublicKey(public_key);
+    this->setSecretKey(secret_key);
+  }
+
   pair<PublicKey, SecretKey> SealBackend::getKeys()
   {
     return pair<PublicKey, SecretKey> (this->public_key, this->secret_key);
@@ -135,22 +157,16 @@ namespace homomorphine
     return pair<string, string> (this->generateEncodedPublicKey(), this->generateEncodedSecretKey());
   }
 
-  string SealBackend::encryptValue(string encoded_public_key, int value)
+  string SealBackend::encryptValue(int value)
   {
     Ciphertext cypher;
-    PublicKey public_key;
     stringstream cypher_stream;
-    stringstream key_stream;
     string encrypted_value;
     Plaintext plain_text;
 
-    Encryptor encryptor(this->context, public_key);
+    Encryptor encryptor(this->context, this->public_key);
     Evaluator evaluator(this->context);
     IntegerEncoder encoder(this->context);
-
-    // uudecode key
-    Util::uudecodeString(encoded_public_key, key_stream);
-    public_key.load(this->context, key_stream);
      
     // encode and encrypt the value
     plain_text = encoder.encode(value);
