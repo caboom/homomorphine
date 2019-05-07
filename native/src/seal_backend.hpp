@@ -50,7 +50,6 @@ namespace homomorphine
       PublicKey getPublicKey();
       SecretKey getSecretKey();
       pair<PublicKey, SecretKey> getKeys();
-      void setValue(int value);
       void setPublicKey(PublicKey public_key);
       void setSecretKey(SecretKey secret_key);
       void setKeys(PublicKey public_key, SecretKey secret_key);
