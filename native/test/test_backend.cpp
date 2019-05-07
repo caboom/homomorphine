@@ -10,7 +10,7 @@ using namespace std;
 using namespace homomorphine;
 
 // Test SEAL backend
-BOOST_AUTO_TEST_CASE( test_constructor )
+BOOST_AUTO_TEST_CASE( simple_backend_test )
 {
   BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend..." );
 

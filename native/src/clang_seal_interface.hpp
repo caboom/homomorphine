@@ -5,7 +5,7 @@ extern "C" {
   typedef void* SealWrapper;
 
   SealWrapper SealBackendCreate(void);
-  void SealBackendFree(SealWrapper);
+  void SealBackendFree(SealWrapper wrapper);
   void SealBackendInit(SealWrapper wrapper);
   void SealBackendSetAlgorithm(SealWrapper wrapper, char* algorithm);
   

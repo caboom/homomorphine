@@ -2,8 +2,8 @@
 #include<utility>
 #include<iostream>
 
-#include "clang_interface.hpp"
 #include "seal_backend.hpp"
+#include "clang_seal_interface.hpp"
 
 using namespace std;
 using namespace homomorphine;

@@ -5,14 +5,60 @@
 #include <iostream>
 #include <boost/test/included/unit_test.hpp>
 
-#include "../src/clang_interface.hpp"
+#include "../src/clang_backend_interface.hpp"
+#include "../src/clang_seal_interface.hpp"
 
 using namespace std;
 
-// Test SEAL backend
-BOOST_AUTO_TEST_CASE( test_clang_interface )
+//
+// Test generic backend clang wrapper
+//
+
+BOOST_AUTO_TEST_CASE( test_backend_clang_interface )
 {
-  BOOST_TEST_MESSAGE ( "Test Clang interface..." );
+  BOOST_TEST_MESSAGE ( "Test generic backend Clang interface..." );
+
+  string algorithm = "bfv";
+  string backend_name = "seal";
+
+  BackendWrapper wrapper = BackendCreate((char *)backend_name.c_str());
+  BackendWrapper encrypt_wrapper = BackendCreate((char *)backend_name.c_str());
+
+  // generate basic key pair
+  BackendSetAlgorithm(wrapper, (char *)algorithm.c_str());
+  BackendInit(wrapper);
+
+  char **keys = BackendGenerateEncodedKeys(wrapper);
+
+  // test the encryption
+  BackendSetAlgorithm(encrypt_wrapper, (char *)algorithm.c_str());
+  BackendInit(encrypt_wrapper);
+
+  BackendSetPublicKey(encrypt_wrapper, keys[0]);
+  BackendEncryptValue(encrypt_wrapper, 1000);
+
+  // do the basic numeric operations
+  BackendAdd(encrypt_wrapper, 20);
+  BackendNegate(encrypt_wrapper);
+  BackendMultiply(encrypt_wrapper, 10);
+
+  // check the result
+  BackendSetSecretKey(encrypt_wrapper, keys[1]);
+  
+  BOOST_TEST ( BackendDecrypt(encrypt_wrapper) == -10200 );
+
+  // clean the result
+  BackendFree(wrapper);
+  BackendFree(encrypt_wrapper);
+}
+
+//
+// Test SEAL backend
+//
+
+BOOST_AUTO_TEST_CASE( test_seal_clang_interface )
+{
+  BOOST_TEST_MESSAGE ( "Test SEAL Clang interface..." );
 
   string algorithm = "bfv";
   SealWrapper wrapper = SealBackendCreate();
