@@ -54,6 +54,13 @@ add_library(homomorphine SHARED ${SRC_FILES})
 target_link_libraries(homomorphine-service ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
 target_link_libraries(homomorphine ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal)
 
+# installation config
+set_target_properties(homomorphine PROPERTIES PUBLIC_HEADER 
+  "src/backend_factory.hpp;src/backend.hpp;src/clang_backend_interface.hpp;src/constants.hpp;src/seal_backend.hpp;src/util.hpp")
+
+install(TARGETS homomorphine-service DESTINATION bin)
+install(TARGETS homomorphine LIBRARY DESTINATION lib PUBLIC_HEADER DESTINATION include/homomorphine)
+
 # tests for homomorphine
 enable_testing()
 
