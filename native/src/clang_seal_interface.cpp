@@ -98,7 +98,6 @@ void SealBackendSetKeys(SealWrapper wrapper, char* public_key, char* secret_key)
   backend->setSecretKey(str_secret_key);
 }
   
-
 char* SealBackendGetEncodedCipher(SealWrapper wrapper)
 {
   SealBackend* backend = (SealBackend*)wrapper;
