@@ -119,11 +119,17 @@ void BackendSetEncodedCipher(BackendWrapper wrapper, char* encoded_cipher)
   
   backend->setEncodedCipher(str_encoded_cipher);
 }
-  
-char* BackendEncryptValue(BackendWrapper wrapper, int value)
+
+char* BackendEncrypt(BackendWrapper wrapper, uint_array_t values)
 {
-  Backend* backend = (Backend*)wrapper;
-  string cipher = backend->encryptValue(value);
+  std::vector<uint64_t> ser_values;
+  SealBackend* backend = (SealBackend*)wrapper;
+
+  for(int i = 0; i < values.count; i++) {
+    ser_values.push_back(values.elements[i]);
+  }
+
+  string cipher = backend->encrypt(ser_values);
 
   char* result = new char[cipher.length()+1];
   strcpy (result, cipher.c_str());
@@ -131,10 +137,22 @@ char* BackendEncryptValue(BackendWrapper wrapper, int value)
   return result;
 }
 
-int BackendDecrypt(BackendWrapper wrapper)
+uint_array_t BackendDecrypt(BackendWrapper wrapper)
 {
-  Backend* backend = (Backend*)wrapper;
-  return backend->decrypt();
+  uint_array_t result;
+  SealBackend* backend = (SealBackend*)wrapper;
+  vector<uint64_t> decrypted_list = backend->decrypt();
+
+  result.count = decrypted_list.size();
+  result.elements = (uint64_t *)calloc(decrypted_list.size(), sizeof(uint64_t));
+
+  int i = 0;
+  for (const int& element : decrypted_list) {
+    memcpy(&result.elements[i], &element, sizeof(uint64_t));
+    i++;
+  }
+
+  return result;
 }
 
 void BackendAdd(BackendWrapper wrapper, int value)

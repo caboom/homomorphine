@@ -34,9 +34,14 @@ namespace homomorphine
       PublicKey public_key;
       SecretKey secret_key;
       Ciphertext cipher;
+      double scale;
 
       SealAlgorithmType getAlgorithmType(string name);
       void initBFV();  
+      void initCKKS();  
+      Plaintext encodeWithBFV(int value);
+      Plaintext encodeWithCKKS(int value);
+
 
     public:
       ~SealBackend();
@@ -61,8 +66,8 @@ namespace homomorphine
       PublicKey generatePublicKey();
       SecretKey generateSecretKey();
       pair<PublicKey, SecretKey> generateKeys();
-      string encryptValue(int value);
-      int decrypt();
+      string encrypt(vector<uint64_t> values);
+      vector<uint64_t> decrypt();
       void add(int value);
       void negate();
       void multiply(int value);

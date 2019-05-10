@@ -1,4 +1,5 @@
 #include<string>
+#include<vector>
 #include<utility>
 #include<iostream>
 
@@ -117,10 +118,16 @@ void SealBackendSetEncodedCipher(SealWrapper wrapper, char* encoded_cipher)
   backend->setEncodedCipher(str_encoded_cipher);
 }
   
-char* SealBackendEncryptValue(SealWrapper wrapper, int value)
+char* SealBackendEncrypt(SealWrapper wrapper, uint_array_t values)
 {
+  std::vector<uint64_t> ser_values;
   SealBackend* backend = (SealBackend*)wrapper;
-  string cipher = backend->encryptValue(value);
+
+  for(int i = 0; i < values.count; i++) {
+    ser_values.push_back(values.elements[i]);
+  }
+
+  string cipher = backend->encrypt(ser_values);
 
   char* result = new char[cipher.length()+1];
   strcpy (result, cipher.c_str());
@@ -128,10 +135,22 @@ char* SealBackendEncryptValue(SealWrapper wrapper, int value)
   return result;
 }
 
-int SealBackendDecrypt(SealWrapper wrapper)
+uint_array_t SealBackendDecrypt(SealWrapper wrapper)
 {
+  uint_array_t result;
   SealBackend* backend = (SealBackend*)wrapper;
-  return backend->decrypt();
+  vector<uint64_t> decrypted_list = backend->decrypt();
+
+  result.count = decrypted_list.size();
+  result.elements = (uint64_t *)calloc(decrypted_list.size(), sizeof(uint64_t));
+
+  int i = 0;
+  for (const uint64_t& element : decrypted_list) {
+    memcpy(&result.elements[i], &element, sizeof(uint64_t));
+    i++;
+  }
+
+  return result;
 }
 
 void SealBackendAdd(SealWrapper wrapper, int value)

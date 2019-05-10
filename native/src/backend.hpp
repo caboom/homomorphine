@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include <iostream>
 #include <utility>
 #include <exception>
@@ -30,8 +31,8 @@ namespace homomorphine
       virtual void setKeys(string public_key, string secret_key) = 0;
       virtual string getEncodedCipher() = 0;
       virtual void setEncodedCipher(string encoded_cipher) = 0;
-      virtual string encryptValue(int value) = 0; 
-      virtual int decrypt() = 0;
+      virtual string encrypt(vector<uint64_t> values) = 0; 
+      virtual vector<uint64_t> decrypt() = 0;
       virtual void add(int value) = 0;
       virtual void negate() = 0;
       virtual void multiply(int value) = 0;

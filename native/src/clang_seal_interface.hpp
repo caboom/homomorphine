@@ -1,7 +1,8 @@
-// foo.h
 #ifdef __cplusplus
 extern "C" {
 #endif
+  #include "clang_types.hpp"
+
   typedef void* SealWrapper;
 
   SealWrapper SealBackendCreate(void);
@@ -17,8 +18,8 @@ extern "C" {
   void SealBackendSetKeys(SealWrapper wrapper, char* public_key, char* secret_key);
   char* SealBackendGetEncodedCipher(SealWrapper wrapper);
   void SealBackendSetEncodedCipher(SealWrapper wrapper, char* encoded_cipher);
-  char* SealBackendEncryptValue(SealWrapper wrapper, int value);
-  int SealBackendDecrypt(SealWrapper wrapper);
+  char* SealBackendEncrypt(SealWrapper wrapper, uint_array_t values);
+  uint_array_t SealBackendDecrypt(SealWrapper wrapper);
   void SealBackendAdd(SealWrapper wrapper, int value);
   void SealBackendNegate(SealWrapper wrapper);
   void SealBackendMultiply(SealWrapper wrapper, int value);

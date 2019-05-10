@@ -1,7 +1,8 @@
-// foo.h
 #ifdef __cplusplus
 extern "C" {
 #endif
+  #include "clang_types.hpp"
+
   typedef void* BackendWrapper;
 
   BackendWrapper BackendCreate(char *type);
@@ -17,8 +18,8 @@ extern "C" {
   void BackendSetKeys(BackendWrapper wrapper, char* public_key, char* secret_key);
   char* BackendGetEncodedCipher(BackendWrapper wrapper);
   void BackendSetEncodedCipher(BackendWrapper wrapper, char* encoded_cipher);
-  char* BackendEncryptValue(BackendWrapper wrapper, int value);
-  int BackendDecrypt(BackendWrapper wrapper);
+  char* BackendEncrypt(BackendWrapper wrapper, uint_array_t values);
+  uint_array_t BackendDecrypt(BackendWrapper wrapper);
   void BackendAdd(BackendWrapper wrapper, int value);
   void BackendNegate(BackendWrapper wrapper);
   void BackendMultiply(BackendWrapper wrapper, int value);

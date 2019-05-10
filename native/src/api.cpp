@@ -111,11 +111,9 @@ namespace homomorphine
       // encrypt the value using a public key
       if (path[2] == "encrypt") {
         backend->setPublicKey(obj[U("public_key")].as_string());
+        vector<uint64_t> values = this->extractJSONValues(obj[U("values")].as_array());
 
-        response_body[U("encrypted_value")] = json::value(
-          backend->encryptValue(
-            obj[U("value")].as_integer()
-        ));
+        response_body[U("encrypted_value")] = json::value(backend->encrypt(values));
 
         response.setStatus(status_codes::OK);
         response.setContent(response_body);
@@ -124,8 +122,8 @@ namespace homomorphine
       if (path[2] == "decrypt") {
         backend->setPublicKey(obj[U("secret_key")].as_string());
         backend->setEncodedCipher(obj[U("encrypted_value")].as_string());
-
-        response_body[U("value")] = json::value(backend->decrypt());
+        
+        response_body[U("values")] = this->packageJSONValues(backend->decrypt());
         response.setStatus(status_codes::OK);
         response.setContent(response_body);
       }
@@ -148,6 +146,28 @@ namespace homomorphine
     }
 
     return response;
+  }
+
+  vector<uint64_t> Api::extractJSONValues(json::array values)
+  {
+    vector<uint64_t> result;
+
+    for (int i = 0; i< values.size(); i++) {
+      result.push_back(stoull(values[i].as_string()));
+    }
+
+    return result; 
+  }
+
+  json::value Api::packageJSONValues(vector<uint64_t> values)
+  {
+    json::value result = json::value::array();
+
+    for(int i = 0; i < values.size(); i++) {
+      result[i] = json::value::string(U(boost::lexical_cast<std::string>(values.at(i))));
+    }
+
+    return result;
   }
 
 }
