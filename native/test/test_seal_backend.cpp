@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE( encryption_test )
   BOOST_TEST_MESSAGE( "Testing a SEAL encryption..." );
 
   SealBackend seal;
-  vector<uint64_t> values { 1000, 2000 };
+  vector<uint64_t> values { 1000ULL, 2000ULL };
   
   seal.setAlgorithm(SEAL_BFV);
   seal.init();
@@ -92,7 +92,9 @@ BOOST_AUTO_TEST_CASE( operations_test )
 
   int result;
   SealBackend seal;
-  vector<uint64_t> values { 1000, 2000 };
+  vector<uint64_t> values { 1000ULL, 2000ULL };
+  vector<uint64_t> add_to_values { 20ULL, 50ULL };
+  vector<uint64_t> multiply_with_values { 10ULL, 20ULL };
   
   seal.setAlgorithm(SEAL_BFV);
   seal.init();
@@ -113,12 +115,11 @@ BOOST_AUTO_TEST_CASE( operations_test )
   seal_encrypt.encrypt(values);
 
   // do some basic numeric operations
-  seal_encrypt.add(20);
-  seal_encrypt.negate();
-  seal_encrypt.multiply(10);
+  seal_encrypt.add(add_to_values);
+  seal_encrypt.multiply(multiply_with_values);
 
   seal_encrypt.setSecretKey(keys.second);
-  
+ 
   // check the result
   //BOOST_TEST ( seal_encrypt.decrypt() == -10200 );
 }

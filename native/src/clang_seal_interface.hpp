@@ -20,9 +20,9 @@ extern "C" {
   void SealBackendSetEncodedCipher(SealWrapper wrapper, char* encoded_cipher);
   char* SealBackendEncrypt(SealWrapper wrapper, uint_array_t values);
   uint_array_t SealBackendDecrypt(SealWrapper wrapper);
-  void SealBackendAdd(SealWrapper wrapper, int value);
+  void SealBackendAdd(SealWrapper wrapper, uint_array_t values);
   void SealBackendNegate(SealWrapper wrapper);
-  void SealBackendMultiply(SealWrapper wrapper, int value);
+  void SealBackendMultiply(SealWrapper wrapper, uint_array_t values);
 #ifdef __cplusplus
 }
 #endif

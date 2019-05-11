@@ -27,7 +27,7 @@ namespace homomorphine
   {
     private:
       std::shared_ptr<SEALContext> context;
-      IntegerEncoder *encoder;
+      BatchEncoder *encoder;
       KeyGenerator *keygen;
       SealAlgorithmType type;
       EncryptionParameters *encryption_params;
@@ -39,8 +39,8 @@ namespace homomorphine
       SealAlgorithmType getAlgorithmType(string name);
       void initBFV();  
       void initCKKS();  
-      Plaintext encodeWithBFV(int value);
-      Plaintext encodeWithCKKS(int value);
+      Plaintext encodeWithBFV(vector<uint64_t> values);
+      Plaintext encodeWithCKKS(vector<uint64_t> values);
 
 
     public:
@@ -68,9 +68,9 @@ namespace homomorphine
       pair<PublicKey, SecretKey> generateKeys();
       string encrypt(vector<uint64_t> values);
       vector<uint64_t> decrypt();
-      void add(int value);
+      void add(vector<uint64_t> values);
       void negate();
-      void multiply(int value);
+      void multiply(vector<uint64_t> values);
   };
 }
 

@@ -155,10 +155,15 @@ uint_array_t BackendDecrypt(BackendWrapper wrapper)
   return result;
 }
 
-void BackendAdd(BackendWrapper wrapper, int value)
+void BackendAdd(BackendWrapper wrapper, uint_array_t values)
 {
+  vector<uint64_t> values_vector;
   Backend* backend = (Backend*)wrapper;
-  backend->add(value);
+  for (int i = 0; i < values.count; i++) {
+    values_vector.push_back(values.elements[i]);
+  }
+
+  backend->add(values_vector);
 }
 
 void BackendNegate(BackendWrapper wrapper)
@@ -167,8 +172,13 @@ void BackendNegate(BackendWrapper wrapper)
   backend->negate();
 }
   
-void BackendMultiply(BackendWrapper wrapper, int value)
+void BackendMultiply(BackendWrapper wrapper, uint_array_t values)
 {
+  vector<uint64_t> values_vector;
   Backend* backend = (Backend*)wrapper;
-  backend->multiply(value);
+  for (int i = 0; i < values.count; i++) {
+    values_vector.push_back(values.elements[i]);
+  }
+
+  backend->multiply(values_vector);
 }

@@ -20,9 +20,9 @@ extern "C" {
   void BackendSetEncodedCipher(BackendWrapper wrapper, char* encoded_cipher);
   char* BackendEncrypt(BackendWrapper wrapper, uint_array_t values);
   uint_array_t BackendDecrypt(BackendWrapper wrapper);
-  void BackendAdd(BackendWrapper wrapper, int value);
+  void BackendAdd(BackendWrapper wrapper, uint_array_t values);
   void BackendNegate(BackendWrapper wrapper);
-  void BackendMultiply(BackendWrapper wrapper, int value);
+  void BackendMultiply(BackendWrapper wrapper, uint_array_t values);
 #ifdef __cplusplus
 }
 #endif

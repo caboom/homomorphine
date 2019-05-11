@@ -153,10 +153,16 @@ uint_array_t SealBackendDecrypt(SealWrapper wrapper)
   return result;
 }
 
-void SealBackendAdd(SealWrapper wrapper, int value)
+void SealBackendAdd(SealWrapper wrapper, uint_array_t values)
 {
+  vector<uint64_t> values_vector; 
   SealBackend* backend = (SealBackend*)wrapper;
-  backend->add(value);
+
+  for (int i = 0; i < values.count; i++) {
+    values_vector.push_back(values.elements[i]);
+  }
+
+  backend->add(values_vector);
 }
 
 void SealBackendNegate(SealWrapper wrapper)
@@ -165,8 +171,14 @@ void SealBackendNegate(SealWrapper wrapper)
   backend->negate();
 }
   
-void SealBackendMultiply(SealWrapper wrapper, int value)
+void SealBackendMultiply(SealWrapper wrapper, uint_array_t values)
 {
+  vector<uint64_t> values_vector;
   SealBackend* backend = (SealBackend*)wrapper;
-  backend->multiply(value);
+
+  for (int i = 0; i < values.count; i++) {
+    values_vector.push_back(values.elements[i]);
+  }
+
+  backend->multiply(values_vector);
 }

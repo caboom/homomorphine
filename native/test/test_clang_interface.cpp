@@ -22,12 +22,24 @@ BOOST_AUTO_TEST_CASE( test_backend_clang_interface )
   string algorithm = "bfv";
   string backend_name = "seal";
   uint_array_t values;
-  uint64_t elements[2] = {1000, 2000};
+  uint_array_t add_to_values;
+  uint_array_t multiply_with_values;
+
+  uint64_t elements[2] = {1000ULL, 2000ULL};
+  uint64_t add_to[2] = {20ULL, 50ULL};
+  uint64_t multiply_with[2] = {10ULL, 20ULL};
 
   // set the values
   values.elements = elements;
   values.count = 2;
 
+  add_to_values.elements = add_to;
+  add_to_values.count = 2;
+
+  multiply_with_values.elements = multiply_with;
+  multiply_with_values.count = 2;
+
+  // create the backends
   BackendWrapper wrapper = BackendCreate((char *)backend_name.c_str());
   BackendWrapper encrypt_wrapper = BackendCreate((char *)backend_name.c_str());
 
@@ -45,9 +57,9 @@ BOOST_AUTO_TEST_CASE( test_backend_clang_interface )
   BackendEncrypt(encrypt_wrapper, values);
 
   // do the basic numeric operations
-  BackendAdd(encrypt_wrapper, 20);
+  BackendAdd(encrypt_wrapper, add_to_values);
   BackendNegate(encrypt_wrapper);
-  BackendMultiply(encrypt_wrapper, 10);
+  BackendMultiply(encrypt_wrapper, multiply_with_values);
 
   // check the result
   BackendSetSecretKey(encrypt_wrapper, keys[1]);
@@ -69,7 +81,24 @@ BOOST_AUTO_TEST_CASE( test_seal_clang_interface )
 
   string algorithm = "bfv";
   uint_array_t values;
-  uint64_t elements[2] = {1000, 2000};
+  uint_array_t add_to_values;
+  uint_array_t multiply_with_values;
+
+  uint64_t elements[2] = {1000ULL, 2000ULL};
+  uint64_t add_to[2] = {20ULL, 50ULL};
+  uint64_t multiply_with[2] = {10ULL, 20ULL};
+
+  // set the values
+  values.elements = elements;
+  values.count = 2;
+
+  add_to_values.elements = add_to;
+  add_to_values.count = 2;
+
+  multiply_with_values.elements = multiply_with;
+  multiply_with_values.count = 2;
+
+  // create the backends
   SealWrapper wrapper = SealBackendCreate();
   SealWrapper encrypt_wrapper = SealBackendCreate();
 
@@ -91,9 +120,9 @@ BOOST_AUTO_TEST_CASE( test_seal_clang_interface )
   SealBackendEncrypt(encrypt_wrapper, values);
 
   // do the basic numeric operations
-  SealBackendAdd(encrypt_wrapper, 20);
+  SealBackendAdd(encrypt_wrapper, add_to_values);
   SealBackendNegate(encrypt_wrapper);
-  SealBackendMultiply(encrypt_wrapper, 10);
+  SealBackendMultiply(encrypt_wrapper, multiply_with_values);
 
   // check the result
   SealBackendSetSecretKey(encrypt_wrapper, keys[1]);
