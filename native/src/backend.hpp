@@ -32,10 +32,14 @@ namespace homomorphine
       virtual string getEncodedCipher() = 0;
       virtual void setEncodedCipher(string encoded_cipher) = 0;
       virtual string encrypt(vector<uint64_t> values) = 0; 
-      virtual vector<uint64_t> decrypt() = 0;
+      virtual string encrypt(int value) = 0;
+      virtual vector<uint64_t> decryptValues() = 0;
+      virtual int decrypt() = 0;
       virtual void add(vector<uint64_t> values) = 0;
+      virtual void add(int value) = 0;
       virtual void negate() = 0;
       virtual void multiply(vector<uint64_t> values) = 0;
+      virtual void multiply(int value) = 0;
 
       map<string, string> getParams();
       void setParams(map<string, string> &params); 

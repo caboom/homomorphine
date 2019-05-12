@@ -141,7 +141,7 @@ uint_array_t BackendDecrypt(BackendWrapper wrapper)
 {
   uint_array_t result;
   SealBackend* backend = (SealBackend*)wrapper;
-  vector<uint64_t> decrypted_list = backend->decrypt();
+  vector<uint64_t> decrypted_list = backend->decryptValues();
 
   result.count = decrypted_list.size();
   result.elements = (uint64_t *)calloc(decrypted_list.size(), sizeof(uint64_t));

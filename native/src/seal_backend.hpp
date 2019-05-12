@@ -67,10 +67,14 @@ namespace homomorphine
       SecretKey generateSecretKey();
       pair<PublicKey, SecretKey> generateKeys();
       string encrypt(vector<uint64_t> values);
-      vector<uint64_t> decrypt();
+      string encrypt(int value);
+      vector<uint64_t> decryptValues();
+      int decrypt();
       void add(vector<uint64_t> values);
+      void add(int value);
       void negate();
       void multiply(vector<uint64_t> values);
+      void multiply(int value);
   };
 }
 

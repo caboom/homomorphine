@@ -230,13 +230,26 @@ namespace homomorphine
     Plaintext plain_matrix;
 
     Encryptor encryptor(this->context, this->public_key);
-    Evaluator evaluator(this->context);
     BatchEncoder encoder(this->context);
      
     // encode and encrypt the value
     plain_matrix = this->encodeWithBFV(values);
 
     encryptor.encrypt(plain_matrix, this->cipher);
+    this->cipher.save(cipher_stream);
+    encrypted_value = Util::uuencodeStream(cipher_stream);
+
+    return encrypted_value;
+  }
+
+  string SealBackend::encrypt(int value)
+  {
+    stringstream cipher_stream;
+    string encrypted_value;
+    Encryptor encryptor(this->context, this->public_key);
+    IntegerEncoder encoder(this->context);
+
+    encryptor.encrypt(encoder.encode(value), this->cipher);
     this->cipher.save(cipher_stream);
     encrypted_value = Util::uuencodeStream(cipher_stream);
 
@@ -264,18 +277,35 @@ namespace homomorphine
     return plain_matrix;
   }
 
-  vector<uint64_t> SealBackend::decrypt()
+  vector<uint64_t> SealBackend::decryptValues()
   {
     vector<uint64_t> result;
     Plaintext plain_result;
     BatchEncoder batch_encoder(this->context);
     Decryptor decryptor(this->context, this->secret_key);
 
-    decryptor.decrypt(this->cipher, plain_result);
+    decryptor.decrypt(
+      this->cipher, 
+      plain_result
+    );
 
     batch_encoder.decode(plain_result, result);
 
     return result;
+  }
+
+  int SealBackend::decrypt()
+  {
+    Plaintext plain_result;
+    IntegerEncoder encoder(this->context);
+    Decryptor decryptor(this->context, this->secret_key);
+
+    decryptor.decrypt(
+      this->cipher, 
+      plain_result
+    );
+
+    return encoder.decode_int32(plain_result);
   }
 
   void SealBackend::add(vector<uint64_t> values)
@@ -289,6 +319,18 @@ namespace homomorphine
     evaluator.add_plain_inplace(this->cipher, plaintext_value);
   }
 
+  void SealBackend::add(int value)
+  {
+    Evaluator evaluator(this->context);
+    IntegerEncoder encoder(this->context);
+    Encryptor encryptor(this->context, this->public_key);
+    Ciphertext encrypted_value;
+    Plaintext plaintext_value = encoder.encode(value);
+
+    encryptor.encrypt(plaintext_value, encrypted_value);
+    evaluator.add_inplace(this->cipher, encrypted_value);
+  }
+
   void SealBackend::negate()
   {
     Evaluator evaluator(this->context);
@@ -299,11 +341,26 @@ namespace homomorphine
   {
     Plaintext plaintext_value;
     Ciphertext encrypted_value;
+    KeyGenerator keygen(this->context);
     Evaluator evaluator(this->context);
     BatchEncoder encoder(this->context);
+    auto relin_keys = keygen.relin_keys(30);
 
     encoder.encode(values, plaintext_value);
     evaluator.multiply_plain_inplace(this->cipher, plaintext_value);
+    evaluator.relinearize_inplace(this->cipher, relin_keys);
+  }
+
+  void SealBackend::multiply(int value)
+  {
+    Evaluator evaluator(this->context);
+    IntegerEncoder encoder(this->context);
+    Encryptor encryptor(this->context, this->public_key);
+    Ciphertext encrypted_value;
+    Plaintext plaintext_value = encoder.encode(value);
+
+    encryptor.encrypt(plaintext_value, encrypted_value);
+    evaluator.multiply_inplace(this->cipher, encrypted_value);
   }
 
 }

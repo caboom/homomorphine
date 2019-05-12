@@ -123,7 +123,7 @@ namespace homomorphine
         backend->setPublicKey(obj[U("secret_key")].as_string());
         backend->setEncodedCipher(obj[U("encrypted_value")].as_string());
         
-        response_body[U("values")] = this->packageJSONValues(backend->decrypt());
+        response_body[U("values")] = this->packageJSONValues(backend->decryptValues());
         response.setStatus(status_codes::OK);
         response.setContent(response_body);
       }
