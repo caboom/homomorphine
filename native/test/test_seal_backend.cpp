@@ -105,9 +105,6 @@ BOOST_AUTO_TEST_CASE( batch_operations_test )
   seal.setAlgorithm(SEAL_BFV);
   seal.init();
 
-  // test generating regular keys
-  seal.generateSealKeys();
-
   // test generating uuencoded keys
   pair<string, string> keys = seal.generateKeys();
 
@@ -142,9 +139,6 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
   
   seal.setAlgorithm(SEAL_BFV);
   seal.init();
-
-  // test generating regular keys
-  seal.generateSealKeys();
 
   // test generating uuencoded keys
   pair<string, string> keys = seal.generateKeys();
