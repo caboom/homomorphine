@@ -10,14 +10,17 @@ extern "C" {
   void BackendInit(BackendWrapper wrapper);
   void BackendSetAlgorithm(BackendWrapper wrapper, char* algorithm);
   
-  char* BackendGenerateEncodedPublicKey(BackendWrapper wrapper);
-  char* BackendGenerateEncodedSecretKey(BackendWrapper wrapper);
-  char** BackendGenerateEncodedKeys(BackendWrapper wrapper);
+  char* BackendGeneratePublicKey(BackendWrapper wrapper);
+  char* BackendGenerateSecretKey(BackendWrapper wrapper);
+  char** BackendGenerateKeys(BackendWrapper wrapper);
+  char* BackendGetPublicKey(BackendWrapper wrapper);
+  char* BackendGetSecretKey(BackendWrapper wrapper);
+  char** BackendGetKeys(BackendWrapper wrapper);
   void BackendSetPublicKey(BackendWrapper wrapper, char* public_key);
   void BackendSetSecretKey(BackendWrapper wrapper, char* secret_key);
   void BackendSetKeys(BackendWrapper wrapper, char* public_key, char* secret_key);
-  char* BackendGetEncodedCipher(BackendWrapper wrapper);
-  void BackendSetEncodedCipher(BackendWrapper wrapper, char* encoded_cipher);
+  char* BackendGetCipher(BackendWrapper wrapper);
+  void BackendSetCipher(BackendWrapper wrapper, char* cipher);
   char* BackendEncrypt(BackendWrapper wrapper, uint_array_t values);
   uint_array_t BackendDecrypt(BackendWrapper wrapper);
   void BackendAdd(BackendWrapper wrapper, uint_array_t values);

@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE( test_backend_clang_interface )
   BackendSetAlgorithm(wrapper, (char *)algorithm.c_str());
   BackendInit(wrapper);
 
-  char **keys = BackendGenerateEncodedKeys(wrapper);
+  char **keys = BackendGenerateKeys(wrapper);
 
   // test the encryption
   BackendSetAlgorithm(encrypt_wrapper, (char *)algorithm.c_str());
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE( test_seal_clang_interface )
   SealBackendSetAlgorithm(wrapper, (char *)algorithm.c_str());
   SealBackendInit(wrapper);
 
-  char **keys = SealBackendGenerateEncodedKeys(wrapper);
+  char **keys = SealBackendGenerateKeys(wrapper);
 
   // test the encryption
   SealBackendSetAlgorithm(encrypt_wrapper, (char *)algorithm.c_str());

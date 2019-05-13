@@ -11,7 +11,7 @@
 using namespace std;
 using namespace homomorphine;
 
-#define TEST_RANDOM_STR_SIZE 1024
+#define TEST_RANDOM_STR_SIZE 10240
 
 // Helper function
 string generateRandomString(int len) {

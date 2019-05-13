@@ -35,11 +35,11 @@ void SealBackendSetAlgorithm(SealWrapper wrapper, char* algorithm)
   backend->setAlgorithm(str_algorithm);
 }
 
-char* SealBackendGenerateEncodedPublicKey(SealWrapper wrapper)
+char* SealBackendGeneratePublicKey(SealWrapper wrapper)
 {
   
   SealBackend* backend = (SealBackend*)wrapper;
-  string public_key = backend->generateEncodedPublicKey();
+  string public_key = backend->generatePublicKey();
 
   char* result = new char[public_key.length()+1];
   strcpy (result, public_key.c_str());
@@ -47,10 +47,10 @@ char* SealBackendGenerateEncodedPublicKey(SealWrapper wrapper)
   return result;
 }
 
-char* SealBackendGenerateEncodedSecretKey(SealWrapper wrapper)
+char* SealBackendGenerateSecretKey(SealWrapper wrapper)
 {
   SealBackend* backend = (SealBackend*)wrapper;
-  string secret_key = backend->generateEncodedSecretKey();
+  string secret_key = backend->generateSecretKey();
 
   char* result = new char[secret_key.length()+1];
   strcpy (result, secret_key.c_str());
@@ -58,12 +58,49 @@ char* SealBackendGenerateEncodedSecretKey(SealWrapper wrapper)
   return result;
 }
   
-char** SealBackendGenerateEncodedKeys(SealWrapper wrapper)
+char** SealBackendGenerateKeys(SealWrapper wrapper)
 {
   char** result = new char*[2];
   SealBackend* backend = (SealBackend*)wrapper;
 
-  pair<string, string> keys = backend->generateEncodedKeys();
+  pair<string, string> keys = backend->generateKeys();
+
+  result[0] = new char[keys.first.length()+1];
+  strcpy (result[0], keys.first.c_str());
+  result[1] = new char[keys.second.length()+1];  
+  strcpy (result[1], keys.second.c_str());
+
+  return result;
+}
+
+char* SealBackendGetPublicKey(SealWrapper wrapper)
+{
+  SealBackend* backend = (SealBackend*)wrapper;
+  string public_key = backend->getPublicKey();
+
+  char* result = new char[public_key.length()+1];
+  strcpy (result, public_key.c_str());
+
+  return result;
+}
+
+char* SealBackendGetSecretKey(SealWrapper wrapper)
+{
+  SealBackend* backend = (SealBackend*)wrapper;
+  string secret_key = backend->getSecretKey();
+
+  char* result = new char[secret_key.length()+1];
+  strcpy (result, secret_key.c_str());
+
+  return result;
+}
+
+char** SealBackendGetKeys(SealWrapper wrapper)
+{
+  char** result = new char*[2];
+  SealBackend* backend = (SealBackend*)wrapper;
+
+  pair<string, string> keys = backend->getKeys();
 
   result[0] = new char[keys.first.length()+1];
   strcpy (result[0], keys.first.c_str());
@@ -99,10 +136,10 @@ void SealBackendSetKeys(SealWrapper wrapper, char* public_key, char* secret_key)
   backend->setSecretKey(str_secret_key);
 }
   
-char* SealBackendGetEncodedCipher(SealWrapper wrapper)
+char* SealBackendGetCipher(SealWrapper wrapper)
 {
   SealBackend* backend = (SealBackend*)wrapper;
-  string cipher = backend->getEncodedCipher();
+  string cipher = backend->getCipher();
 
   char* result = new char[cipher.length()+1];
   strcpy (result, cipher.c_str());
@@ -110,12 +147,12 @@ char* SealBackendGetEncodedCipher(SealWrapper wrapper)
   return result;
 }
 
-void SealBackendSetEncodedCipher(SealWrapper wrapper, char* encoded_cipher)
+void SealBackendSetCipher(SealWrapper wrapper, char* cipher)
 {
-  string str_encoded_cipher(encoded_cipher);
+  string str_cipher(cipher);
   SealBackend* backend = (SealBackend*)wrapper;
   
-  backend->setEncodedCipher(str_encoded_cipher);
+  backend->setCipher(str_cipher);
 }
   
 char* SealBackendEncrypt(SealWrapper wrapper, uint_array_t values)

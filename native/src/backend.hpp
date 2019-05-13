@@ -23,14 +23,17 @@ namespace homomorphine
       virtual ~Backend() {}
       virtual void setAlgorithm(string algorithm) {}
       virtual void init() {}
-      virtual string generateEncodedPublicKey() = 0;
-      virtual string generateEncodedSecretKey() = 0;
-      virtual pair<string, string> generateEncodedKeys() = 0;
+      virtual string generatePublicKey() = 0;
+      virtual string generateSecretKey() = 0;
+      virtual pair<string, string> generateKeys() = 0;
+      virtual string getPublicKey() = 0;
+      virtual string getSecretKey() = 0;
+      virtual pair<string, string> getKeys() = 0; 
       virtual void setPublicKey(string public_key) = 0;
       virtual void setSecretKey(string secret_key) = 0;
       virtual void setKeys(string public_key, string secret_key) = 0;
-      virtual string getEncodedCipher() = 0;
-      virtual void setEncodedCipher(string encoded_cipher) = 0;
+      virtual string getCipher() = 0;
+      virtual void setCipher(string cipher) = 0;
       virtual string encrypt(vector<uint64_t> values) = 0; 
       virtual string encrypt(int value) = 0;
       virtual vector<uint64_t> decryptValues() = 0;

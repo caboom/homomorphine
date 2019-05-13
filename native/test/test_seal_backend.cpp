@@ -25,10 +25,10 @@ BOOST_AUTO_TEST_CASE( basic_test )
   seal.init();
 
   // test generating regular keys
-  seal.generateKeys();
+  seal.generateSealKeys();
 
   // test generating uuencoded keys
-  pair<string, string> keys = seal.generateEncodedKeys();
+  pair<string, string> keys = seal.generateKeys();
 }
 
 // SEAL backend serialization/deserialization test
@@ -42,10 +42,10 @@ BOOST_AUTO_TEST_CASE( serialization_deserialization_test )
   seal_serialization.init();
 
   // test generating regular keys
-  seal_serialization.generateKeys();
+  seal_serialization.generateSealKeys();
 
   // test generating uuencoded keys
-  pair<string, string> keys = seal_serialization.generateEncodedKeys();
+  pair<string, string> keys = seal_serialization.generateKeys();
 
   // create deserialization SEAL backend
   SealBackend seal_deserialization;
@@ -56,6 +56,12 @@ BOOST_AUTO_TEST_CASE( serialization_deserialization_test )
   // add key
   seal_deserialization.setPublicKey(keys.first);
   seal_deserialization.setSecretKey(keys.second);
+
+  // test serialization/deserialization
+  pair<string, string> deserialized_keys = seal_deserialization.getKeys();
+
+  BOOST_TEST ( keys.first == deserialized_keys.first );
+  BOOST_TEST ( keys.second == deserialized_keys.second );
 }
 
 // SEAL backend encryption test
@@ -70,10 +76,10 @@ BOOST_AUTO_TEST_CASE( encryption_test )
   seal.init();
 
   // test generating regular keys
-  seal.generateKeys();
+  seal.generateSealKeys();
 
   // test generating uuencoded keys
-  pair<string, string> keys = seal.generateEncodedKeys();
+  pair<string, string> keys = seal.generateKeys();
 
   // encrypt using a new object
   SealBackend seal_encrypt;
@@ -100,10 +106,10 @@ BOOST_AUTO_TEST_CASE( batch_operations_test )
   seal.init();
 
   // test generating regular keys
-  seal.generateKeys();
+  seal.generateSealKeys();
 
   // test generating uuencoded keys
-  pair<string, string> keys = seal.generateEncodedKeys();
+  pair<string, string> keys = seal.generateKeys();
 
   // encrypt using a new object
   SealBackend seal_encrypt;
@@ -138,10 +144,10 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
   seal.init();
 
   // test generating regular keys
-  seal.generateKeys();
+  seal.generateSealKeys();
 
   // test generating uuencoded keys
-  pair<string, string> keys = seal.generateEncodedKeys();
+  pair<string, string> keys = seal.generateKeys();
 
   // encrypt using a new object
   SealBackend seal_encrypt;

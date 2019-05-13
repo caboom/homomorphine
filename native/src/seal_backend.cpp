@@ -103,12 +103,33 @@ namespace homomorphine
     this->keygen = new KeyGenerator(context);
   }
 
-  PublicKey SealBackend::getPublicKey()
+  string SealBackend::getPublicKey()
+  {
+    stringstream key_stream;
+    public_key.save(key_stream);
+
+    return Util::uuencodeStream(key_stream);   
+  }
+
+  string SealBackend::getSecretKey()
+  {
+    stringstream key_stream;
+    secret_key.save(key_stream);
+
+    return Util::uuencodeStream(key_stream);   
+  }
+
+  pair<string, string> SealBackend::getKeys() 
+  {
+    return pair<string, string> (this->getPublicKey(), this->getSecretKey());
+  }
+
+  PublicKey SealBackend::getSealPublicKey()
   {
     return this->public_key;
   }
   
-  SecretKey SealBackend::getSecretKey()
+  SecretKey SealBackend::getSealSecretKey()
   {
     return this->secret_key;
   }
@@ -135,61 +156,61 @@ namespace homomorphine
     this->setSecretKey(secret_key);
   }
 
-  pair<PublicKey, SecretKey> SealBackend::getKeys()
+  pair<PublicKey, SecretKey> SealBackend::getSealKeys()
   {
     return pair<PublicKey, SecretKey> (this->public_key, this->secret_key);
   }
 
-  void SealBackend::setPublicKey(PublicKey public_key)
+  void SealBackend::setSealPublicKey(PublicKey public_key)
   {
     this->public_key = public_key;
   }
   
-  void SealBackend::setSecretKey(SecretKey secret_key)
+  void SealBackend::setSealSecretKey(SecretKey secret_key)
   {
     this->secret_key = secret_key;
   }
   
-  void SealBackend::setKeys(PublicKey public_key, SecretKey secret_key)
+  void SealBackend::setSealKeys(PublicKey public_key, SecretKey secret_key)
   {
     this->public_key = public_key;
     this->secret_key = secret_key;
   }
 
-  string SealBackend::getEncodedCipher()
+  string SealBackend::getCipher()
   {
-    string encoded_cipher;
+    string cipher;
     stringstream cipher_stream;
 
     this->cipher.save(cipher_stream);
-    encoded_cipher = Util::uuencodeStream(cipher_stream);
+    cipher = Util::uuencodeStream(cipher_stream);
 
-    return encoded_cipher; 
+    return cipher; 
   }
       
-  void SealBackend::setEncodedCipher(string encoded_cipher)
+  void SealBackend::setCipher(string cipher)
   {
     stringstream cipher_stream;
 
-    Util::uudecodeString(encoded_cipher, cipher_stream);
+    Util::uudecodeString(cipher, cipher_stream);
     this->cipher.save(cipher_stream);
   }
 
-  PublicKey SealBackend::generatePublicKey() 
+  PublicKey SealBackend::generateSealPublicKey() 
   {
     this->public_key = this->keygen->public_key();
 
     return this->public_key;
   }
 
-  SecretKey SealBackend::generateSecretKey() 
+  SecretKey SealBackend::generateSealSecretKey() 
   {
     this->secret_key = this->keygen->secret_key();
 
     return this->secret_key;
   } 
 
-  pair<PublicKey, SecretKey> SealBackend::generateKeys() 
+  pair<PublicKey, SecretKey> SealBackend::generateSealKeys() 
   {
     this->public_key = this->keygen->public_key(); 
     this->secret_key = this->keygen->secret_key();
@@ -198,9 +219,9 @@ namespace homomorphine
     return pair<PublicKey, SecretKey> (this->public_key, this->secret_key);
   }
 
-  string SealBackend::generateEncodedPublicKey() 
+  string SealBackend::generatePublicKey() 
   {
-    std::stringstream key_stream;
+    stringstream key_stream;
     PublicKey public_key = this->keygen->public_key();
 
     public_key.save(key_stream);
@@ -208,7 +229,7 @@ namespace homomorphine
     return Util::uuencodeStream(key_stream);   
   }
 
-  string SealBackend::generateEncodedSecretKey() 
+  string SealBackend::generateSecretKey() 
   {
     std::stringstream key_stream;
     SecretKey secret_key = this->keygen->secret_key();
@@ -218,9 +239,9 @@ namespace homomorphine
     return Util::uuencodeStream(key_stream);
   }
 
-  pair<string, string> SealBackend::generateEncodedKeys() 
+  pair<string, string> SealBackend::generateKeys() 
   {
-    return pair<string, string> (this->generateEncodedPublicKey(), this->generateEncodedSecretKey());
+    return pair<string, string> (this->generatePublicKey(), this->generateSecretKey());
   }
 
   string SealBackend::encrypt(vector<uint64_t> values)
