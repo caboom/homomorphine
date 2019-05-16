@@ -6,7 +6,7 @@ extern "C" {
   typedef void* BackendWrapper;
 
   BackendWrapper BackendCreate(char *type);
-  void BackendFree(BackendWrapper);
+  void BackendFree(BackendWrapper wrapper);
   void BackendInit(BackendWrapper wrapper);
   void BackendSetAlgorithm(BackendWrapper wrapper, char* algorithm);
   

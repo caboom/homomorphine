@@ -36,7 +36,6 @@ void BackendSetAlgorithm(BackendWrapper wrapper, char* algorithm)
   backend->setAlgorithm(str_algorithm);
 }
 
-
 char* BackendGeneratePublicKey(BackendWrapper wrapper)
 {
   Backend* backend = (Backend*)wrapper;
