@@ -43,8 +43,7 @@ set(SRC_FILES
    src/backend_factory.cpp
    src/seal_backend.cpp
    src/util.cpp
-   src/clang_backend_interface.cpp
-   src/clang_seal_interface.cpp)
+   src/clang_backend_interface.cpp)
 
 # build both service and library
 add_executable(homomorphine-service ${SRC_FILES})

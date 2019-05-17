@@ -5,22 +5,22 @@ extern "C" {
 
   typedef void* BackendWrapper;
 
-  BackendWrapper BackendCreate(char *type);
-  void BackendFree(BackendWrapper wrapper);
-  void BackendInit(BackendWrapper wrapper);
-  void BackendSetAlgorithm(BackendWrapper wrapper, char* algorithm);
+  BackendWrapper CreateBackend(char *type);
+  void FreeBackend(BackendWrapper wrapper);
+  void InitBackend(BackendWrapper wrapper);
+  void SetBackendAlgorithm(BackendWrapper wrapper, char* algorithm);
   
-  char* BackendGeneratePublicKey(BackendWrapper wrapper);
-  char* BackendGenerateSecretKey(BackendWrapper wrapper);
-  char** BackendGenerateKeys(BackendWrapper wrapper);
-  char* BackendGetPublicKey(BackendWrapper wrapper);
-  char* BackendGetSecretKey(BackendWrapper wrapper);
-  char** BackendGetKeys(BackendWrapper wrapper);
-  void BackendSetPublicKey(BackendWrapper wrapper, char* public_key);
-  void BackendSetSecretKey(BackendWrapper wrapper, char* secret_key);
-  void BackendSetKeys(BackendWrapper wrapper, char* public_key, char* secret_key);
-  char* BackendGetCipher(BackendWrapper wrapper);
-  void BackendSetCipher(BackendWrapper wrapper, char* cipher);
+  char* GenerateBackendPublicKey(BackendWrapper wrapper);
+  char* GenerateBackendSecretKey(BackendWrapper wrapper);
+  char** GenerateBackendKeys(BackendWrapper wrapper);
+  char* GetBackendPublicKey(BackendWrapper wrapper);
+  char* GetBackendSecretKey(BackendWrapper wrapper);
+  char** GetBackendKeys(BackendWrapper wrapper);
+  void SetBackendPublicKey(BackendWrapper wrapper, char* public_key);
+  void SetBackendSecretKey(BackendWrapper wrapper, char* secret_key);
+  void SetBackendKeys(BackendWrapper wrapper, char* public_key, char* secret_key);
+  char* GetBackendCipher(BackendWrapper wrapper);
+  void SetBackendCipher(BackendWrapper wrapper, char* cipher);
   char* BackendEncrypt(BackendWrapper wrapper, uint_array_t values);
   uint_array_t BackendDecrypt(BackendWrapper wrapper);
   void BackendAdd(BackendWrapper wrapper, uint_array_t values);

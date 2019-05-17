@@ -9,26 +9,26 @@
 using namespace std;
 using namespace homomorphine;
 
-BackendWrapper BackendCreate(char* type)
+BackendWrapper CreateBackend(char* type)
 {
   string str_type(type);
   Backend* backend = BackendFactory::create(str_type);
   return (void*)backend;
 }
   
-void BackendFree(BackendWrapper wrapper)
+void FreeBackend(BackendWrapper wrapper)
 {
   Backend* backend = (Backend*)wrapper;
   delete backend;
 }
 
-void BackendInit(BackendWrapper wrapper)
+void InitBackend(BackendWrapper wrapper)
 {
   Backend* backend = (Backend*)wrapper;
   backend->init();
 }
 
-void BackendSetAlgorithm(BackendWrapper wrapper, char* algorithm)
+void SetBackendAlgorithm(BackendWrapper wrapper, char* algorithm)
 {
   string str_algorithm(algorithm);
   Backend* backend = (Backend*)wrapper;
@@ -36,7 +36,7 @@ void BackendSetAlgorithm(BackendWrapper wrapper, char* algorithm)
   backend->setAlgorithm(str_algorithm);
 }
 
-char* BackendGeneratePublicKey(BackendWrapper wrapper)
+char* GenerateBackendPublicKey(BackendWrapper wrapper)
 {
   Backend* backend = (Backend*)wrapper;
   string public_key = backend->generatePublicKey();
@@ -47,7 +47,7 @@ char* BackendGeneratePublicKey(BackendWrapper wrapper)
   return result;
 }
 
-char* BackendGenerateSecretKey(BackendWrapper wrapper)
+char* GenerateBackendSecretKey(BackendWrapper wrapper)
 {
   Backend* backend = (Backend*)wrapper;
   string secret_key = backend->generateSecretKey();
@@ -58,7 +58,7 @@ char* BackendGenerateSecretKey(BackendWrapper wrapper)
   return result;
 }
   
-char** BackendGenerateKeys(BackendWrapper wrapper)
+char** GenerateBackendKeys(BackendWrapper wrapper)
 {
   char** result = new char*[2];
   Backend* backend = (Backend*)wrapper;
@@ -73,7 +73,7 @@ char** BackendGenerateKeys(BackendWrapper wrapper)
   return result;
 }
 
-char* BackendGetPublicKey(BackendWrapper wrapper)
+char* GetBackendPublicKey(BackendWrapper wrapper)
 {
   Backend* backend = (Backend*)wrapper;
   string public_key = backend->getPublicKey();
@@ -84,7 +84,7 @@ char* BackendGetPublicKey(BackendWrapper wrapper)
   return result;
 }
 
-char* BackendGetSecretKey(BackendWrapper wrapper)
+char* GetBackendSecretKey(BackendWrapper wrapper)
 {
   Backend* backend = (Backend*)wrapper;
   string secret_key = backend->getSecretKey();
@@ -95,7 +95,7 @@ char* BackendGetSecretKey(BackendWrapper wrapper)
   return result;
 }
 
-char** BackendGetKeys(BackendWrapper wrapper)
+char** GetBackendKeys(BackendWrapper wrapper)
 {
   char** result = new char*[2];
   Backend* backend = (Backend*)wrapper;
@@ -110,7 +110,7 @@ char** BackendGetKeys(BackendWrapper wrapper)
   return result;
 }
 
-void BackendSetPublicKey(BackendWrapper wrapper, char* public_key)
+void SetBackendPublicKey(BackendWrapper wrapper, char* public_key)
 {
   string str_public_key(public_key);
   Backend* backend = (Backend*)wrapper;
@@ -118,7 +118,7 @@ void BackendSetPublicKey(BackendWrapper wrapper, char* public_key)
   backend->setPublicKey(str_public_key);
 }
   
-void BackendSetSecretKey(BackendWrapper wrapper, char* secret_key)
+void SetBackendSecretKey(BackendWrapper wrapper, char* secret_key)
 {
   string str_secret_key(secret_key);
   Backend* backend = (Backend*)wrapper;
@@ -126,7 +126,7 @@ void BackendSetSecretKey(BackendWrapper wrapper, char* secret_key)
   backend->setSecretKey(str_secret_key);
 }
 
-void BackendSetKeys(BackendWrapper wrapper, char* public_key, char* secret_key)
+void SetBackendKeys(BackendWrapper wrapper, char* public_key, char* secret_key)
 {
   string str_public_key(public_key);
   string str_secret_key(secret_key);
@@ -136,7 +136,7 @@ void BackendSetKeys(BackendWrapper wrapper, char* public_key, char* secret_key)
   backend->setSecretKey(str_secret_key);
 }
 
-char* BackendGetCipher(BackendWrapper wrapper)
+char* GetBackendCipher(BackendWrapper wrapper)
 {
   Backend* backend = (Backend*)wrapper;
   string cipher = backend->getCipher();
@@ -147,7 +147,7 @@ char* BackendGetCipher(BackendWrapper wrapper)
   return result;
 }
 
-void BackendSetCipher(BackendWrapper wrapper, char* cipher)
+void SetBackendCipher(BackendWrapper wrapper, char* cipher)
 {
   string str_cipher(cipher);
   Backend* backend = (Backend*)wrapper;
