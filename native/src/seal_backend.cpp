@@ -222,9 +222,9 @@ namespace homomorphine
   string SealBackend::generatePublicKey() 
   {
     stringstream key_stream;
-    PublicKey public_key = this->keygen->public_key();
+    this->public_key = this->keygen->public_key();
 
-    public_key.save(key_stream);
+    this->public_key.save(key_stream);
 
     return Util::uuencodeStream(key_stream);   
   }
@@ -232,9 +232,9 @@ namespace homomorphine
   string SealBackend::generateSecretKey() 
   {
     std::stringstream key_stream;
-    SecretKey secret_key = this->keygen->secret_key();
+    this->secret_key = this->keygen->secret_key();
 
-    secret_key.save(key_stream);
+    this->secret_key.save(key_stream);
 
     return Util::uuencodeStream(key_stream);
   }
