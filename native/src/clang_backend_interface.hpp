@@ -21,11 +21,11 @@ extern "C" {
   void SetBackendKeys(BackendWrapper wrapper, char* public_key, char* secret_key);
   char* GetBackendCipher(BackendWrapper wrapper);
   void SetBackendCipher(BackendWrapper wrapper, char* cipher);
-  char* BackendEncrypt(BackendWrapper wrapper, uint_array_t values);
-  uint_array_t BackendDecrypt(BackendWrapper wrapper);
-  void BackendAdd(BackendWrapper wrapper, uint_array_t values);
+  char* BackendEncrypt(BackendWrapper wrapper, int value);
+  int BackendDecrypt(BackendWrapper wrapper);
+  void BackendAdd(BackendWrapper wrapper, int value);
   void BackendNegate(BackendWrapper wrapper);
-  void BackendMultiply(BackendWrapper wrapper, uint_array_t values);
+  void BackendMultiply(BackendWrapper wrapper, int value);
 #ifdef __cplusplus
 }
 #endif

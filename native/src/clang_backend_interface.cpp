@@ -155,16 +155,10 @@ void SetBackendCipher(BackendWrapper wrapper, char* cipher)
   backend->setCipher(str_cipher);
 }
 
-char* BackendEncrypt(BackendWrapper wrapper, uint_array_t values)
+char* BackendEncrypt(BackendWrapper wrapper, int value)
 {
-  std::vector<uint64_t> ser_values;
-  SealBackend* backend = (SealBackend*)wrapper;
-
-  for(int i = 0; i < values.count; i++) {
-    ser_values.push_back(values.elements[i]);
-  }
-
-  string cipher = backend->encrypt(ser_values);
+  Backend* backend = (Backend*)wrapper;
+  string cipher = backend->encrypt(value);
 
   char* result = new char[cipher.length()+1];
   strcpy (result, cipher.c_str());
@@ -172,33 +166,16 @@ char* BackendEncrypt(BackendWrapper wrapper, uint_array_t values)
   return result;
 }
 
-uint_array_t BackendDecrypt(BackendWrapper wrapper)
+int BackendDecrypt(BackendWrapper wrapper)
 {
-  uint_array_t result;
-  SealBackend* backend = (SealBackend*)wrapper;
-  vector<uint64_t> decrypted_list = backend->decryptValues();
-
-  result.count = decrypted_list.size();
-  result.elements = (uint64_t *)calloc(decrypted_list.size(), sizeof(uint64_t));
-
-  int i = 0;
-  for (const int& element : decrypted_list) {
-    memcpy(&result.elements[i], &element, sizeof(uint64_t));
-    i++;
-  }
-
-  return result;
+  Backend* backend = (Backend*)wrapper;
+  return backend->decrypt();
 }
 
-void BackendAdd(BackendWrapper wrapper, uint_array_t values)
+void BackendAdd(BackendWrapper wrapper, int value)
 {
-  vector<uint64_t> values_vector;
   Backend* backend = (Backend*)wrapper;
-  for (int i = 0; i < values.count; i++) {
-    values_vector.push_back(values.elements[i]);
-  }
-
-  backend->add(values_vector);
+  backend->add(value);
 }
 
 void BackendNegate(BackendWrapper wrapper)
@@ -206,14 +183,9 @@ void BackendNegate(BackendWrapper wrapper)
   Backend* backend = (Backend*)wrapper;
   backend->negate();
 }
-  
-void BackendMultiply(BackendWrapper wrapper, uint_array_t values)
-{
-  vector<uint64_t> values_vector;
-  Backend* backend = (Backend*)wrapper;
-  for (int i = 0; i < values.count; i++) {
-    values_vector.push_back(values.elements[i]);
-  }
 
-  backend->multiply(values_vector);
+void BackendMultiply(BackendWrapper wrapper, int value)
+{
+  Backend* backend = (Backend*)wrapper;
+  backend->multiply(value);
 }
