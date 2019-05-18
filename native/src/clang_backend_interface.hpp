@@ -10,6 +10,8 @@ extern "C" {
   void InitBackend(BackendWrapper wrapper);
   void SetBackendAlgorithm(BackendWrapper wrapper, char* algorithm);
   
+  char* GetBackendParam(BackendWrapper wrapper, char* key);
+  void SetBackendParam(BackendWrapper wrapper, char* key, char* value);
   void GenerateBackendKeys(BackendWrapper wrapper);
   char* GetBackendPublicKey(BackendWrapper wrapper);
   char* GetBackendSecretKey(BackendWrapper wrapper);
@@ -23,6 +25,7 @@ extern "C" {
   void BackendAdd(BackendWrapper wrapper, int value);
   void BackendNegate(BackendWrapper wrapper);
   void BackendMultiply(BackendWrapper wrapper, int value);
+
 #ifdef __cplusplus
 }
 #endif

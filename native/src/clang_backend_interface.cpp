@@ -35,6 +35,27 @@ void SetBackendAlgorithm(BackendWrapper wrapper, char* algorithm)
 
   backend->setAlgorithm(str_algorithm);
 }
+
+char* GetBackendParam(BackendWrapper wrapper, char* key) {
+  string str_key(key);
+  Backend* backend = (Backend*)wrapper;
+
+  string value = backend->getParam(str_key);
+
+  char* result = new char[value.length()+1];
+  strcpy (result, value.c_str());
+
+  return result;
+}
+
+void SetBackendParam(BackendWrapper wrapper, char* key, char* value)
+{
+  string str_key(key);
+  string str_value(value);
+  Backend* backend = (Backend*)wrapper;
+
+  backend->setParam(str_key, str_value);
+}
   
 void GenerateBackendKeys(BackendWrapper wrapper)
 {
