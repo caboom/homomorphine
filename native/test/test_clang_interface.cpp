@@ -29,13 +29,15 @@ BOOST_AUTO_TEST_CASE( test_backend_clang_interface )
   SetBackendAlgorithm(wrapper, (char *)algorithm.c_str());
   InitBackend(wrapper);
 
-  char **keys = GenerateBackendKeys(wrapper);
+  GenerateBackendKeys(wrapper);
+  char* public_key = GetBackendPublicKey(wrapper);
+  char* secret_key = GetBackendSecretKey(wrapper);
 
   // test the encryption
   SetBackendAlgorithm(encrypt_wrapper, (char *)algorithm.c_str());
   InitBackend(encrypt_wrapper);
 
-  SetBackendPublicKey(encrypt_wrapper, keys[0]);
+  SetBackendPublicKey(encrypt_wrapper, public_key);
   BackendEncrypt(encrypt_wrapper, 10000);
 
   // do the basic numeric operations
@@ -44,7 +46,7 @@ BOOST_AUTO_TEST_CASE( test_backend_clang_interface )
   BackendMultiply(encrypt_wrapper, 1000);
 
   // check the result
-  SetBackendSecretKey(encrypt_wrapper, keys[1]);
+  SetBackendSecretKey(encrypt_wrapper, secret_key);
 
   BOOST_TEST ( BackendDecrypt(encrypt_wrapper) == -10025000 );
 

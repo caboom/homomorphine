@@ -44,23 +44,25 @@ namespace homomorphine
 
       // generate a public key
       if (path[2] == "public_key") {
-        response_body[U("public_key")] = json::value(backend->generatePublicKey());
+        backend->generateKeys();
+        response_body[U("public_key")] = json::value(backend->getPublicKey());
 
         response.setStatus(status_codes::OK);
         response.setContent(response_body);
       }
       // generate a secret key
       else if (path[2] == "secret_key") {
-        response_body[U("secret_key")] = json::value(backend->generateSecretKey());
+        backend->generateKeys();
+        response_body[U("secret_key")] = json::value(backend->getSecretKey());
 
         response.setStatus(status_codes::OK);
         response.setContent(response_body);
       }
       // generate both public and secret keys
       else if (path[2] == "keys") {
-        pair<string, string> keys = backend->generateKeys();
-        response_body[U("public_key")] = json::value(keys.first);
-        response_body[U("secret_key")] = json::value(keys.second);
+        backend->generateKeys();
+        response_body[U("public_key")] = json::value(backend->getPublicKey());
+        response_body[U("secret_key")] = json::value(backend->getSecretKey());
 
         response.setStatus(status_codes::OK);
         response.setContent(response_body);

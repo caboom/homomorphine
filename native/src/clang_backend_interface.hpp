@@ -10,12 +10,9 @@ extern "C" {
   void InitBackend(BackendWrapper wrapper);
   void SetBackendAlgorithm(BackendWrapper wrapper, char* algorithm);
   
-  char* GenerateBackendPublicKey(BackendWrapper wrapper);
-  char* GenerateBackendSecretKey(BackendWrapper wrapper);
-  char** GenerateBackendKeys(BackendWrapper wrapper);
+  void GenerateBackendKeys(BackendWrapper wrapper);
   char* GetBackendPublicKey(BackendWrapper wrapper);
   char* GetBackendSecretKey(BackendWrapper wrapper);
-  char** GetBackendKeys(BackendWrapper wrapper);
   void SetBackendPublicKey(BackendWrapper wrapper, char* public_key);
   void SetBackendSecretKey(BackendWrapper wrapper, char* secret_key);
   void SetBackendKeys(BackendWrapper wrapper, char* public_key, char* secret_key);

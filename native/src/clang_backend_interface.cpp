@@ -35,42 +35,11 @@ void SetBackendAlgorithm(BackendWrapper wrapper, char* algorithm)
 
   backend->setAlgorithm(str_algorithm);
 }
-
-char* GenerateBackendPublicKey(BackendWrapper wrapper)
-{
-  Backend* backend = (Backend*)wrapper;
-  string public_key = backend->generatePublicKey();
-
-  char* result = new char[public_key.length()+1];
-  strcpy (result, public_key.c_str());
-
-  return result;
-}
-
-char* GenerateBackendSecretKey(BackendWrapper wrapper)
-{
-  Backend* backend = (Backend*)wrapper;
-  string secret_key = backend->generateSecretKey();
-
-  char* result = new char[secret_key.length()+1];
-  strcpy (result, secret_key.c_str());
-
-  return result;
-}
   
-char** GenerateBackendKeys(BackendWrapper wrapper)
+void GenerateBackendKeys(BackendWrapper wrapper)
 {
-  char** result = new char*[2];
   Backend* backend = (Backend*)wrapper;
-
-  pair<string, string> keys = backend->generateKeys();
-
-  result[0] = new char[keys.first.length()+1];
-  strcpy (result[0], keys.first.c_str());
-  result[1] = new char[keys.second.length()+1];  
-  strcpy (result[1], keys.second.c_str());
-
-  return result;
+  backend->generateKeys();
 }
 
 char* GetBackendPublicKey(BackendWrapper wrapper)
@@ -91,21 +60,6 @@ char* GetBackendSecretKey(BackendWrapper wrapper)
 
   char* result = new char[secret_key.length()+1];
   strcpy (result, secret_key.c_str());
-
-  return result;
-}
-
-char** GetBackendKeys(BackendWrapper wrapper)
-{
-  char** result = new char*[2];
-  Backend* backend = (Backend*)wrapper;
-
-  pair<string, string> keys = backend->getKeys();
-
-  result[0] = new char[keys.first.length()+1];
-  strcpy (result[0], keys.first.c_str());
-  result[1] = new char[keys.second.length()+1];  
-  strcpy (result[1], keys.second.c_str());
 
   return result;
 }

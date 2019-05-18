@@ -14,81 +14,40 @@
 using namespace std;
 using namespace homomorphine;
 
-// Basic SEAL backend test
-BOOST_AUTO_TEST_CASE( basic_test )
-{
-  BOOST_TEST_MESSAGE( "Testing a SEAL homomorphic encryption backend..." );
-
-  SealBackend seal;
-  
-  seal.setAlgorithm(SEAL_BFV);
-  seal.init();
-
-  // test generating regular keys
-  seal.generateSealKeys();
-
-  // test generating uuencoded keys
-  pair<string, string> keys = seal.generateKeys();
-}
-
 // SEAL backend serialization/deserialization test
 BOOST_AUTO_TEST_CASE( serialization_deserialization_test )
 {
   BOOST_TEST_MESSAGE( "Testing a SEAL backend serialization/deserialization..." );
 
-  SealBackend seal_serialization;
+  string public_key;
+  string secret_key;
+  string deserialized_public_key;
+  string deserialized_secret_key;
+  SealBackend seal;
+  SealBackend seal_deserialization;
   
-  seal_serialization.setAlgorithm(SEAL_BFV);
-  seal_serialization.init();
+  // generate keys
+  seal.setAlgorithm(SEAL_BFV);
+  seal.init();
 
-  // test generating regular keys
-  seal_serialization.generateSealKeys();
-
-  // test generating uuencoded keys
-  pair<string, string> keys = seal_serialization.generateKeys();
+  seal.generateKeys();
+  public_key = seal.getPublicKey();
+  secret_key = seal.getSecretKey();
 
   // create deserialization SEAL backend
-  SealBackend seal_deserialization;
-
   seal_deserialization.setAlgorithm(SEAL_BFV);
   seal_deserialization.init();
 
   // add key
-  seal_deserialization.setPublicKey(keys.first);
-  seal_deserialization.setSecretKey(keys.second);
+  seal_deserialization.setPublicKey(public_key);
+  seal_deserialization.setSecretKey(secret_key);
 
   // test serialization/deserialization
-  pair<string, string> deserialized_keys = seal_deserialization.getKeys();
+  deserialized_public_key = seal_deserialization.getPublicKey();
+  deserialized_secret_key = seal_deserialization.getSecretKey();
 
-  BOOST_TEST ( keys.first == deserialized_keys.first );
-  BOOST_TEST ( keys.second == deserialized_keys.second );
-}
-
-// SEAL backend encryption test
-BOOST_AUTO_TEST_CASE( encryption_test )
-{
-  BOOST_TEST_MESSAGE( "Testing a SEAL encryption..." );
-
-  SealBackend seal;
-  vector<uint64_t> values { 1000ULL, 2000ULL };
-  
-  seal.setAlgorithm(SEAL_BFV);
-  seal.init();
-
-  // test generating regular keys
-  seal.generateSealKeys();
-
-  // test generating uuencoded keys
-  pair<string, string> keys = seal.generateKeys();
-
-  // encrypt using a new object
-  SealBackend seal_encrypt;
-
-  seal_encrypt.setAlgorithm(SEAL_BFV);
-  seal_encrypt.init();
-
-  seal_encrypt.setPublicKey(keys.first);
-  seal_encrypt.encrypt(values);
+  BOOST_TEST ( public_key == deserialized_public_key );
+  BOOST_TEST ( secret_key == deserialized_secret_key );
 }
 
 // batch SEAL backend operations test
@@ -97,6 +56,8 @@ BOOST_AUTO_TEST_CASE( batch_operations_test )
   BOOST_TEST_MESSAGE( "Testing SEAL batch operations..." );
 
   vector<uint64_t> results;
+  string public_key;
+  string secret_key;
   SealBackend seal;
   vector<uint64_t> values { 1000, 2000 };
   vector<uint64_t> add_to_values { 20, 50 };
@@ -106,7 +67,9 @@ BOOST_AUTO_TEST_CASE( batch_operations_test )
   seal.init();
 
   // test generating uuencoded keys
-  pair<string, string> keys = seal.generateKeys();
+  seal.generateKeys();
+  public_key = seal.getPublicKey();
+  secret_key = seal.getSecretKey();
 
   // encrypt using a new object
   SealBackend seal_encrypt;
@@ -114,7 +77,7 @@ BOOST_AUTO_TEST_CASE( batch_operations_test )
   seal_encrypt.setAlgorithm(SEAL_BFV);
   seal_encrypt.init();
 
-  seal_encrypt.setPublicKey(keys.first);
+  seal_encrypt.setPublicKey(public_key);
   seal_encrypt.encrypt(values);
 
   // do some basic numeric operations
@@ -122,7 +85,7 @@ BOOST_AUTO_TEST_CASE( batch_operations_test )
   seal_encrypt.add(add_to_values_again);
 
   // check the results
-  seal_encrypt.setSecretKey(keys.second);
+  seal_encrypt.setSecretKey(secret_key);
   results = seal_encrypt.decryptValues();
 
   BOOST_TEST ( results[0] == 1030 );
@@ -135,6 +98,8 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
   BOOST_TEST_MESSAGE( "Testing SEAL operations on a single integer..." );
 
   int result;
+  string public_key;
+  string secret_key;
   string cipher;
   SealBackend seal;
   
@@ -142,7 +107,9 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
   seal.init();
 
   // test generating uuencoded keys
-  pair<string, string> keys = seal.generateKeys();
+  seal.generateKeys();
+  public_key = seal.getPublicKey();
+  secret_key = seal.getSecretKey();
 
   // encrypt using a new object
   SealBackend seal_encrypt;
@@ -150,7 +117,7 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
   seal_encrypt.setAlgorithm(SEAL_BFV);
   seal_encrypt.init();
 
-  seal_encrypt.setPublicKey(keys.first);
+  seal_encrypt.setPublicKey(public_key);
   seal_encrypt.encrypt(10000);
 
   // do some basic numeric operations
@@ -161,7 +128,7 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
   seal_encrypt.multiply(11);
 
   // check the results
-  seal_encrypt.setSecretKey(keys.second);
+  seal_encrypt.setSecretKey(secret_key);
   result = seal_encrypt.decrypt();
 
   BOOST_TEST ( result == -5510450 );

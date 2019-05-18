@@ -48,27 +48,15 @@ namespace homomorphine
       void init();
       void setAlgorithm(string algorithm);
       void setAlgorithm(SealAlgorithmType algorithm);
-      string generatePublicKey();
-      string generateSecretKey();
-      pair<string, string> generateKeys();
-
+      void generateKeys();
       string getPublicKey();
       string getSecretKey();
       pair<string, string> getKeys();
-      PublicKey getSealPublicKey();
-      SecretKey getSealSecretKey();
-      pair<PublicKey, SecretKey> getSealKeys();
-      void setSealPublicKey(PublicKey public_key);
-      void setSealSecretKey(SecretKey secret_key);
-      void setSealKeys(PublicKey public_key, SecretKey secret_key);
       void setPublicKey(string public_key);
       void setSecretKey(string secret_key);
       void setKeys(string public_key, string secret_key);
       string getCipher();
       void setCipher(string cipher);
-      PublicKey generateSealPublicKey();
-      SecretKey generateSealSecretKey();
-      pair<PublicKey, SecretKey> generateSealKeys();
       string encrypt(vector<uint64_t> values);
       string encrypt(int value);
       vector<uint64_t> decryptValues();
@@ -78,6 +66,14 @@ namespace homomorphine
       void negate();
       void multiply(vector<uint64_t> values);
       void multiply(int value);
+
+      // SEAL specific interface
+      PublicKey getSealPublicKey();
+      SecretKey getSealSecretKey();
+      pair<PublicKey, SecretKey> getSealKeys();
+      void setSealPublicKey(PublicKey public_key);
+      void setSealSecretKey(SecretKey secret_key);
+      void setSealKeys(PublicKey public_key, SecretKey secret_key);
   };
 }
 

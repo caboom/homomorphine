@@ -196,52 +196,10 @@ namespace homomorphine
     this->cipher.load(this->context, cipher_stream);
   }
 
-  PublicKey SealBackend::generateSealPublicKey() 
+  void SealBackend::generateKeys() 
   {
     this->public_key = this->keygen->public_key();
-
-    return this->public_key;
-  }
-
-  SecretKey SealBackend::generateSealSecretKey() 
-  {
     this->secret_key = this->keygen->secret_key();
-
-    return this->secret_key;
-  } 
-
-  pair<PublicKey, SecretKey> SealBackend::generateSealKeys() 
-  {
-    this->public_key = this->keygen->public_key(); 
-    this->secret_key = this->keygen->secret_key();
-    auto relin_keys = this->keygen->relin_keys(DefaultParams::dbc_max());
-
-    return pair<PublicKey, SecretKey> (this->public_key, this->secret_key);
-  }
-
-  string SealBackend::generatePublicKey() 
-  {
-    stringstream key_stream;
-    this->public_key = this->keygen->public_key();
-
-    this->public_key.save(key_stream);
-
-    return Util::uuencodeStream(key_stream);   
-  }
-
-  string SealBackend::generateSecretKey() 
-  {
-    std::stringstream key_stream;
-    this->secret_key = this->keygen->secret_key();
-
-    this->secret_key.save(key_stream);
-
-    return Util::uuencodeStream(key_stream);
-  }
-
-  pair<string, string> SealBackend::generateKeys() 
-  {
-    return pair<string, string> (this->generatePublicKey(), this->generateSecretKey());
   }
 
   string SealBackend::encrypt(vector<uint64_t> values)

@@ -15,13 +15,17 @@ BOOST_AUTO_TEST_CASE( simple_backend_test )
   BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend..." );
 
   int result;
+  string public_key;
+  string secret_key;
   Backend* backend = BackendFactory::create("seal");
 
   backend->setAlgorithm("BFV");
   backend->init();
 
   // generate uuencoded keys
-  pair<string, string> keys = backend->generateKeys();
+  backend->generateKeys();
+  public_key = backend->getPublicKey();
+  secret_key = backend->getSecretKey();
 
   // encrypt using a new object
   Backend* backend_operations = BackendFactory::create("seal");
@@ -29,7 +33,7 @@ BOOST_AUTO_TEST_CASE( simple_backend_test )
   backend_operations->setAlgorithm("BFV");
   backend_operations->init();
 
-  backend_operations->setPublicKey(keys.first);
+  backend_operations->setPublicKey(public_key);
   backend_operations->encrypt(10000);
 
   // do some basic numeric operations
@@ -40,7 +44,7 @@ BOOST_AUTO_TEST_CASE( simple_backend_test )
   backend_operations->multiply(11);
 
   // check the results
-  backend_operations->setSecretKey(keys.second);
+  backend_operations->setSecretKey(secret_key);
   result = backend_operations->decrypt();
 
   BOOST_TEST ( result == -5510450 );
