@@ -193,7 +193,7 @@ namespace homomorphine
     stringstream cipher_stream;
 
     Util::uudecodeString(cipher, cipher_stream);
-    this->cipher.save(cipher_stream);
+    this->cipher.load(this->context, cipher_stream);
   }
 
   PublicKey SealBackend::generateSealPublicKey() 
@@ -332,7 +332,6 @@ namespace homomorphine
   void SealBackend::add(vector<uint64_t> values)
   {
     Plaintext plaintext_value;
-    Ciphertext encrypted_value;
     Evaluator evaluator(this->context);
     BatchEncoder encoder(this->context);
 
@@ -345,9 +344,10 @@ namespace homomorphine
     Evaluator evaluator(this->context);
     IntegerEncoder encoder(this->context);
     Encryptor encryptor(this->context, this->public_key);
+
     Ciphertext encrypted_value;
     Plaintext plaintext_value = encoder.encode(value);
-
+    
     encryptor.encrypt(plaintext_value, encrypted_value);
     evaluator.add_inplace(this->cipher, encrypted_value);
   }
@@ -377,6 +377,7 @@ namespace homomorphine
     Evaluator evaluator(this->context);
     IntegerEncoder encoder(this->context);
     Encryptor encryptor(this->context, this->public_key);
+
     Ciphertext encrypted_value;
     Plaintext plaintext_value = encoder.encode(value);
 

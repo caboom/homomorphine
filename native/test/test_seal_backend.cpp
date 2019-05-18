@@ -135,6 +135,7 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
   BOOST_TEST_MESSAGE( "Testing SEAL operations on a single integer..." );
 
   int result;
+  string cipher;
   SealBackend seal;
   
   seal.setAlgorithm(SEAL_BFV);
@@ -162,6 +163,12 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
   // check the results
   seal_encrypt.setSecretKey(keys.second);
   result = seal_encrypt.decrypt();
+
+  BOOST_TEST ( result == -5510450 );
+
+  // check cipher handling
+  seal.setCipher(seal_encrypt.getCipher());
+  result = seal.decrypt();
 
   BOOST_TEST ( result == -5510450 );
 }
