@@ -21,8 +21,8 @@ namespace homomorphine
 
     public:
       virtual ~Backend() {}
-      virtual void setAlgorithm(string algorithm) {}
-      virtual void init() {}
+      virtual void setAlgorithm(string algorithm) = 0;
+      virtual void init() = 0;
       virtual void generateKeys() = 0;
       virtual string getPublicKey() = 0;
       virtual string getSecretKey() = 0;
