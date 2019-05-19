@@ -10,9 +10,9 @@ using namespace std;
 using namespace homomorphine;
 
 // Test SEAL backend
-BOOST_AUTO_TEST_CASE( simple_backend_test )
+BOOST_AUTO_TEST_CASE( simple_seal_backend_test )
 {
-  BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend..." );
+  BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (SEAL implementation)..." );
 
   int result;
   string public_key;
@@ -52,4 +52,20 @@ BOOST_AUTO_TEST_CASE( simple_backend_test )
   // cleanup
   delete(backend);
   delete(backend_operations);
+}
+
+// Test SEAL backend
+BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
+{
+  BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (HELib implementation)..." );
+
+  int result;
+  string public_key;
+  string secret_key;
+  Backend* backend = BackendFactory::create("helib");
+
+  backend->init();
+
+  // cleanup
+  delete(backend);
 }

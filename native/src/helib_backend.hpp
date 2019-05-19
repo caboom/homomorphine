@@ -7,6 +7,8 @@
 #include <string>
 #include <boost/log/trivial.hpp>
 #include <boost/log/utility/setup.hpp>
+#include <helib/FHE.h>
+#include <helib/EncryptedArray.h>
 
 #include "util.hpp"
 #include "backend.hpp"
@@ -18,12 +20,14 @@ using namespace boost::archive::iterators;
 namespace homomorphine 
 {
   enum HELibAlgorithmType { 
-    HELIB_UNKNOWN
+    HELIB_DEFAULT_ALGORITHM
   }; 
 
   class HELibBackend : public Backend
   {
     private:
+      FHEcontext* context;
+      HELibAlgorithmType algorithm;
 
     public:
       ~HELibBackend();

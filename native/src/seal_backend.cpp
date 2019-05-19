@@ -6,12 +6,12 @@ namespace homomorphine
 
   void SealBackend::setAlgorithm(string algorithm) 
   {
-    this->type = getAlgorithmType(algorithm);
+    this->algorithm = getAlgorithmType(algorithm);
   }
 
   void SealBackend::setAlgorithm(SealAlgorithmType algorithm) 
   {
-    this->type = algorithm;
+    this->algorithm = algorithm;
   }
 
   SealAlgorithmType SealBackend::getAlgorithmType(string name) 
@@ -26,14 +26,14 @@ namespace homomorphine
 
   void SealBackend::init() 
   {
-    if (this->type == SEAL_BFV) { 
+    if (this->algorithm == SEAL_BFV) { 
       this->initBFV();
     } 
-    else if (this->type == SEAL_CKKS) {
+    else if (this->algorithm == SEAL_CKKS) {
       this->initCKKS();
     } 
     else {
-      BOOST_LOG_TRIVIAL(error) << "Unknown backend: " << this->type;
+      BOOST_LOG_TRIVIAL(error) << "Unknown backend: " << this->algorithm;
       throw BackendException("Unknown backend");
     }
   }

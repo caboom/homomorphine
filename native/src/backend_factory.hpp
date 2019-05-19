@@ -6,6 +6,7 @@
 
 #include "backend.hpp"
 #include "seal_backend.hpp"
+#include "helib_backend.hpp"
 
 using namespace std;
 
@@ -23,7 +24,16 @@ namespace homomorphine
       static BackendType getType(string name);
   };
 
+  class BackendFactoryException : public std::exception 
+  {
+	  private:
+      const char* msg;
 
+    public:
+      BackendFactoryException(const char* msg);
+
+      const char* getMessage();
+  };
 }
 
 #endif

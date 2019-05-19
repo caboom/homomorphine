@@ -2,6 +2,11 @@
 
 namespace homomorphine 
 {
+
+  //
+  // BackendFactory class implementation
+  //
+
   Backend* BackendFactory::create(string type)
   {
     return create(getType(type));
@@ -9,7 +14,14 @@ namespace homomorphine
 
   Backend* BackendFactory::create(BackendType type)
   {
-    return new SealBackend();
+    if (type == B_SEAL) {
+      return new SealBackend();
+    } 
+    else if (type == B_HELib) {
+      return new HELibBackend();
+    } 
+
+    throw BackendFactoryException("Unknown/unsupported backend type");
   }
   
   BackendType BackendFactory::getType(string name) {
@@ -20,4 +32,17 @@ namespace homomorphine
 
     return B_UNKNOWN;
   } 
+
+  //
+  // BackendFactoryException class implementation
+  //
+
+  BackendFactoryException::BackendFactoryException(const char* msg) 
+  {
+    this->msg = msg;
+  }
+
+  const char* BackendFactoryException::getMessage() {
+    return this->msg;
+  }  
 }
