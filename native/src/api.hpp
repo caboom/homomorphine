@@ -36,8 +36,8 @@ namespace homomorphine
   class Api
   {
     private:
-      vector<uint64_t> extractJSONValues(json::array values);
-      json::value packageJSONValues(vector<uint64_t> values);
+      vector<int64_t> extractJSONValues(json::array values);
+      json::value packageJSONValues(vector<int64_t> values);
 
     public:
       ApiResponse get(vector<string> &path);

@@ -130,7 +130,7 @@ void SetBackendCipher(BackendWrapper wrapper, char* cipher)
   backend->setCipher(str_cipher);
 }
 
-char* BackendEncrypt(BackendWrapper wrapper, int value)
+char* BackendEncrypt(BackendWrapper wrapper, int64_t value)
 {
   Backend* backend = (Backend*)wrapper;
   string cipher = backend->encrypt(value);
@@ -141,13 +141,13 @@ char* BackendEncrypt(BackendWrapper wrapper, int value)
   return result;
 }
 
-int BackendDecrypt(BackendWrapper wrapper)
+int64_t BackendDecrypt(BackendWrapper wrapper)
 {
   Backend* backend = (Backend*)wrapper;
   return backend->decrypt();
 }
 
-void BackendAdd(BackendWrapper wrapper, int value)
+void BackendAdd(BackendWrapper wrapper, int64_t value)
 {
   Backend* backend = (Backend*)wrapper;
   backend->add(value);
@@ -159,7 +159,7 @@ void BackendNegate(BackendWrapper wrapper)
   backend->negate();
 }
 
-void BackendMultiply(BackendWrapper wrapper, int value)
+void BackendMultiply(BackendWrapper wrapper, int64_t value)
 {
   Backend* backend = (Backend*)wrapper;
   backend->multiply(value);

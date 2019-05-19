@@ -61,34 +61,34 @@ namespace homomorphine
 
   }
       
-  string HELibBackend::encrypt(vector<uint64_t> values)
+  string HELibBackend::encrypt(vector<int64_t> values)
   {
     return "";
   }
       
-  string HELibBackend::encrypt(int value)
+  string HELibBackend::encrypt(int64_t value)
   {
     return "";
   }
 
-  vector<uint64_t> HELibBackend::decryptValues()
+  vector<int64_t> HELibBackend::decryptValues()
   {
-    vector<uint64_t> result;
+    vector<int64_t> result;
 
     return result;
   }
 
-  int HELibBackend::decrypt()
+  int64_t HELibBackend::decrypt()
   {
     return 0;
   }
 
-  void HELibBackend::add(vector<uint64_t> values)
+  void HELibBackend::add(vector<int64_t> values)
   {
 
   }
 
-  void HELibBackend::add(int value)
+  void HELibBackend::add(int64_t value)
   {
 
   }
@@ -98,12 +98,12 @@ namespace homomorphine
 
   }
 
-  void HELibBackend::multiply(vector<uint64_t> values)
+  void HELibBackend::multiply(vector<int64_t> values)
   {
 
   }
 
-  void HELibBackend::multiply(int value)
+  void HELibBackend::multiply(int64_t value)
   {
 
   }

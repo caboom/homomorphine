@@ -39,8 +39,8 @@ namespace homomorphine
       SealAlgorithmType getAlgorithmType(string name);
       void initBFV();  
       void initCKKS();  
-      Plaintext encodeWithBFV(vector<uint64_t> values);
-      Plaintext encodeWithCKKS(vector<uint64_t> values);
+      Plaintext encodeWithBFV(vector<int64_t> values);
+      Plaintext encodeWithCKKS(vector<int64_t> values);
 
 
     public:
@@ -57,15 +57,15 @@ namespace homomorphine
       void setKeys(string public_key, string secret_key);
       string getCipher();
       void setCipher(string cipher);
-      string encrypt(vector<uint64_t> values);
-      string encrypt(int value);
-      vector<uint64_t> decryptValues();
-      int decrypt();
-      void add(vector<uint64_t> values);
-      void add(int value);
+      string encrypt(vector<int64_t> values);
+      string encrypt(int64_t value);
+      vector<int64_t> decryptValues();
+      int64_t decrypt();
+      void add(vector<int64_t> values);
+      void add(int64_t value);
       void negate();
-      void multiply(vector<uint64_t> values);
-      void multiply(int value);
+      void multiply(vector<int64_t> values);
+      void multiply(int64_t value);
 
       // SEAL specific interface
       PublicKey getSealPublicKey();

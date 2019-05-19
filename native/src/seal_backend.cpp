@@ -57,7 +57,7 @@ namespace homomorphine
     // check if the #bits for encryption had been set
     params.count("security_level") ?
       security_level = stoi(this->params["security_level"]) :
-      security_level = Constants::SECURITY_LEVEL; 
+      security_level = Constants::SEAL_SECURITY_LEVEL; 
 
     // use different functions depending on the security level (128 is default)
     switch (security_level) {
@@ -202,7 +202,7 @@ namespace homomorphine
     this->secret_key = this->keygen->secret_key();
   }
 
-  string SealBackend::encrypt(vector<uint64_t> values)
+  string SealBackend::encrypt(vector<int64_t> values)
   {
     stringstream cipher_stream;
     string encrypted_value;
@@ -221,7 +221,7 @@ namespace homomorphine
     return encrypted_value;
   }
 
-  string SealBackend::encrypt(int value)
+  string SealBackend::encrypt(int64_t value)
   {
     stringstream cipher_stream;
     string encrypted_value;
@@ -235,7 +235,7 @@ namespace homomorphine
     return encrypted_value;
   }
 
-  Plaintext SealBackend::encodeWithBFV(vector<uint64_t> values)
+  Plaintext SealBackend::encodeWithBFV(vector<int64_t> values)
   {
     Plaintext plain_matrix;
     BatchEncoder batch_encoder(this->context); 
@@ -246,7 +246,7 @@ namespace homomorphine
     return plain_matrix;
   }
 
-  Plaintext SealBackend::encodeWithCKKS(vector<uint64_t> values)
+  Plaintext SealBackend::encodeWithCKKS(vector<int64_t> values)
   {
     Plaintext plain_matrix;
     CKKSEncoder encoder(this->context);
@@ -256,9 +256,9 @@ namespace homomorphine
     return plain_matrix;
   }
 
-  vector<uint64_t> SealBackend::decryptValues()
+  vector<int64_t> SealBackend::decryptValues()
   {
-    vector<uint64_t> result;
+    vector<int64_t> result;
     Plaintext plain_result;
     BatchEncoder batch_encoder(this->context);
     Decryptor decryptor(this->context, this->secret_key);
@@ -273,7 +273,7 @@ namespace homomorphine
     return result;
   }
 
-  int SealBackend::decrypt()
+  int64_t SealBackend::decrypt()
   {
     Plaintext plain_result;
     IntegerEncoder encoder(this->context);
@@ -284,10 +284,10 @@ namespace homomorphine
       plain_result
     );
 
-    return encoder.decode_int32(plain_result);
+    return encoder.decode_int64(plain_result);
   }
 
-  void SealBackend::add(vector<uint64_t> values)
+  void SealBackend::add(vector<int64_t> values)
   {
     Plaintext plaintext_value;
     Evaluator evaluator(this->context);
@@ -297,7 +297,7 @@ namespace homomorphine
     evaluator.add_plain_inplace(this->cipher, plaintext_value);
   }
 
-  void SealBackend::add(int value)
+  void SealBackend::add(int64_t value)
   {
     Evaluator evaluator(this->context);
     IntegerEncoder encoder(this->context);
@@ -316,7 +316,7 @@ namespace homomorphine
     evaluator.negate_inplace(this->cipher);
   }
       
-  void SealBackend::multiply(vector<uint64_t> values)
+  void SealBackend::multiply(vector<int64_t> values)
   {
     Plaintext plaintext_value;
     Ciphertext encrypted_value;
@@ -330,7 +330,7 @@ namespace homomorphine
     evaluator.relinearize_inplace(this->cipher, relin_keys);
   }
 
-  void SealBackend::multiply(int value)
+  void SealBackend::multiply(int64_t value)
   {
     Evaluator evaluator(this->context);
     IntegerEncoder encoder(this->context);

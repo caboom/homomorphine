@@ -55,13 +55,13 @@ BOOST_AUTO_TEST_CASE( batch_operations_test )
 {
   BOOST_TEST_MESSAGE( "Testing SEAL batch operations..." );
 
-  vector<uint64_t> results;
+  vector<int64_t> results;
   string public_key;
   string secret_key;
   SealBackend seal;
-  vector<uint64_t> values { 1000, 2000 };
-  vector<uint64_t> add_to_values { 20, 50 };
-  vector<uint64_t> add_to_values_again { 10, 20 };
+  vector<int64_t> values { 1000, 2000 };
+  vector<int64_t> add_to_values { 20, 50 };
+  vector<int64_t> add_to_values_again { 10, 20 };
   
   seal.setAlgorithm(SEAL_BFV);
   seal.init();
