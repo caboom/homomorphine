@@ -2,7 +2,10 @@
 
 namespace homomorphine 
 {
-  SealBackend::~SealBackend() { }
+  SealBackend::~SealBackend() { 
+    delete(encoder);
+    delete(keygen);
+  }
 
   void SealBackend::setAlgorithm(string algorithm) 
   {
@@ -106,7 +109,7 @@ namespace homomorphine
   string SealBackend::getPublicKey()
   {
     stringstream key_stream;
-    public_key.save(key_stream);
+    this->public_key.save(key_stream);
 
     return Util::uuencodeStream(key_stream);   
   }
@@ -114,7 +117,7 @@ namespace homomorphine
   string SealBackend::getSecretKey()
   {
     stringstream key_stream;
-    secret_key.save(key_stream);
+    this->secret_key.save(key_stream);
 
     return Util::uuencodeStream(key_stream);   
   }

@@ -10,9 +10,11 @@ namespace homomorphine
   const int Constants::SEAL_SECURITY_LEVEL = 128;
 
   // HELib default values
-  const unsigned long Constants::HELIB_PLAINTEXT_PRIME_MODULUS = 4999;
-  const unsigned long Constants::HELIB_CYCLOTOMIC_POLYNOMIAL = 32109;
+  const unsigned long Constants::HELIB_PLAINTEXT_PRIME_MODULUS = 1021;
   const unsigned long Constants::HELIB_HENSEL_LIFTING = 1;
-  const unsigned long Constants::HELIB_MODULUS_CHAIN_BITS = 300;
-  const unsigned long Constants::HELIB_NUMBER_OF_COLUMNS = 2;
+  const unsigned long Constants::HELIB_MODULUS_CHAIN_BITS = 16;
+  const unsigned long Constants::HELIB_NUMBER_OF_COLUMNS = 3;
+  const unsigned long Constants::HELIB_HAMMING_WEIGHT = 64;
+  const unsigned long Constants::HELIB_SECURITY_LEVEL = 128;
+  const unsigned long Constants::HELIB_DEGREE_OF_FIELD_EXTENSION = 0;
 }

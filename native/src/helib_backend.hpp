@@ -14,6 +14,7 @@
 #include "backend.hpp"
 #include "constants.hpp"
 
+using namespace NTL;
 using namespace std;
 using namespace boost::archive::iterators;
 
@@ -26,8 +27,14 @@ namespace homomorphine
   class HELibBackend : public Backend
   {
     private:
-      FHEcontext* context;
+      std::unique_ptr<FHEcontext> context = nullptr;
+      FHEPubKey* public_key = nullptr;
+      FHESecKey* secret_key = nullptr;
+      ZZX polynomial;
+      std::unique_ptr<Ctxt> cipher = nullptr;
       HELibAlgorithmType algorithm;
+
+      unsigned long hamming_weight;
 
     public:
       ~HELibBackend();

@@ -59,6 +59,17 @@ namespace homomorphine
       const char* getMessage();
   };
 
+  class BackendOperationNotSupported : public std::exception 
+  {
+	  private:
+      const char* msg;
+
+    public:
+      BackendOperationNotSupported(const char* msg);
+
+      const char* getMessage();
+  };
+
 }
 
 #endif

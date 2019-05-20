@@ -3,9 +3,7 @@
 namespace homomorphine 
 {
 
-  HELibBackend::~HELibBackend() { 
-    delete(this->context);
-  }
+  HELibBackend::~HELibBackend() { }
 
   void HELibBackend::setAlgorithm(string algorithm) 
   {
@@ -19,81 +17,163 @@ namespace homomorphine
     unsigned long hensel_lifting;
     unsigned long modulus_chain_bits;
     unsigned long num_columns;
+    unsigned long security_level;
+    unsigned long degree_field_extension;
+    unsigned long min_num_slots;
 
     // plaintext prime modulus
     params.count("prime_modulus") ?
-      prime_modulus = stoi(this->params["prime_modulus"]) :
+      prime_modulus = stoul(this->params["prime_modulus"]) :
       prime_modulus = Constants::HELIB_PLAINTEXT_PRIME_MODULUS;
-
-    // cyclotomic polynomial - defines phi(m)
-    params.count("cyclotomic_polynomial") ?
-      cyclotomic_polynomial = stoi(this->params["cyclotomic_polynomial"]) :
-      cyclotomic_polynomial = Constants::HELIB_CYCLOTOMIC_POLYNOMIAL;
 
     // hensel lifting (default = 1)
     params.count("hensel_lifting") ?
-      hensel_lifting = stoi(this->params["hensel_lifting"]) :
+      hensel_lifting = stoul(this->params["hensel_lifting"]) :
       hensel_lifting = Constants::HELIB_HENSEL_LIFTING;
 
     // number of bits of the modulus chain
     params.count("modulus_chain_bits") ?
-      modulus_chain_bits = stoi(this->params["modulus_chain_bits"]) :
+      modulus_chain_bits = stoul(this->params["modulus_chain_bits"]) :
       modulus_chain_bits = Constants::HELIB_MODULUS_CHAIN_BITS;
 
     // number of columns of key-switching matix (default = 2 or 3)
     params.count("num_columns") ?
-      num_columns = stoi(this->params["num_columns"]) :
+      num_columns = stoul(this->params["num_columns"]) :
       num_columns = Constants::HELIB_NUMBER_OF_COLUMNS;
+
+    // hamming weight for key generation
+    params.count("hamming_weight") ?
+      this->hamming_weight = stoul(this->params["hamming_weight"]) :
+      this->hamming_weight = Constants::HELIB_HAMMING_WEIGHT;
+
+    // hamming weight for key generation
+    params.count("security_level") ?
+      security_level = stoi(this->params["security_level"]) :
+      security_level = Constants::HELIB_SECURITY_LEVEL;
+
+    // hamming weight for key generation
+    params.count("degree_field_extension") ?
+      degree_field_extension = stoi(this->params["degree_field_extension"]) :
+      degree_field_extension = Constants::HELIB_DEGREE_OF_FIELD_EXTENSION;
+    
+    // hamming weight for key generation
+    params.count("min_num_slots") ?
+      min_num_slots = stoi(this->params["min_num_slots"]) :
+      min_num_slots = Constants::HELIB_MINIMUM_NUMBER_OF_SLOTS;
   
-    this->context = new FHEcontext(cyclotomic_polynomial, prime_modulus, hensel_lifting);
+    // initialize proper polynomial modulus, context and key builders
+    cyclotomic_polynomial = FindM(
+      security_level,
+      modulus_chain_bits,
+      num_columns,
+      prime_modulus,
+      degree_field_extension,
+      min_num_slots,
+      0
+    );
+
+    // initialize, or reset context
+    if (this->context != nullptr) {
+      this->context.reset(new FHEcontext(
+        cyclotomic_polynomial, 
+        prime_modulus, 
+        hensel_lifting));
+    } 
+    else {
+      this->context = unique_ptr<FHEcontext>(new FHEcontext(
+      cyclotomic_polynomial, 
+      prime_modulus, 
+      hensel_lifting));
+    }
+
+    // initialize, or reset secret key
+    if (this->secret_key != nullptr) {
+      delete(this->secret_key);
+    } 
+    this->secret_key = new FHESecKey(*this->context);
+    
+    // build chain and init polynomial
     buildModChain(*this->context, modulus_chain_bits, num_columns);
+    this->polynomial = this->context->alMod.getFactorsOverZZ()[0];  
   }
       
   void HELibBackend::generateKeys()
   {
-
+    this->secret_key->GenSecKey(this->hamming_weight);
+    addSome1DMatrices(*this->secret_key);
+    this->public_key = this->secret_key;
   }
       
   string HELibBackend::getPublicKey()
   {
-    return "";
+    stringstream key_stream;
+    writePubKeyBinary(key_stream, *this->public_key);
+
+    return Util::uuencodeStream(key_stream); 
   }
   
   string HELibBackend::getSecretKey()
   {
-    return "";
+    stringstream key_stream;
+    writePubKeyBinary(key_stream, *this->secret_key);
+
+    return Util::uuencodeStream(key_stream); 
   } 
   
   pair<string, string> HELibBackend::getKeys()
   {
-    pair<string, string> keys;
-
-    return keys;
+    return pair<string, string> (this->getPublicKey(), this->getSecretKey());
   } 
   
   void HELibBackend::setPublicKey(string public_key)
   {
+    stringstream key_stream;
+    Util::uudecodeString(public_key, key_stream);
 
+    // cleanup, if necessary
+    if (this->public_key != nullptr) {
+      delete(this->public_key);
+    }
+
+    readPubKeyBinary(key_stream, *this->public_key);
   }
   
   void HELibBackend::setSecretKey(string secret_key)
   {
+    stringstream key_stream;
+    Util::uudecodeString(secret_key, key_stream);
 
+    // cleanup, if necessary
+    if (this->secret_key != nullptr) {
+      delete(this->secret_key);
+    }
+
+    readPubKeyBinary(key_stream, *this->secret_key);
   }
   
   void HELibBackend::setKeys(string public_key, string secret_key)
   {
-
+    this->setPublicKey(public_key);
+    this->setSecretKey(secret_key);
   }
 
   string HELibBackend::getCipher()
   {
-    return "";
+    string cipher;
+    stringstream cipher_stream;
+
+    this->cipher->write(cipher_stream);
+    cipher = Util::uuencodeStream(cipher_stream);
+
+    return cipher; 
   }
 
   void HELibBackend::setCipher(string cipher)
   {
+    stringstream cipher_stream;
 
+    Util::uudecodeString(cipher, cipher_stream);
+    this->cipher->read(cipher_stream);
   }
       
   string HELibBackend::encrypt(vector<int64_t> values)
@@ -103,7 +183,10 @@ namespace homomorphine
       
   string HELibBackend::encrypt(int64_t value)
   {
-    return "";
+    if (this->cipher != nullptr) {
+      this->cipher.reset();
+    }
+    this->cipher = std::unique_ptr<Ctxt>(new Ctxt(*this->public_key));
   }
 
   vector<int64_t> HELibBackend::decryptValues()
@@ -130,7 +213,7 @@ namespace homomorphine
 
   void HELibBackend::negate()
   {
-
+    throw BackendOperationNotSupported("Negate operation not supported for HELib backend.");
   }
 
   void HELibBackend::multiply(vector<int64_t> values)

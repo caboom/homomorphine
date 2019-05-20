@@ -39,4 +39,17 @@ namespace homomorphine {
     return this->msg;
   }  
 
+  //
+  // BackendOperationNotSupported class implementation
+  //
+
+  BackendOperationNotSupported::BackendOperationNotSupported(const char* msg) 
+  {
+    this->msg = msg;
+  }
+
+  const char* BackendOperationNotSupported::getMessage() {
+    return this->msg;
+  }
+
 }

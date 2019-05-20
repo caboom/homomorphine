@@ -64,7 +64,9 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   string secret_key;
   Backend* backend = BackendFactory::create("helib");
 
+  // initialize HELib backend and generate keys
   backend->init();
+  backend->generateKeys();
 
   // cleanup
   delete(backend);
