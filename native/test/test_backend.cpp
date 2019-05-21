@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_CASE( simple_seal_backend_test )
 {
   BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (SEAL implementation)..." );
 
-  int result;
+  long result;
   string public_key;
   string secret_key;
   Backend* backend = BackendFactory::create("seal");
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE( simple_seal_backend_test )
   delete(backend_operations);
 }
 
-// Test SEAL backend
+// Test HELib backend
 BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
 {
   BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (HELib implementation)..." );
@@ -62,12 +62,37 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   int result;
   string public_key;
   string secret_key;
-  Backend* backend = BackendFactory::create("helib");
 
-  // initialize HELib backend and generate keys
+  // initialize HELib backend
+  Backend* backend = BackendFactory::create("helib");
   backend->init();
+
+  // generate keys
   backend->generateKeys();
+  public_key = backend->getPublicKey();
+  secret_key = backend->getSecretKey();
+
+  // encrypt using a new object
+  Backend* backend_operations = BackendFactory::create("helib");
+  backend_operations->init();
+
+  backend_operations->setPublicKey(public_key);
+  backend_operations->encrypt(10000);
+
+  // do some basic numeric operations
+  backend_operations->add(20);
+  //backend_operations->multiply(50);
+  //backend_operations->add(50);
+  //backend_operations->multiply(11);
+
+  // check the results
+  backend_operations->setSecretKey(secret_key);
+  result = backend_operations->decrypt();
+
+  BOOST_TEST_MESSAGE( "VALUE: " );
+  BOOST_TEST_MESSAGE( result );
 
   // cleanup
   delete(backend);
+  delete(backend_operations);
 }

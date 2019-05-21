@@ -94,14 +94,22 @@ namespace homomorphine
     
     // build chain and init polynomial
     buildModChain(*this->context, modulus_chain_bits, num_columns);
-    this->polynomial = this->context->alMod.getFactorsOverZZ()[0];  
+    this->polynomial = this->context->alMod.getFactorsOverZZ()[0]; 
+
+    // generate initial keys
+    this->generateKeys(); 
   }
       
   void HELibBackend::generateKeys()
   {
+    if (this->secret_key != nullptr) {
+      delete(this->secret_key);
+    }
+
+    this->secret_key = new FHESecKey(*this->context);
     this->secret_key->GenSecKey(this->hamming_weight);
-    addSome1DMatrices(*this->secret_key);
     this->public_key = this->secret_key;
+    addSome1DMatrices(*this->secret_key);
   }
       
   string HELibBackend::getPublicKey()
@@ -115,7 +123,7 @@ namespace homomorphine
   string HELibBackend::getSecretKey()
   {
     stringstream key_stream;
-    writePubKeyBinary(key_stream, *this->secret_key);
+    writeSecKeyBinary(key_stream, *this->secret_key);
 
     return Util::uuencodeStream(key_stream); 
   } 
@@ -130,11 +138,6 @@ namespace homomorphine
     stringstream key_stream;
     Util::uudecodeString(public_key, key_stream);
 
-    // cleanup, if necessary
-    if (this->public_key != nullptr) {
-      delete(this->public_key);
-    }
-
     readPubKeyBinary(key_stream, *this->public_key);
   }
   
@@ -143,12 +146,7 @@ namespace homomorphine
     stringstream key_stream;
     Util::uudecodeString(secret_key, key_stream);
 
-    // cleanup, if necessary
-    if (this->secret_key != nullptr) {
-      delete(this->secret_key);
-    }
-
-    readPubKeyBinary(key_stream, *this->secret_key);
+    readSecKeyBinary(key_stream, *this->secret_key);
   }
   
   void HELibBackend::setKeys(string public_key, string secret_key)
@@ -184,11 +182,17 @@ namespace homomorphine
       
   string HELibBackend::encrypt(long value)
   {
+    stringstream cipher_stream;
+
     if (this->cipher != nullptr) {
       this->cipher.reset();
     }
     this->cipher = std::unique_ptr<Ctxt>(new Ctxt(*this->public_key));
-    //this->public_key->Encrypt(*this->cipher, value);
+    this->public_key->Encrypt(*this->cipher, to_ZZX(value));
+
+    this->cipher->write(cipher_stream);
+
+    return Util::uuencodeStream(cipher_stream);
   }
 
   // !!!TODO!!!
@@ -206,6 +210,7 @@ namespace homomorphine
 
     // get the result and convert
     this->secret_key->Decrypt(result_poly, *this->cipher);
+    BOOST_LOG_TRIVIAL(fatal) << "value: " << result_poly[0] << endl;
     conv(result_poly[0], result);
 
     return result;
@@ -214,12 +219,15 @@ namespace homomorphine
   // !!!TODO!!!
   void HELibBackend::add(vector<long> values)
   {
-
+    
   }
 
   void HELibBackend::add(long value)
   {
+    Ctxt value_cipher(*this->public_key);
 
+    this->public_key->Encrypt(value_cipher, to_ZZX(value));
+    *this->cipher += value_cipher;
   }
 
   void HELibBackend::negate()
@@ -235,6 +243,9 @@ namespace homomorphine
 
   void HELibBackend::multiply(long value)
   {
+    Ctxt value_cipher(*this->public_key);
 
+    this->public_key->Encrypt(value_cipher, to_ZZX(value));
+    *this->cipher *= value_cipher;
   }
 }
