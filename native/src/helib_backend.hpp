@@ -49,15 +49,15 @@ namespace homomorphine
       void setKeys(string public_key, string secret_key);
       string getCipher();
       void setCipher(string cipher);
-      string encrypt(vector<int64_t> values); 
-      string encrypt(int64_t value);
-      vector<int64_t> decryptValues();
-      int64_t decrypt();
-      void add(vector<int64_t> values);
-      void add(int64_t value);
+      string encrypt(vector<long> values); 
+      string encrypt(long value);
+      vector<long> decryptValues();
+      long decrypt();
+      void add(vector<long> values);
+      void add(long value);
       void negate();
-      void multiply(vector<int64_t> values);
-      void multiply(int64_t value);
+      void multiply(vector<long> values);
+      void multiply(long value);
   };
 }
 

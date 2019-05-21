@@ -176,37 +176,48 @@ namespace homomorphine
     this->cipher->read(cipher_stream);
   }
       
-  string HELibBackend::encrypt(vector<int64_t> values)
+  // !!!TODO!!!
+  string HELibBackend::encrypt(vector<long> values)
   {
     return "";
   }
       
-  string HELibBackend::encrypt(int64_t value)
+  string HELibBackend::encrypt(long value)
   {
     if (this->cipher != nullptr) {
       this->cipher.reset();
     }
     this->cipher = std::unique_ptr<Ctxt>(new Ctxt(*this->public_key));
+    //this->public_key->Encrypt(*this->cipher, value);
   }
 
-  vector<int64_t> HELibBackend::decryptValues()
+  // !!!TODO!!!
+  vector<long> HELibBackend::decryptValues()
   {
-    vector<int64_t> result;
+    vector<long> result;
 
     return result;
   }
 
-  int64_t HELibBackend::decrypt()
+  long HELibBackend::decrypt()
   {
-    return 0;
+    long result;
+    ZZX result_poly;
+
+    // get the result and convert
+    this->secret_key->Decrypt(result_poly, *this->cipher);
+    conv(result_poly[0], result);
+
+    return result;
   }
 
-  void HELibBackend::add(vector<int64_t> values)
+  // !!!TODO!!!
+  void HELibBackend::add(vector<long> values)
   {
 
   }
 
-  void HELibBackend::add(int64_t value)
+  void HELibBackend::add(long value)
   {
 
   }
@@ -216,12 +227,13 @@ namespace homomorphine
     throw BackendOperationNotSupported("Negate operation not supported for HELib backend.");
   }
 
-  void HELibBackend::multiply(vector<int64_t> values)
+  // !!!TODO!!!
+  void HELibBackend::multiply(vector<long> values)
   {
 
   }
 
-  void HELibBackend::multiply(int64_t value)
+  void HELibBackend::multiply(long value)
   {
 
   }

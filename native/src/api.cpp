@@ -113,7 +113,7 @@ namespace homomorphine
       // encrypt the value using a public key
       if (path[2] == "encrypt") {
         backend->setPublicKey(obj[U("public_key")].as_string());
-        vector<int64_t> values = this->extractJSONValues(obj[U("values")].as_array());
+        vector<long> values = this->extractJSONValues(obj[U("values")].as_array());
 
         response_body[U("encrypted_value")] = json::value(backend->encrypt(values));
 
@@ -150,9 +150,9 @@ namespace homomorphine
     return response;
   }
 
-  vector<int64_t> Api::extractJSONValues(json::array values)
+  vector<long> Api::extractJSONValues(json::array values)
   {
-    vector<int64_t> result;
+    vector<long> result;
 
     for (int i = 0; i< values.size(); i++) {
       result.push_back(stoull(values[i].as_string()));
@@ -161,7 +161,7 @@ namespace homomorphine
     return result; 
   }
 
-  json::value Api::packageJSONValues(vector<int64_t> values)
+  json::value Api::packageJSONValues(vector<long> values)
   {
     json::value result = json::value::array();
 
