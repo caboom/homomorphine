@@ -27,7 +27,7 @@ find_package(cpprestsdk REQUIRED)
 find_package(Boost 1.60 REQUIRED COMPONENTS log program_options unit_test_framework random)
 find_package(Threads)
 find_package(SEAL 3.2.0 EXACT REQUIRED)
-find_package(helib)
+find_library(HELIB_FOUND NAMES helib)
 
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
@@ -56,10 +56,10 @@ if (SEAL_FOUND)
   set (Other_LIBRARIES ${Other_LIBRARIES} SEAL::seal)
 endif()
 
-if (helib_FOUND)
+if (HELIB_FOUND)
   message (">> HELib found - building with HELib")
   set (SRC_FILES ${SRC_FILES} src/helib_backend.cpp)
-  set (Other_LIBRARIES ${Other_LIBRARIES} helib)
+  set (Other_LIBRARIES ${Other_LIBRARIES} helib ntl)
 endif()
 
 # build both service and library
