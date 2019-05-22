@@ -52,6 +52,8 @@ currently supported interface is only RESTFul HTTP interface (HTTPS is coming re
 }
 ```
 
+Homomorphine is not intended to be used as a service (this will be provided through the separate service that will be using [Homomorphine-Go](https://github.com/caboom/homomorphine-go) library), however, it can be practical at the times.
+
 # Warning 
 
 Homomorphine-Go is currently not ready for production use and you should use SEAL with BFV algorithm for optimal results, atm.
