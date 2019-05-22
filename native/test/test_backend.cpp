@@ -91,8 +91,7 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   backend->setCipher(cipher);
   result = backend->decrypt();
 
-  BOOST_TEST_MESSAGE( "VALUE: " );
-  BOOST_TEST_MESSAGE( result );
+  // TODO - still not working properly
 
   // cleanup
   delete(backend);

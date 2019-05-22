@@ -203,6 +203,7 @@ namespace homomorphine
   {
     this->public_key = this->keygen->public_key();
     this->secret_key = this->keygen->secret_key();
+    this->relin_keys = this->keygen->relin_keys(DefaultParams::dbc_max());
   }
 
   string SealBackend::encrypt(vector<long> values)
@@ -254,8 +255,19 @@ namespace homomorphine
   {
     Plaintext plain_matrix;
     CKKSEncoder encoder(this->context);
+    vector<double> double_values(begin(values), end(values));
 
-    // TODO
+    encoder.encode(double_values, this->scale, plain_matrix);
+
+    return plain_matrix;
+  }
+
+  Plaintext SealBackend::encodeWithCKKS(long value)
+  {
+    Plaintext plain_matrix;
+    CKKSEncoder encoder(this->context);
+
+    encoder.encode((double)value, this->scale, plain_matrix);
 
     return plain_matrix;
   }

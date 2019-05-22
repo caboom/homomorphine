@@ -33,6 +33,7 @@ namespace homomorphine
       EncryptionParameters *encryption_params;
       PublicKey public_key;
       SecretKey secret_key;
+      RelinKeys relin_keys;
       Ciphertext cipher;
       double scale;
 
@@ -41,6 +42,7 @@ namespace homomorphine
       void initCKKS();  
       Plaintext encodeWithBFV(vector<long> values);
       Plaintext encodeWithCKKS(vector<long> values);
+      Plaintext encodeWithCKKS(long value);
 
     public:
       ~SealBackend();
