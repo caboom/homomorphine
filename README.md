@@ -7,7 +7,7 @@ Homomorphine is a less stressful interface for various Homomorphic encryption li
 You will have to install at least one of currently supported backend (either [SEAL](https://github.com/microsoft/SEAL) or [HELib](https://github.com/homenc/HElib)) and you will have to have C++14 compliant compiler, Basic Boost package(s) and CMake. On OS/X you can use Homebrew to install these:
 
 ```shell
-$ brew install gcc boost cmake
+brew install gcc boost cmake
 ```
 
 You can compile and install homomorphine using following commands:
