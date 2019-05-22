@@ -4,7 +4,7 @@ Homomorphine is a less stressful interface for various Homomorphic encryption li
 
 # Installation
 
-You will have to install at least one of currently supported backend (either [SEAL](https://github.com/microsoft/SEAL) or [HELib](https://github.com/homenc/HElib)) and you will have to have C++14 compliant compiler, Basic Boost package(s) and CMake. On OS/X you can use Homebrew to install these:
+You will have to install at least one of currently supported backend (either [SEAL](https://github.com/microsoft/SEAL) or [HELib](https://github.com/homenc/HElib)) and you will have to have C++14 compliant compiler (i.e. GCC 8/9), Basic Boost package(s) and CMake. On OS/X 10.14 and later you can use Homebrew to install these:
 
 ```shell
 brew install gcc boost cmake
@@ -28,6 +28,29 @@ ctest --verbose
 # Examples and usage
 
 At the moment it's best to check the tests in the test folder for a basic usage, however, more examples are coming in near future.
+
+# Homomorphine as a service
+
+You can run Homomorphine as a service using homomorphine-service command:
+
+```shell
+./homomorphine-service --config=./config/devel.json
+```
+
+currently supported interface is only RESTFul HTTP interface (HTTPS is coming relatively soon) and configuration is relatively straightforward, i.e.:
+
+```json
+{
+  "interfaces": {
+    "http":{
+      "host":"localhost",
+      "port":"20888",
+      "protocol":"http",
+      "backend":"seal"
+    }
+  }
+}
+```
 
 # Warning 
 
