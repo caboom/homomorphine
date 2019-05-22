@@ -9,16 +9,6 @@ if (POLICY CMP0025)
   cmake_policy(SET CMP0025 NEW)
 endif ()
 
-# morphine version
-set (HOMOMORPHINE_VERSION_MAJOR 0)
-set (HOMOMORPHINE_VERSION_MINOR 1)
-
-# pass the information to source code
-configure_file (
-  "src/info.hpp.in"
-  "src/info.hpp"
-)
-
 # dynamic link to Boost libraries
 ADD_DEFINITIONS(-DBOOST_LOG_DYN_LINK)
 
@@ -54,13 +44,25 @@ if (SEAL_FOUND)
   message (">> SEAL found - building with SEAL")
   set (SRC_FILES ${SRC_FILES} src/seal_backend.cpp)
   set (Other_LIBRARIES ${Other_LIBRARIES} SEAL::seal)
+  set (HAS_SEAL "#define __HAS_SEAL__")
 endif()
 
 if (HELIB_FOUND)
   message (">> HELib found - building with HELib")
   set (SRC_FILES ${SRC_FILES} src/helib_backend.cpp)
   set (Other_LIBRARIES ${Other_LIBRARIES} helib ntl)
+  set (HAS_HELIB "#define __HAS_HELIB__")
 endif()
+
+# set homomorphine version
+set (HOMOMORPHINE_VERSION_MAJOR 0)
+set (HOMOMORPHINE_VERSION_MINOR 1)
+
+# pass the information to source code
+configure_file (
+  "src/info.hpp.in"
+  "src/info.hpp"
+)
 
 # build both service and library
 add_executable(homomorphine-service ${SRC_FILES})

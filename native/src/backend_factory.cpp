@@ -14,12 +14,17 @@ namespace homomorphine
 
   Backend* BackendFactory::create(BackendType type)
   {
+    #ifdef __HAS_SEAL__
     if (type == B_SEAL) {
       return new SealBackend();
-    } 
-    else if (type == B_HELib) {
+    }
+    #endif
+    
+    #ifdef __HAS_HELIB__
+    if (type == B_HELib) {
       return new HELibBackend();
     } 
+    #endif
 
     throw BackendFactoryException("Unknown/unsupported backend type");
   }
@@ -27,8 +32,13 @@ namespace homomorphine
   BackendType BackendFactory::getType(string name) {
     boost::algorithm::to_lower(name);
 
+    #ifdef __HAS_SEAL__
     if (name == "seal") return B_SEAL;
+    #endif
+    
+    #ifdef __HAS_HELIB__
     if (name == "helib") return B_HELib;
+    #endif
 
     return B_UNKNOWN;
   } 

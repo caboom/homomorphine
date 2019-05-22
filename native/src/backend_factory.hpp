@@ -4,9 +4,16 @@
 #include <string>
 #include <boost/algorithm/string.hpp>
 
+#include "info.hpp"
 #include "backend.hpp"
+
+#ifdef __HAS_SEAL__
 #include "seal_backend.hpp"
+#endif
+
+#ifdef __HAS_HELIB__
 #include "helib_backend.hpp"
+#endif
 
 using namespace std;
 

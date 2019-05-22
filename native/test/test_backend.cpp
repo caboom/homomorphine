@@ -9,6 +9,16 @@
 using namespace std;
 using namespace homomorphine;
 
+BOOST_AUTO_TEST_CASE( dummy_test )
+{
+  BOOST_TEST ( true );
+}
+
+//
+// Tests for SEAL backend
+//
+
+#ifdef __HAS_SEAL__
 // Test SEAL backend
 BOOST_AUTO_TEST_CASE( simple_seal_bfv_backend_test )
 {
@@ -95,7 +105,13 @@ BOOST_AUTO_TEST_CASE( simple_seal_ckks_backend_test )
   delete(backend);
   delete(backend_operations);
 }
+#endif
 
+//
+// Tests for HELib backend
+//
+
+#ifdef __HAS_HELIB__
 // Test HELib backend
 BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
 {
@@ -139,3 +155,4 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   delete(backend);
   delete(backend_operations);
 }
+#endif

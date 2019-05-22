@@ -8,12 +8,19 @@
 #include <exception>
 #include <boost/test/included/unit_test.hpp>
 
+#include "../src/info.hpp"
 #include "../src/seal_backend.hpp"
 #include "../src/util.hpp"
 
 using namespace std;
 using namespace homomorphine;
 
+BOOST_AUTO_TEST_CASE( dummy_test )
+{
+  BOOST_TEST ( true );
+}
+
+#ifdef __HAS_SEAL__
 // SEAL backend serialization/deserialization test
 BOOST_AUTO_TEST_CASE( serialization_deserialization_test )
 {
@@ -139,3 +146,4 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
 
   BOOST_TEST ( result == -5510450 );
 }
+#endif
