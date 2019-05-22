@@ -50,7 +50,7 @@ namespace homomorphine
     // check if there is poly modulus degree option
     params.count("poly_modulus_degree") ?
       this->encryption_params->set_poly_modulus_degree(stoi(this->params["poly_modulus_degree"])) :
-      this->encryption_params->set_poly_modulus_degree(Constants::SEAL_POLY_MODULUS_DEGREE);
+      this->encryption_params->set_poly_modulus_degree(Constants::SEAL_POLY_MODULUS_DEGREE_BFV);
 
     // check if there is coefficient modulus option
     params.count("coeff_modulus") ?
@@ -93,7 +93,7 @@ namespace homomorphine
     // check if there is poly modulus degree option
     params.count("poly_modulus_degree") ?
       this->encryption_params->set_poly_modulus_degree(stoi(this->params["poly_modulus_degree"])) :
-      this->encryption_params->set_poly_modulus_degree(Constants::SEAL_POLY_MODULUS_DEGREE);
+      this->encryption_params->set_poly_modulus_degree(Constants::SEAL_POLY_MODULUS_DEGREE_CKKS);
 
     // check if there is coefficient modulus option
     params.count("coeff_modulus") ?
@@ -101,8 +101,6 @@ namespace homomorphine
       this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(Constants::SEAL_COEFF_MODULUS));
 
     this->context = SEALContext::Create(*this->encryption_params);
-
-    //this->encoder = new CKKSEncoder(context);
     this->keygen = new KeyGenerator(context);
   }
 
@@ -230,9 +228,15 @@ namespace homomorphine
     stringstream cipher_stream;
     string encrypted_value;
     Encryptor encryptor(this->context, this->public_key);
-    IntegerEncoder encoder(this->context);
 
-    encryptor.encrypt(encoder.encode((int64_t)value), this->cipher);
+    // encode with proper encode (BFV is default)
+    if (this->algorithm == SEAL_CKKS) {
+      encryptor.encrypt(this->encodeWithCKKS(value), this->cipher);
+    }
+    else {
+      encryptor.encrypt(this->encodeWithBFV(value), this->cipher);
+    }
+
     this->cipher.save(cipher_stream);
     encrypted_value = Util::uuencodeStream(cipher_stream);
 
@@ -249,6 +253,12 @@ namespace homomorphine
     batch_encoder.encode(int64_values, plain_matrix);
 
     return plain_matrix;
+  }
+
+  Plaintext SealBackend::encodeWithBFV(long value)
+  {
+    IntegerEncoder encoder(this->context);
+    return encoder.encode((int64_t)value);
   }
 
   Plaintext SealBackend::encodeWithCKKS(vector<long> values)
@@ -292,8 +302,8 @@ namespace homomorphine
 
   long SealBackend::decrypt()
   {
+    long result;
     Plaintext plain_result;
-    IntegerEncoder encoder(this->context);
     Decryptor decryptor(this->context, this->secret_key);
 
     decryptor.decrypt(
@@ -301,6 +311,28 @@ namespace homomorphine
       plain_result
     );
 
+    // decode with either CKKS or BFV Integer decoder
+    if (this->algorithm == SEAL_CKKS) {
+      result = this->decodeWithCKKS(plain_result);
+    }
+    else {
+      result = this->decodeWithBFV(plain_result); 
+    }
+
+    return result;
+  }
+
+  long SealBackend::decodeWithCKKS(Plaintext plain_result) {
+    vector<double> results;
+    CKKSEncoder encoder(this->context);
+
+    encoder.decode(plain_result, results);
+
+    return lround(results[0]);
+  }
+
+  long SealBackend::decodeWithBFV(Plaintext plain_result) {
+    IntegerEncoder encoder(this->context);
     return encoder.decode_int64(plain_result);
   }
 
@@ -317,12 +349,18 @@ namespace homomorphine
 
   void SealBackend::add(long value)
   {
+    Plaintext plaintext_value;
+    Ciphertext encrypted_value;
     Evaluator evaluator(this->context);
-    IntegerEncoder encoder(this->context);
     Encryptor encryptor(this->context, this->public_key);
 
-    Ciphertext encrypted_value;
-    Plaintext plaintext_value = encoder.encode((int64_t)value);
+    // encode either with CKKS or BFV
+    if (this->algorithm == SEAL_CKKS) {
+      plaintext_value = this->encodeWithCKKS(value);
+    }
+    else {
+      plaintext_value = this->encodeWithBFV(value);
+    } 
     
     encryptor.encrypt(plaintext_value, encrypted_value);
     evaluator.add_inplace(this->cipher, encrypted_value);
@@ -351,12 +389,18 @@ namespace homomorphine
 
   void SealBackend::multiply(long value)
   {
+    Plaintext plaintext_value;
+    Ciphertext encrypted_value;
     Evaluator evaluator(this->context);
-    IntegerEncoder encoder(this->context);
     Encryptor encryptor(this->context, this->public_key);
 
-    Ciphertext encrypted_value;
-    Plaintext plaintext_value = encoder.encode((int64_t)value);
+    // encode either with CKKS or BFV
+    if (this->algorithm == SEAL_CKKS) {
+      plaintext_value = this->encodeWithCKKS(value);
+    }
+    else {
+      plaintext_value = this->encodeWithBFV(value);
+    } 
 
     encryptor.encrypt(plaintext_value, encrypted_value);
     evaluator.multiply_inplace(this->cipher, encrypted_value);

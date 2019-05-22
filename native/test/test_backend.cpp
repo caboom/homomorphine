@@ -10,9 +10,9 @@ using namespace std;
 using namespace homomorphine;
 
 // Test SEAL backend
-BOOST_AUTO_TEST_CASE( simple_seal_backend_test )
+BOOST_AUTO_TEST_CASE( simple_seal_bfv_backend_test )
 {
-  BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (SEAL implementation)..." );
+  BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (SEAL implementation with BFV)..." );
 
   long result;
   string public_key;
@@ -48,6 +48,48 @@ BOOST_AUTO_TEST_CASE( simple_seal_backend_test )
   result = backend_operations->decrypt();
 
   BOOST_TEST ( result == -5510450 );
+
+  // cleanup
+  delete(backend);
+  delete(backend_operations);
+}
+
+BOOST_AUTO_TEST_CASE( simple_seal_ckks_backend_test )
+{
+  BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (SEAL implementation with CKKS)..." );
+
+  long result;
+  string public_key;
+  string secret_key;
+  Backend* backend = BackendFactory::create("seal");
+
+  backend->setAlgorithm("CKKS");
+  backend->init();
+
+  // generate uuencoded keys
+  backend->generateKeys();
+  public_key = backend->getPublicKey();
+  secret_key = backend->getSecretKey();
+
+  // encrypt using a new object
+  Backend* backend_operations = BackendFactory::create("seal");
+
+  backend_operations->setAlgorithm("CKKS");
+  backend_operations->init();
+
+  backend_operations->setPublicKey(public_key);
+  backend_operations->encrypt(10);
+
+  // do some basic numeric operations
+  backend_operations->add(20);
+  backend_operations->negate();
+  backend_operations->add(50);
+
+  // check the results
+  backend_operations->setSecretKey(secret_key);
+  result = backend_operations->decrypt();
+
+  BOOST_TEST ( result == 20 );
 
   // cleanup
   delete(backend);

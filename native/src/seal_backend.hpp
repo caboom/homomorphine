@@ -41,8 +41,12 @@ namespace homomorphine
       void initBFV();  
       void initCKKS();  
       Plaintext encodeWithBFV(vector<long> values);
+      Plaintext encodeWithBFV(long value);
       Plaintext encodeWithCKKS(vector<long> values);
       Plaintext encodeWithCKKS(long value);
+      long decodeWithBFV(Plaintext plain_result);
+      long decodeWithCKKS(Plaintext plain_result);
+
 
     public:
       ~SealBackend();

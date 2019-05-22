@@ -9,7 +9,8 @@ namespace homomorphine
 {
   class Constants {
     public:
-      static const int SEAL_POLY_MODULUS_DEGREE = 4096;
+      static const int SEAL_POLY_MODULUS_DEGREE_BFV = 4096;
+      static const int SEAL_POLY_MODULUS_DEGREE_CKKS = 8192;
       static const uint64_t SEAL_COEFF_MODULUS = 4096;
       static const int SEAL_PLAIN_MODULUS = 40961;
       static constexpr double SEAL_CKKS_SCALE = 1152921504606846976.0; // 2.0 ^ 60
