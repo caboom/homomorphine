@@ -15,10 +15,10 @@ namespace homomorphine
       static constexpr double SEAL_CKKS_SCALE = 1152921504606846976.0; // 2.0 ^ 60
       static const int SEAL_SECURITY_LEVEL = 128;
       
-      static const unsigned long HELIB_PLAINTEXT_PRIME_MODULUS = 1021;
+      static const unsigned long HELIB_PLAINTEXT_PRIME_MODULUS = 997;
       static const unsigned long HELIB_HENSEL_LIFTING = 1;
-      static const unsigned long HELIB_MODULUS_CHAIN_BITS = 16;
-      static const unsigned long HELIB_NUMBER_OF_COLUMNS = 3;
+      static const unsigned long HELIB_MODULUS_CHAIN_BITS = 32;
+      static const unsigned long HELIB_NUMBER_OF_COLUMNS = 2;
       static const unsigned long HELIB_HAMMING_WEIGHT = 64;
       static const unsigned long HELIB_SECURITY_LEVEL = 128;
       static const unsigned long HELIB_DEGREE_OF_FIELD_EXTENSION = 0;

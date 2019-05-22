@@ -27,11 +27,11 @@ namespace homomorphine
   class HELibBackend : public Backend
   {
     private:
-      std::unique_ptr<FHEcontext> context = nullptr;
+      FHEcontext* context = nullptr;
       FHEPubKey* public_key = nullptr;
       FHESecKey* secret_key = nullptr;
       ZZX polynomial;
-      std::unique_ptr<Ctxt> cipher = nullptr;
+      Ctxt* cipher = nullptr;
       HELibAlgorithmType algorithm;
 
       unsigned long hamming_weight;

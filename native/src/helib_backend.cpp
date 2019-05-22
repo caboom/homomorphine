@@ -74,29 +74,19 @@ namespace homomorphine
 
     // initialize, or reset context
     if (this->context != nullptr) {
-      this->context.reset(new FHEcontext(
-        cyclotomic_polynomial, 
-        prime_modulus, 
-        hensel_lifting));
+      delete(context);
     } 
-    else {
-      this->context = unique_ptr<FHEcontext>(new FHEcontext(
+    this->context = new FHEcontext(
       cyclotomic_polynomial, 
       prime_modulus, 
-      hensel_lifting));
-    }
+      hensel_lifting
+    );
 
-    // initialize, or reset secret key
-    if (this->secret_key != nullptr) {
-      delete(this->secret_key);
-    } 
-    this->secret_key = new FHESecKey(*this->context);
-    
     // build chain and init polynomial
     buildModChain(*this->context, modulus_chain_bits, num_columns);
     this->polynomial = this->context->alMod.getFactorsOverZZ()[0]; 
 
-    // generate initial keys
+    // initialize key pair
     this->generateKeys(); 
   }
       
@@ -108,8 +98,8 @@ namespace homomorphine
 
     this->secret_key = new FHESecKey(*this->context);
     this->secret_key->GenSecKey(this->hamming_weight);
-    this->public_key = this->secret_key;
     addSome1DMatrices(*this->secret_key);
+    this->public_key = &*this->secret_key;
   }
       
   string HELibBackend::getPublicKey()
@@ -170,6 +160,10 @@ namespace homomorphine
   {
     stringstream cipher_stream;
 
+    if (this->cipher == nullptr) {
+      this->cipher = new Ctxt(*this->public_key);
+    }
+
     Util::uudecodeString(cipher, cipher_stream);
     this->cipher->read(cipher_stream);
   }
@@ -183,15 +177,23 @@ namespace homomorphine
   string HELibBackend::encrypt(long value)
   {
     stringstream cipher_stream;
+    const EncryptedArray& ea = *(this->public_key->getContext().ea);
+    vector<long> values(ea.size());
 
+    // set only first value
+    values[0] = value;
+
+    // reset cipher if already set
     if (this->cipher != nullptr) {
-      this->cipher.reset();
+      delete(this->cipher);
     }
-    this->cipher = std::unique_ptr<Ctxt>(new Ctxt(*this->public_key));
-    this->public_key->Encrypt(*this->cipher, to_ZZX(value));
+    this->cipher = new Ctxt(*this->public_key);
 
+    // encrypt the value
+    ea.encrypt(*this->cipher, *this->public_key, values);
+
+    // return uuencoded cipher string
     this->cipher->write(cipher_stream);
-
     return Util::uuencodeStream(cipher_stream);
   }
 
@@ -206,14 +208,12 @@ namespace homomorphine
   long HELibBackend::decrypt()
   {
     long result;
-    ZZX result_poly;
+    const EncryptedArray& ea = *(this->secret_key->getContext().ea);
+    vector<long> values(ea.size());
 
-    // get the result and convert
-    this->secret_key->Decrypt(result_poly, *this->cipher);
-    BOOST_LOG_TRIVIAL(fatal) << "value: " << result_poly[0] << endl;
-    conv(result_poly[0], result);
+    ea.decrypt(*this->cipher, *this->secret_key, values);
 
-    return result;
+    return values[0];
   }
 
   // !!!TODO!!!
@@ -225,9 +225,16 @@ namespace homomorphine
   void HELibBackend::add(long value)
   {
     Ctxt value_cipher(*this->public_key);
+    const EncryptedArray& ea = *(this->public_key->getContext().ea);
+    vector<long> values(ea.size());
 
-    this->public_key->Encrypt(value_cipher, to_ZZX(value));
-    *this->cipher += value_cipher;
+    // set the first element of the array to value
+    values[0] = value;
+
+    // encrypt the values vector
+    ea.encrypt(value_cipher, *this->public_key, values);
+
+    this->cipher->addCtxt(value_cipher);
   }
 
   void HELibBackend::negate()
@@ -244,8 +251,15 @@ namespace homomorphine
   void HELibBackend::multiply(long value)
   {
     Ctxt value_cipher(*this->public_key);
+    const EncryptedArray& ea = *(this->public_key->getContext().ea);
+    vector<long> values(ea.size());
 
-    this->public_key->Encrypt(value_cipher, to_ZZX(value));
-    *this->cipher *= value_cipher;
+    // set the first element of the array to value
+    values[0] = value;
+
+    // encrypt the values vector
+    ea.encrypt(value_cipher, *this->public_key, values);
+
+    this->cipher->multiplyBy(value_cipher);
   }
 }

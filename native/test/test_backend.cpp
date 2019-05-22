@@ -60,6 +60,7 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (HELib implementation)..." );
 
   int result;
+  string cipher;
   string public_key;
   string secret_key;
 
@@ -71,23 +72,24 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   backend->generateKeys();
   public_key = backend->getPublicKey();
   secret_key = backend->getSecretKey();
+  cipher = backend->encrypt(10);
 
   // encrypt using a new object
   Backend* backend_operations = BackendFactory::create("helib");
   backend_operations->init();
 
   backend_operations->setPublicKey(public_key);
-  backend_operations->encrypt(10000);
+  backend_operations->setCipher(cipher);
 
   // do some basic numeric operations
-  backend_operations->add(20);
-  //backend_operations->multiply(50);
-  //backend_operations->add(50);
-  //backend_operations->multiply(11);
+  backend_operations->add(10);
+  backend_operations->multiply(5);
+
+  cipher = backend_operations->getCipher();
 
   // check the results
-  backend_operations->setSecretKey(secret_key);
-  result = backend_operations->decrypt();
+  backend->setCipher(cipher);
+  result = backend->decrypt();
 
   BOOST_TEST_MESSAGE( "VALUE: " );
   BOOST_TEST_MESSAGE( result );
