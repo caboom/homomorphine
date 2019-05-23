@@ -7,9 +7,9 @@ namespace homomorphine
   // BackendFactory class implementation
   //
 
-  Backend* BackendFactory::create(string type)
+  Backend* BackendFactory::create(string name)
   {
-    return create(getType(type));
+    return create(getType(name));
   }
 
   Backend* BackendFactory::create(BackendType type)
@@ -19,7 +19,7 @@ namespace homomorphine
       return new SealBackend();
     }
     #endif
-    
+
     #ifdef __HAS_HELIB__
     if (type == B_HELib) {
       return new HELibBackend();

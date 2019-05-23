@@ -19,18 +19,53 @@ using namespace std;
 
 namespace homomorphine 
 {
+  //! Type of Homomorphic Backend (Currently supported: SEAL, HELib)
   enum BackendType { 
-    B_SEAL, B_HELib, B_UNKNOWN
+    B_SEAL,    /*!< SEAL Backend */
+    B_HELib,   /*!< HELib Backend */
+    B_UNKNOWN  /*!< Unknown backend - usually represents an error in resolving the backend */
   }; 
 
+  /**! /brief Factory for generating specific homomorphic backend.
+   *  
+   * BackendFactory is generating a specific homomorphic backend 
+   * and interface that each backend need to provide is defined by 
+   * Backend class.  
+   */
   class BackendFactory
   {
     public:
-      static Backend* create(string type);
+      
+      /**!
+       * Create a backend using the name of the backend.
+       * 
+       * \param name string literal with name of the backend
+       * \return specific implementation of Backend interface
+       */
+      static Backend* create(string name);
+
+      /**!
+       * Create a backend using the backend type.
+       * 
+       * \param type backend type
+       * \return specific implementation of Backend interface
+       */
       static Backend* create(BackendType type);
+
+      /**!
+       * Resolves the type of the backend using the name of the backend.
+       * 
+       * \param name string literal with name of the backend
+       * \return backend type
+       */
       static BackendType getType(string name);
   };
 
+  /**! /brief BackendFactory exception.
+   * 
+   * Thrown in case BackendFactory can't provide, or resolve a
+   * specific backend.
+   */
   class BackendFactoryException : public std::exception 
   {
 	  private:
