@@ -14,14 +14,13 @@
 #include "backend.hpp"
 #include "backend_factory.hpp"
 
-using namespace web::http;
-using namespace web;
-
 using namespace std;
+using namespace web;
+using namespace web::http;
 
 namespace homomorphine 
 {
-  /**! /brief RESTFul API response.
+  /*! /brief RESTFul API response.
    *  
    *  Simple API response wrapper used by Homomorphine RESTFul API
    */
@@ -33,28 +32,28 @@ namespace homomorphine
 
     public:
 
-      /**!
+      /*!
        * Returns the status of the response.
        * 
        * \return response status code
        */
       status_code getStatus();
 
-      /**!
+      /*!
        * Sets the status of the response.
        * 
        * \param status API response status code
        */
       void setStatus(status_code status);
 
-      /**!
+      /*!
        * Returns the full JSON content of the API response .
        * 
        * \return JSON object of API response
        */
       json::value getContent();
       
-      /**!
+      /*!
        * Sets the content of the API response in the format of JSON object.
        * 
        * \param content JSON object 
@@ -62,7 +61,7 @@ namespace homomorphine
       void setContent(json::value &content);
   };
 
-  /**! /brief Provides a RESTFul API interface.
+  /*! /brief Provides a RESTFul API interface.
    *   
    * This class provides a RESTFul API interface for Homomorphine,
    * it is very simple and does not expose a full functionality of 
@@ -74,14 +73,14 @@ namespace homomorphine
   class Api
   {
     private:
-      /**!
+      /*!
        * Extracts the vector of values from JSON array.
        *  
        * \param values JSON array of values
        * \return vector of values extracted from JSON array
        */
       vector<long> extractJSONValues(json::array values);
-      /**!
+      /*!
        * Packages JSON array from the vector of vcalues.
        *  
        * \param values vector of values
@@ -91,7 +90,7 @@ namespace homomorphine
 
     public:
 
-      /**!
+      /*!
        * Handler for processing GET HTTP requests.
        * 
        * \param path full path of the HTTP request
@@ -99,7 +98,7 @@ namespace homomorphine
        */
       ApiResponse get(vector<string> &path);
 
-      /**!
+      /*!
        * Handler for processing POST HTTP requests.
        * 
        * \param path full path of the HTTP request
