@@ -8,10 +8,11 @@ extern "C" {
 #include <stdint.h>
 #include <stddef.h>
 
-typedef struct uint_array_t {
-  uint64_t* elements;
+//! Wrapper around the array, or vector of values
+typedef struct long_array_t {
+  long* elements;
   size_t count;
-} uint_array_t;
+} long_array_t;
 
 #ifdef __cplusplus
 }

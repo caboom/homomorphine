@@ -18,22 +18,38 @@ namespace pt = boost::property_tree;
 
 namespace homomorphine 
 {
-  struct debug_settings
-  {
-    
-  };
-
+  /*! /brief Configuration for Homomorphine service.
+   *
+   * This class provides a configuration for Homomorphine service wrapper.
+   */
   class Config 
   {
     private: 
-      map<string, Interface> interfaces;
+      map<string, Interface> interfaces;                   /*!< map of interfaces service is supposed to run on */
       friend ostream& operator<<(ostream&, const Config&);
 
     public:
-      ~Config();
+      ~Config(); 
 
+      /*!
+       * Initialize configuration from JSON file.
+       * 
+       * \param file path to JSON file
+       */
       void init(string &file);
+
+      /*!
+       * Returns the configured interfaces.
+       * 
+       * \return map of interfaces
+       */
       map<string, Interface> getInterfaces();
+
+      /*!
+       * Returns the number of interfaces.
+       * 
+       * \return number of interfaces
+       */
       int interfacesSize();
   };
 }

@@ -162,7 +162,7 @@ namespace homomorphine
        */
       virtual void multiply(vector<long> values) = 0;
 
-       /*!
+      /*!
        * Multiplies the value with the encrypted value
        * 
        * \param value value

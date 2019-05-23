@@ -7,6 +7,11 @@
 
 namespace homomorphine 
 {
+  /*! /brief Default value container
+   *
+   *  Provides default values for certain parameters used by specific 
+   *  homomorphic encryption backends
+   */
   class Constants {
     public:
       static const int SEAL_POLY_MODULUS_DEGREE_BFV = 4096;
