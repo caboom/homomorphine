@@ -1,0 +1,4 @@
+*.cpp linguist-detectable=true
+*.hpp linguist-detectable=true
+*.html linguist-detectable=false
+*.xml linguist-detectable=false
