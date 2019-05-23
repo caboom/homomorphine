@@ -69,7 +69,7 @@ namespace homomorphine
   class BackendFactoryException : public std::exception 
   {
 	  private:
-      const char* msg;
+      const char* msg; /*!< exception message */
 
     public:
       BackendFactoryException(const char* msg);
