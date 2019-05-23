@@ -25,9 +25,9 @@ You can run the test suit using ctest:
 ctest --verbose
 ```
 
-# Examples and usage
+# Examples and documentation
 
-At the moment it's best to check the tests in the test folder for a basic usage, however, more examples are coming in near future.
+At the moment it's best to check the tests in the test folder for a basic usage, however, more examples are coming in near future. Documentation can be found at [codedocs](https://codedocs.xyz/caboom/homomorphine/).
 
 # Homomorphine as a service
 
