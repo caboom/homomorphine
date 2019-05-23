@@ -1,0 +1,61 @@
+\hypertarget{classhomomorphine_1_1_api}{}\section{homomorphine\+::Api Class Reference}
+\label{classhomomorphine_1_1_api}\index{homomorphine::Api@{homomorphine::Api}}
+
+
+{\ttfamily \#include $<$api.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classhomomorphine_1_1_api_response}{Api\+Response}} \mbox{\hyperlink{classhomomorphine_1_1_api_aa595d352d3494870f5e5bd7262be90c2}{get}} (vector$<$ string $>$ \&path)
+\item 
+\mbox{\hyperlink{classhomomorphine_1_1_api_response}{Api\+Response}} \mbox{\hyperlink{classhomomorphine_1_1_api_ab538a352f9ef7e92885bdd25a2f3dedd}{post}} (vector$<$ string $>$ \&path, string body)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+/brief Provides a R\+E\+S\+T\+Ful A\+PI interface.
+
+This class provides a R\+E\+S\+T\+Ful A\+PI interface for Homomorphine, it is very simple and does not expose a full functionality of Homomorphine, but rather selected group of functionalities. It is not advised to use this interface except for testing Homomorphine functionalities (R\+E\+S\+T\+Ful interface will be provided by the Golang wrapper around Homomorphine). 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classhomomorphine_1_1_api_aa595d352d3494870f5e5bd7262be90c2}\label{classhomomorphine_1_1_api_aa595d352d3494870f5e5bd7262be90c2}} 
+\index{homomorphine::Api@{homomorphine::Api}!get@{get}}
+\index{get@{get}!homomorphine::Api@{homomorphine::Api}}
+\subsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classhomomorphine_1_1_api_response}{Api\+Response}} homomorphine\+::\+Api\+::get (\begin{DoxyParamCaption}\item[{vector$<$ string $>$ \&}]{path }\end{DoxyParamCaption})}
+
+Handler for processing G\+ET H\+T\+TP requests.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & full path of the H\+T\+TP request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A\+PI response 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classhomomorphine_1_1_api_ab538a352f9ef7e92885bdd25a2f3dedd}\label{classhomomorphine_1_1_api_ab538a352f9ef7e92885bdd25a2f3dedd}} 
+\index{homomorphine::Api@{homomorphine::Api}!post@{post}}
+\index{post@{post}!homomorphine::Api@{homomorphine::Api}}
+\subsubsection{\texorpdfstring{post()}{post()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classhomomorphine_1_1_api_response}{Api\+Response}} homomorphine\+::\+Api\+::post (\begin{DoxyParamCaption}\item[{vector$<$ string $>$ \&}]{path,  }\item[{string}]{body }\end{DoxyParamCaption})}
+
+Handler for processing P\+O\+ST H\+T\+TP requests.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & full path of the H\+T\+TP request \\
+\hline
+{\em body} & content of the body of H\+T\+TP requrest \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A\+PI response 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/api.\+hpp\item 
+src/api.\+cpp\end{DoxyCompactItemize}

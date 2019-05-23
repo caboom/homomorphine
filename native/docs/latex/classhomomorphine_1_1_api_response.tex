@@ -1,0 +1,79 @@
+\hypertarget{classhomomorphine_1_1_api_response}{}\section{homomorphine\+::Api\+Response Class Reference}
+\label{classhomomorphine_1_1_api_response}\index{homomorphine::ApiResponse@{homomorphine::ApiResponse}}
+
+
+{\ttfamily \#include $<$api.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+status\+\_\+code \mbox{\hyperlink{classhomomorphine_1_1_api_response_abe5d8dbece3cffee08905bb9389a8fd0}{get\+Status}} ()
+\item 
+void \mbox{\hyperlink{classhomomorphine_1_1_api_response_a3823ad464f6011397be80c62e391171c}{set\+Status}} (status\+\_\+code status)
+\item 
+json\+::value \mbox{\hyperlink{classhomomorphine_1_1_api_response_ae816a0c652d2cd47d88a67dda85024c4}{get\+Content}} ()
+\item 
+void \mbox{\hyperlink{classhomomorphine_1_1_api_response_aee304405cacc0b976145d2a3465ea7e5}{set\+Content}} (json\+::value \&content)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+/brief R\+E\+S\+T\+Ful A\+PI response.
+
+Simple A\+PI response wrapper used by Homomorphine R\+E\+S\+T\+Ful A\+PI 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classhomomorphine_1_1_api_response_ae816a0c652d2cd47d88a67dda85024c4}\label{classhomomorphine_1_1_api_response_ae816a0c652d2cd47d88a67dda85024c4}} 
+\index{homomorphine::ApiResponse@{homomorphine::ApiResponse}!getContent@{getContent}}
+\index{getContent@{getContent}!homomorphine::ApiResponse@{homomorphine::ApiResponse}}
+\subsubsection{\texorpdfstring{getContent()}{getContent()}}
+{\footnotesize\ttfamily json\+::value homomorphine\+::\+Api\+Response\+::get\+Content (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the full J\+S\+ON content of the A\+PI response .
+
+\begin{DoxyReturn}{Returns}
+J\+S\+ON object of A\+PI response 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classhomomorphine_1_1_api_response_abe5d8dbece3cffee08905bb9389a8fd0}\label{classhomomorphine_1_1_api_response_abe5d8dbece3cffee08905bb9389a8fd0}} 
+\index{homomorphine::ApiResponse@{homomorphine::ApiResponse}!getStatus@{getStatus}}
+\index{getStatus@{getStatus}!homomorphine::ApiResponse@{homomorphine::ApiResponse}}
+\subsubsection{\texorpdfstring{getStatus()}{getStatus()}}
+{\footnotesize\ttfamily status\+\_\+code homomorphine\+::\+Api\+Response\+::get\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the status of the response.
+
+\begin{DoxyReturn}{Returns}
+response status code 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classhomomorphine_1_1_api_response_aee304405cacc0b976145d2a3465ea7e5}\label{classhomomorphine_1_1_api_response_aee304405cacc0b976145d2a3465ea7e5}} 
+\index{homomorphine::ApiResponse@{homomorphine::ApiResponse}!setContent@{setContent}}
+\index{setContent@{setContent}!homomorphine::ApiResponse@{homomorphine::ApiResponse}}
+\subsubsection{\texorpdfstring{setContent()}{setContent()}}
+{\footnotesize\ttfamily void homomorphine\+::\+Api\+Response\+::set\+Content (\begin{DoxyParamCaption}\item[{json\+::value \&}]{content }\end{DoxyParamCaption})}
+
+Sets the content of the A\+PI response in the format of J\+S\+ON object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em content} & J\+S\+ON object \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classhomomorphine_1_1_api_response_a3823ad464f6011397be80c62e391171c}\label{classhomomorphine_1_1_api_response_a3823ad464f6011397be80c62e391171c}} 
+\index{homomorphine::ApiResponse@{homomorphine::ApiResponse}!setStatus@{setStatus}}
+\index{setStatus@{setStatus}!homomorphine::ApiResponse@{homomorphine::ApiResponse}}
+\subsubsection{\texorpdfstring{setStatus()}{setStatus()}}
+{\footnotesize\ttfamily void homomorphine\+::\+Api\+Response\+::set\+Status (\begin{DoxyParamCaption}\item[{status\+\_\+code}]{status }\end{DoxyParamCaption})}
+
+Sets the status of the response.
+
+
+\begin{DoxyParams}{Parameters}
+{\em status} & A\+PI response status code \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/api.\+hpp\item 
+src/api.\+cpp\end{DoxyCompactItemize}

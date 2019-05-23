@@ -1,0 +1,58 @@
+\hypertarget{classhomomorphine_1_1_util}{}\section{homomorphine\+::Util Class Reference}
+\label{classhomomorphine_1_1_util}\index{homomorphine::Util@{homomorphine::Util}}
+
+
+{\ttfamily \#include $<$util.\+hpp$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static const string \mbox{\hyperlink{classhomomorphine_1_1_util_a26f29995aa48f4374993ec4afeca2ac8}{uuencode\+Stream}} (stringstream \&string\+\_\+stream)
+\item 
+static const void \mbox{\hyperlink{classhomomorphine_1_1_util_aba5af6d7356aca8c70ae4fb1e5d36b70}{uudecode\+String}} (string content, stringstream \&string\+\_\+stream)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+/brief Utility class
+
+This class provides a various utility functions. At this moment it supports U\+U\+Encoding/\+U\+U\+Decoding of the binary string streams used to serialize various binary objects for external usage and standardization of the interface. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classhomomorphine_1_1_util_aba5af6d7356aca8c70ae4fb1e5d36b70}\label{classhomomorphine_1_1_util_aba5af6d7356aca8c70ae4fb1e5d36b70}} 
+\index{homomorphine::Util@{homomorphine::Util}!uudecodeString@{uudecodeString}}
+\index{uudecodeString@{uudecodeString}!homomorphine::Util@{homomorphine::Util}}
+\subsubsection{\texorpdfstring{uudecodeString()}{uudecodeString()}}
+{\footnotesize\ttfamily const void homomorphine\+::\+Util\+::uudecode\+String (\begin{DoxyParamCaption}\item[{string}]{content,  }\item[{stringstream \&}]{string\+\_\+stream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Decodes U\+U\+Encoded string to a binary string stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em content} & U\+U\+E\+Ncoded string \\
+\hline
+{\em string\+\_\+stream} & stream containing a decoded stream \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classhomomorphine_1_1_util_a26f29995aa48f4374993ec4afeca2ac8}\label{classhomomorphine_1_1_util_a26f29995aa48f4374993ec4afeca2ac8}} 
+\index{homomorphine::Util@{homomorphine::Util}!uuencodeStream@{uuencodeStream}}
+\index{uuencodeStream@{uuencodeStream}!homomorphine::Util@{homomorphine::Util}}
+\subsubsection{\texorpdfstring{uuencodeStream()}{uuencodeStream()}}
+{\footnotesize\ttfamily const string homomorphine\+::\+Util\+::uuencode\+Stream (\begin{DoxyParamCaption}\item[{stringstream \&}]{string\+\_\+stream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Encodes the binary string stream to string
+
+
+\begin{DoxyParams}{Parameters}
+{\em string\+\_\+stream} & string stream to be U\+U\+Encoded \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+U\+U\+Encoded string 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/util.\+hpp\item 
+src/util.\+cpp\end{DoxyCompactItemize}

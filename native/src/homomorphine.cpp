@@ -115,7 +115,10 @@ int main (int argc, char *argv[])
   config.init((*options)["config"]);
 
   // start morphine
-  BOOST_LOG_TRIVIAL(info) << "Starting Homomorphine version " << HOMOMORPHINE_VERSION_MAJOR << "." << HOMOMORPHINE_VERSION_MINOR;  
+  BOOST_LOG_TRIVIAL(info) << "Starting Homomorphine version " 
+    << HOMOMORPHINE_VERSION_MAJOR << "." 
+    << HOMOMORPHINE_VERSION_MINOR << "."
+    << HOMOMORPHINE_VERSION_PATCH;  
 
   server.init(config);
   server.run();

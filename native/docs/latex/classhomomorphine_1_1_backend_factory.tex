@@ -1,0 +1,77 @@
+\hypertarget{classhomomorphine_1_1_backend_factory}{}\section{homomorphine\+::Backend\+Factory Class Reference}
+\label{classhomomorphine_1_1_backend_factory}\index{homomorphine::BackendFactory@{homomorphine::BackendFactory}}
+
+
+{\ttfamily \#include $<$backend\+\_\+factory.\+hpp$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classhomomorphine_1_1_backend}{Backend}} $\ast$ \mbox{\hyperlink{classhomomorphine_1_1_backend_factory_a9ae5c335f385dffda0c7385e12798831}{create}} (string name)
+\item 
+static \mbox{\hyperlink{classhomomorphine_1_1_backend}{Backend}} $\ast$ \mbox{\hyperlink{classhomomorphine_1_1_backend_factory_a5956ea2aa0baed370946aea57bfcc45d}{create}} (Backend\+Type type)
+\item 
+static Backend\+Type \mbox{\hyperlink{classhomomorphine_1_1_backend_factory_a4e0ca8f0c2ce59e13955b7d4fbdf4820}{get\+Type}} (string name)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+/brief Factory for generating specific homomorphic backend.
+
+\mbox{\hyperlink{classhomomorphine_1_1_backend_factory}{Backend\+Factory}} is generating a specific homomorphic backend and interface that each backend need to provide is defined by \mbox{\hyperlink{classhomomorphine_1_1_backend}{Backend}} class. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classhomomorphine_1_1_backend_factory_a9ae5c335f385dffda0c7385e12798831}\label{classhomomorphine_1_1_backend_factory_a9ae5c335f385dffda0c7385e12798831}} 
+\index{homomorphine::BackendFactory@{homomorphine::BackendFactory}!create@{create}}
+\index{create@{create}!homomorphine::BackendFactory@{homomorphine::BackendFactory}}
+\subsubsection{\texorpdfstring{create()}{create()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classhomomorphine_1_1_backend}{Backend}} $\ast$ homomorphine\+::\+Backend\+Factory\+::create (\begin{DoxyParamCaption}\item[{string}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Create a backend using the name of the backend.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & string literal with name of the backend \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+specific implementation of \mbox{\hyperlink{classhomomorphine_1_1_backend}{Backend}} interface 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classhomomorphine_1_1_backend_factory_a5956ea2aa0baed370946aea57bfcc45d}\label{classhomomorphine_1_1_backend_factory_a5956ea2aa0baed370946aea57bfcc45d}} 
+\index{homomorphine::BackendFactory@{homomorphine::BackendFactory}!create@{create}}
+\index{create@{create}!homomorphine::BackendFactory@{homomorphine::BackendFactory}}
+\subsubsection{\texorpdfstring{create()}{create()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classhomomorphine_1_1_backend}{Backend}} $\ast$ homomorphine\+::\+Backend\+Factory\+::create (\begin{DoxyParamCaption}\item[{Backend\+Type}]{type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Create a backend using the backend type.
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & backend type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+specific implementation of \mbox{\hyperlink{classhomomorphine_1_1_backend}{Backend}} interface 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classhomomorphine_1_1_backend_factory_a4e0ca8f0c2ce59e13955b7d4fbdf4820}\label{classhomomorphine_1_1_backend_factory_a4e0ca8f0c2ce59e13955b7d4fbdf4820}} 
+\index{homomorphine::BackendFactory@{homomorphine::BackendFactory}!getType@{getType}}
+\index{getType@{getType}!homomorphine::BackendFactory@{homomorphine::BackendFactory}}
+\subsubsection{\texorpdfstring{getType()}{getType()}}
+{\footnotesize\ttfamily Backend\+Type homomorphine\+::\+Backend\+Factory\+::get\+Type (\begin{DoxyParamCaption}\item[{string}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Resolves the type of the backend using the name of the backend.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & string literal with name of the backend \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+backend type 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/backend\+\_\+factory.\+hpp\item 
+src/backend\+\_\+factory.\+cpp\end{DoxyCompactItemize}

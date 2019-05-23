@@ -1,6 +1,6 @@
 # Homomorphine
 
-Homomorphine is a less stressful interface for various Homomorphic encryption libraries and algorithms. It's (ultimate) goal is to remove a complexity of using various homomorphic backends, try to do (semi)automated optimizations and noise management to reduce the implicit complexity of dealing with the homomorphic encryption. Currently supported backends are [SEAL](https://github.com/microsoft/SEAL) and [HELib](https://github.com/homenc/HElib) (**warning:** HELib support is currently partially broken).
+Homomorphine is a less stressful interface for various Homomorphic encryption libraries and algorithms. Its (ultimate) goal is to remove a complexity of using various homomorphic backends, try to do (semi)automated optimizations and noise management to reduce the implicit complexity of dealing with the homomorphic encryption. Currently supported backends are [SEAL](https://github.com/microsoft/SEAL) and [HELib](https://github.com/homenc/HElib) (**warning:** HELib support is currently partially broken).
 
 # Installation
 

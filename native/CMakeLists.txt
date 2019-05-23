@@ -57,6 +57,7 @@ endif()
 # set homomorphine version
 set (HOMOMORPHINE_VERSION_MAJOR 0)
 set (HOMOMORPHINE_VERSION_MINOR 1)
+set (HOMOMORPHINE_VERSION_PATCH 0)
 
 # pass the information to source code
 configure_file (
@@ -78,6 +79,30 @@ set_target_properties(homomorphine PROPERTIES PUBLIC_HEADER
 
 install(TARGETS homomorphine-service DESTINATION bin)
 install(TARGETS homomorphine LIBRARY DESTINATION lib PUBLIC_HEADER DESTINATION include/homomorphine)
+
+# documentation
+option(BUILD_DOC "Build documentation" ON)
+
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+    # set input and output files
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+
+    # request to configure the file
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    message("Doxygen build started")
+
+    # note the option ALL which allows to build the docs together with the application
+    add_custom_target( doc_doxygen ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM )
+
+else (DOXYGEN_FOUND)
+  message("Doxygen need to be installed to generate the doxygen documentation")
+endif (DOXYGEN_FOUND)
 
 # tests for homomorphine
 enable_testing()
