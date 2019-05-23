@@ -27,7 +27,7 @@ ctest --verbose
 
 # Examples and documentation
 
-At the moment it's best to check the tests in the test folder for a basic usage, however, more examples are coming in near future. Documentation can be found at [codedocs](https://codedocs.xyz/caboom/homomorphine/).
+At the moment it's best to check the tests in the test folder for a basic usage, however, more examples are coming in near future. Documentation can be found at [codedocs](https://codedocs.xyz/caboom/homomorphine/) and in the ./native/docs folder.
 
 # Homomorphine as a service
 
