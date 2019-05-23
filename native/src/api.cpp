@@ -6,7 +6,7 @@ namespace homomorphine
   //
   // ApiResponse class implementation
   //
-      
+    
   status_code ApiResponse::getStatus()
   {
     return this->status;
