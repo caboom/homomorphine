@@ -19,10 +19,30 @@ using namespace boost::archive::iterators;
 
 namespace homomorphine 
 {
+  /*! /brief Utility class
+   *
+   * This class provides a various utility functions. At this moment it
+   * supports UUEncoding/UUDecoding of the binary string streams used
+   * to serialize various binary objects for external usage and standardization
+   * of the interface.
+   */
   class Util {
     public:
-      static const string uuencodeStream(stringstream &key_stream);
-      static const void uudecodeString(string encoded_key, stringstream &key_stream);
+      /*!
+       * Encodes the binary string stream to string
+       * 
+       * \param string_stream string stream to be UUEncoded
+       * \return UUEncoded string
+       */
+      static const string uuencodeStream(stringstream &string_stream);
+
+      /*!
+       * Decodes UUEncoded string to a binary string stream
+       * 
+       * \param content UUENcoded string
+       * \param string_stream stream containing a decoded stream
+       */
+      static const void uudecodeString(string content, stringstream &string_stream);
   };
 }
 

@@ -27,7 +27,7 @@ namespace homomorphine
 
   /*! /brief HELib backend
    *
-   * This class is implementing HELib backend implementation
+   * This class is an implementation of the SEAL backend.
    */
   class HELibBackend : public Backend
   {

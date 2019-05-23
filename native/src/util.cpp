@@ -2,10 +2,10 @@
 
 namespace homomorphine 
 {
-  const string Util::uuencodeStream(stringstream &key_stream) 
+  const string Util::uuencodeStream(stringstream &string_stream) 
   {
     stringstream uuencoded_stream;
-    string key_string = key_stream.str();
+    string encoded_string = string_stream.str();
     
     typedef 
       insert_linebreaks<         // insert line breaks every 72 characters
@@ -21,15 +21,15 @@ namespace homomorphine
       base64_text; // compose all the above operations in to a new iterator
 
     std::copy(
-      base64_text(key_string.c_str()),
-      base64_text(key_string.c_str() + key_string.size()),
+      base64_text(encoded_string.c_str()),
+      base64_text(encoded_string.c_str() + encoded_string.size()),
       boost::archive::iterators::ostream_iterator<char>(uuencoded_stream)
     ); 
 
     return uuencoded_stream.str();
   }
 
-  const void Util::uudecodeString(string encoded_key, stringstream &key_stream)
+  const void Util::uudecodeString(string content, stringstream &string_stream)
   {
     typedef 
       transform_width< 
@@ -44,9 +44,9 @@ namespace homomorphine
       text_base64;
 
     std::copy(
-      text_base64(encoded_key.c_str()),
-      text_base64(encoded_key.c_str() + encoded_key.size()),
-      boost::archive::iterators::ostream_iterator<char>(key_stream)
+      text_base64(content.c_str()),
+      text_base64(content.c_str() + content.size()),
+      boost::archive::iterators::ostream_iterator<char>(string_stream)
     ); 
   }
 }

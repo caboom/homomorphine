@@ -3,7 +3,6 @@
 namespace homomorphine 
 {
   SealBackend::~SealBackend() { 
-    delete(encoder);
     delete(keygen);
   }
 
@@ -77,7 +76,6 @@ namespace homomorphine
 
     this->context = SEALContext::Create(*this->encryption_params);
 
-    this->encoder = new BatchEncoder(context);
     this->keygen = new KeyGenerator(context);
   }
 
