@@ -337,12 +337,20 @@ namespace homomorphine
   void SealBackend::add(vector<long> values)
   {
     Plaintext plaintext_value;
+    Ciphertext encrypted_value;
     Evaluator evaluator(this->context);
-    BatchEncoder encoder(this->context);
-    vector<int64_t> int64_values(begin(values), end(values));
+    Encryptor encryptor(this->context, this->public_key);
+   
+    // encode either with CKKS or BFV
+    if (this->algorithm == SEAL_CKKS) {
+      plaintext_value = this->encodeWithCKKS(values);
+    }
+    else {
+      plaintext_value = this->encodeWithBFV(values);
+    } 
 
-    encoder.encode(int64_values, plaintext_value);
-    evaluator.add_plain_inplace(this->cipher, plaintext_value);
+    encryptor.encrypt(plaintext_value, encrypted_value);
+    evaluator.add_inplace(this->cipher, encrypted_value);
   }
 
   void SealBackend::add(long value)
@@ -376,12 +384,19 @@ namespace homomorphine
     Ciphertext encrypted_value;
     KeyGenerator keygen(this->context);
     Evaluator evaluator(this->context);
-    BatchEncoder encoder(this->context);
+    Encryptor encryptor(this->context, this->public_key);
     auto relin_keys = keygen.relin_keys(30);
-    vector<int64_t> int64_values(begin(values), end(values));
+    
+    // encode either with CKKS or BFV
+    if (this->algorithm == SEAL_CKKS) {
+      plaintext_value = this->encodeWithCKKS(values);
+    }
+    else {
+      plaintext_value = this->encodeWithBFV(values);
+    } 
 
-    encoder.encode(int64_values, plaintext_value);
-    evaluator.multiply_plain_inplace(this->cipher, plaintext_value);
+    encryptor.encrypt(plaintext_value, encrypted_value);
+    evaluator.multiply_inplace(this->cipher, encrypted_value);
     evaluator.relinearize_inplace(this->cipher, relin_keys);
   }
 
