@@ -8,7 +8,8 @@ namespace homomorphine {
 
   void Backend::setParams(map<string, string> &params) 
   {
-    this->params = params;
+    this->params.clear();
+    this->params.insert(params.begin(), params.end());
   }
 
   map<string, string> Backend::getParams() 

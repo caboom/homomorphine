@@ -28,7 +28,7 @@ namespace homomorphine
       /*! 
        * Backend cleanup
        */
-      virtual ~Backend() {}
+      virtual ~Backend() { this->params.clear(); };
 
       /*! 
        * Sets the specific homomorphic algorithm implementation

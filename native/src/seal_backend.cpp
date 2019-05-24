@@ -2,7 +2,8 @@
 
 namespace homomorphine 
 {
-  SealBackend::~SealBackend() { 
+  SealBackend::~SealBackend() 
+  { 
     delete(keygen);
   }
 
