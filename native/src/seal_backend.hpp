@@ -103,12 +103,28 @@ namespace homomorphine
       long decodeWithBFV(Plaintext plain_result);
 
       /*!
-       * Decode value from plaintext using CKKS algorithm
+       * Decode vector of values from plaintext using BFV algorithm
        * 
        * \param plain_result plaintext representation of value
        * \return value
        */
+      vector<long> decodeValuesWithBFV(Plaintext plain_result);
+
+      /*!
+       * Decode value from plaintext using CKKS algorithm
+       * 
+       * \param plain_result plaintext representation of value
+       * \return vector of values
+       */
       long decodeWithCKKS(Plaintext plain_result);
+
+      /*!
+       * Decode vector of value from plaintext using CKKS algorithm
+       * 
+       * \param plain_result plaintext representation of value
+       * \return vector of values
+       */
+      vector<long> decodeValuesWithCKKS(Plaintext plain_result);
 
     public:
 

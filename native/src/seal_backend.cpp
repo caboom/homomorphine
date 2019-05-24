@@ -207,14 +207,16 @@ namespace homomorphine
     stringstream cipher_stream;
     string encrypted_value;
     Plaintext plain_matrix;
-
     Encryptor encryptor(this->context, this->public_key);
-    BatchEncoder encoder(this->context);
      
-    // encode and encrypt the value
-    plain_matrix = this->encodeWithBFV(values);
+     // encode with proper encode (BFV is default)
+    if (this->algorithm == SEAL_CKKS) {
+      encryptor.encrypt(this->encodeWithCKKS(values), this->cipher);
+    }
+    else {
+      encryptor.encrypt(this->encodeWithBFV(values), this->cipher);
+    }
 
-    encryptor.encrypt(plain_matrix, this->cipher);
     this->cipher.save(cipher_stream);
     encrypted_value = Util::uuencodeStream(cipher_stream);
 
@@ -280,24 +282,6 @@ namespace homomorphine
     return plain_matrix;
   }
 
-  vector<long> SealBackend::decryptValues()
-  {
-    vector<int64_t> result;
-    Plaintext plain_result;
-    BatchEncoder batch_encoder(this->context);
-    Decryptor decryptor(this->context, this->secret_key);
-
-    decryptor.decrypt(
-      this->cipher, 
-      plain_result
-    );
-
-    batch_encoder.decode(plain_result, result);
-    vector<long> long_result(begin(result), end(result));
-    
-    return long_result;
-  }
-
   long SealBackend::decrypt()
   {
     long result;
@@ -320,6 +304,45 @@ namespace homomorphine
     return result;
   }
 
+  vector<long> SealBackend::decryptValues()
+  {
+    vector<long> result;
+    Plaintext plain_result;
+    Decryptor decryptor(this->context, this->secret_key);
+
+    decryptor.decrypt(
+      this->cipher, 
+      plain_result
+    );
+
+    // decode with either CKKS or BFV Integer decoder
+    if (this->algorithm == SEAL_CKKS) {
+      result = this->decodeValuesWithCKKS(plain_result);
+    }
+    else {
+      result = this->decodeValuesWithBFV(plain_result); 
+    }
+
+    return result;
+  }
+
+  long SealBackend::decodeWithBFV(Plaintext plain_result) 
+  {
+    IntegerEncoder encoder(this->context);
+    return encoder.decode_int64(plain_result);
+  }
+
+  vector<long> SealBackend::decodeValuesWithBFV(Plaintext plain_result) 
+  {
+    vector<int64_t> result;
+    BatchEncoder batch_encoder(this->context);
+    
+    batch_encoder.decode(plain_result, result);
+    vector<long> long_result(begin(result), end(result));
+
+    return long_result;
+  }
+
   long SealBackend::decodeWithCKKS(Plaintext plain_result) {
     vector<double> results;
     CKKSEncoder encoder(this->context);
@@ -329,9 +352,14 @@ namespace homomorphine
     return lround(results[0]);
   }
 
-  long SealBackend::decodeWithBFV(Plaintext plain_result) {
-    IntegerEncoder encoder(this->context);
-    return encoder.decode_int64(plain_result);
+  vector<long> SealBackend::decodeValuesWithCKKS(Plaintext plain_result) {
+    vector<double> results;
+    CKKSEncoder encoder(this->context);
+
+    encoder.decode(plain_result, results);
+
+    std::vector<long> results_l(results.begin(), results.end());
+    return results_l;
   }
 
   void SealBackend::add(vector<long> values)

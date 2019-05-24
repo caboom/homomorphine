@@ -58,9 +58,9 @@ BOOST_AUTO_TEST_CASE( serialization_deserialization_test )
 }
 
 // batch SEAL backend operations test
-BOOST_AUTO_TEST_CASE( batch_operations_test )
+BOOST_AUTO_TEST_CASE( batch_bvf_operations_test )
 {
-  BOOST_TEST_MESSAGE( "Testing SEAL batch operations..." );
+  BOOST_TEST_MESSAGE( "Testing SEAL BFV batch operations..." );
 
   vector<long> results;
   string public_key;
@@ -98,6 +98,49 @@ BOOST_AUTO_TEST_CASE( batch_operations_test )
   BOOST_TEST ( results[0] == 1030 );
   BOOST_TEST ( results[1] == 2070 );
 }
+
+// batch SEAL backend operations test
+BOOST_AUTO_TEST_CASE( batch_ckks_operations_test )
+{
+  BOOST_TEST_MESSAGE( "Testing SEAL CKKS batch operations..." );
+
+  vector<long> results;
+  string public_key;
+  string secret_key;
+  SealBackend seal;
+  vector<long> values { 1000, 2000 };
+  vector<long> add_to_values { 20, 50 };
+  vector<long> add_to_values_again { 10, 20 };
+  
+  seal.setAlgorithm(SEAL_CKKS);
+  seal.init();
+
+  // test generating uuencoded keys
+  seal.generateKeys();
+  public_key = seal.getPublicKey();
+  secret_key = seal.getSecretKey();
+
+  // encrypt using a new object
+  SealBackend seal_encrypt;
+
+  seal_encrypt.setAlgorithm(SEAL_CKKS);
+  seal_encrypt.init();
+
+  seal_encrypt.setPublicKey(public_key);
+  seal_encrypt.encrypt(values);
+
+  // do some basic numeric operations
+  seal_encrypt.add(add_to_values);
+  seal_encrypt.add(add_to_values_again);
+
+  // check the results
+  seal_encrypt.setSecretKey(secret_key);
+  results = seal_encrypt.decryptValues();
+
+  BOOST_TEST ( results[0] == 1030 );
+  BOOST_TEST ( results[1] == 2070 );
+}
+
 
 // single integer SEAL backend operation test
 BOOST_AUTO_TEST_CASE( single_operation_test )
