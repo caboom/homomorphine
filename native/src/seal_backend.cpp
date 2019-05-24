@@ -339,6 +339,7 @@ namespace homomorphine
     
     batch_encoder.decode(plain_result, result);
     vector<long> long_result(begin(result), end(result));
+    result.clear();
 
     return long_result;
   }
@@ -358,7 +359,9 @@ namespace homomorphine
 
     encoder.decode(plain_result, results);
 
-    std::vector<long> results_l(results.begin(), results.end());
+    vector<long> results_l(results.begin(), results.end());
+    results.clear();
+
     return results_l;
   }
 
