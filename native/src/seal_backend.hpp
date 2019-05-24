@@ -34,15 +34,15 @@ namespace homomorphine
   class SealBackend : public Backend
   {
     private:
-      std::shared_ptr<SEALContext> context;     /*!< SEAL context object */
-      KeyGenerator *keygen;                     /*!< SEAL key generator */
-      SealAlgorithmType algorithm;              /*!< SEAL algorithm type (BFV, or CKKS) */
-      EncryptionParameters *encryption_params;  /*!< SEAL specific encryption parameters */
-      PublicKey public_key;                     /*!< SEAL public key */
-      SecretKey secret_key;                     /*!< SEAL secret key */
-      RelinKeys relin_keys;                     /*!< SEAL relinearization keys */
-      Ciphertext cipher;                        /*!< cipher */
-      double scale;                             /*!< bit-precision of encoding, used by CKKS encryption implementation */
+      std::shared_ptr<SEALContext> context;               /*!< SEAL context object */
+      KeyGenerator *keygen = nullptr;                     /*!< SEAL key generator */
+      SealAlgorithmType algorithm;                        /*!< SEAL algorithm type (BFV, or CKKS) */
+      EncryptionParameters *encryption_params = nullptr;  /*!< SEAL specific encryption parameters */
+      PublicKey public_key;                               /*!< SEAL public key */
+      SecretKey secret_key;                               /*!< SEAL secret key */
+      RelinKeys relin_keys;                               /*!< SEAL relinearization keys */
+      Ciphertext cipher;                                  /*!< cipher */
+      double scale;                                       /*!< bit-precision of encoding, used by CKKS encryption implementation */
 
       /*!
        * Get SEAL algorithm type from algorithm name

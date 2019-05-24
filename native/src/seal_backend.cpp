@@ -4,7 +4,12 @@ namespace homomorphine
 {
   SealBackend::~SealBackend() 
   { 
-    delete(keygen);
+    if (this->keygen != nullptr) {
+      delete(this->keygen);
+    }
+    if (this->encryption_params != nullptr) {
+      delete(this->encryption_params);
+    }
   }
 
   void SealBackend::setAlgorithm(string algorithm) 
@@ -45,6 +50,10 @@ namespace homomorphine
   {
     uint64_t coeff_modulus;
     int security_level;
+
+    if (this->encryption_params != nullptr) {
+      delete(this->encryption_params);
+    }
     this->encryption_params = new EncryptionParameters(scheme_type::BFV);
 
     // check if there is poly modulus degree option
@@ -77,11 +86,17 @@ namespace homomorphine
 
     this->context = SEALContext::Create(*this->encryption_params);
 
+    if(this->keygen != nullptr) {
+      delete(this->keygen);
+    }
     this->keygen = new KeyGenerator(context);
   }
 
   void SealBackend::initCKKS() 
   {
+    if (this->encryption_params != nullptr) {
+      delete(this->encryption_params);
+    }
     this->encryption_params = new EncryptionParameters(scheme_type::CKKS);
 
     // CKKS needs scale to determine bit-precision of encoding
@@ -100,6 +115,10 @@ namespace homomorphine
       this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(Constants::SEAL_COEFF_MODULUS));
 
     this->context = SEALContext::Create(*this->encryption_params);
+
+    if (this->keygen != nullptr) {
+      delete(this->keygen);
+    }
     this->keygen = new KeyGenerator(context);
   }
 
