@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['_7ebackend',['~Backend',['../classhomomorphine_1_1_backend.html#a24577dcf41802199e2286a4378214cd5',1,'homomorphine::Backend']]],
-  ['_7ehelibbackend',['~HELibBackend',['../classhomomorphine_1_1_h_e_lib_backend.html#a1ef98efe05281fefbe6d044dc474017a',1,'homomorphine::HELibBackend']]],
-  ['_7esealbackend',['~SealBackend',['../classhomomorphine_1_1_seal_backend.html#a7224092a19a3472a5143d16b80fb9775',1,'homomorphine::SealBackend']]]
+  ['util',['Util',['../classhomomorphine_1_1_util.html',1,'homomorphine']]],
+  ['uudecodestring',['uudecodeString',['../classhomomorphine_1_1_util.html#aba5af6d7356aca8c70ae4fb1e5d36b70',1,'homomorphine::Util']]],
+  ['uuencodestream',['uuencodeStream',['../classhomomorphine_1_1_util.html#a26f29995aa48f4374993ec4afeca2ac8',1,'homomorphine::Util']]]
 ];

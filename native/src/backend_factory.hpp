@@ -15,6 +15,10 @@
 #include "helib_backend.hpp"
 #endif
 
+#ifdef __HAS_TFHE__
+#include "tfhe_backend.hpp"
+#endif
+
 using namespace std;
 
 namespace homomorphine 
@@ -23,6 +27,7 @@ namespace homomorphine
   enum BackendType { 
     B_SEAL,    /*!< SEAL Backend */
     B_HELib,   /*!< HELib Backend */
+    B_TFHE,    /*!< TFHE Backend */
     B_UNKNOWN  /*!< Unknown backend - usually represents an error in resolving the backend */
   }; 
 

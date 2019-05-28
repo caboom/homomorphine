@@ -26,6 +26,12 @@ namespace homomorphine
     } 
     #endif
 
+    #ifdef __HAS_TFHE__
+    if (type == B_TFHE) {
+      return new TFHEBackend();
+    } 
+    #endif
+
     throw BackendFactoryException("Unknown/unsupported backend type");
   }
   
@@ -38,6 +44,10 @@ namespace homomorphine
     
     #ifdef __HAS_HELIB__
     if (name == "helib") return B_HELib;
+    #endif
+
+    #ifdef __HAS_TFHE__
+    if (name == "tfhe") return B_TFHE;
     #endif
 
     return B_UNKNOWN;

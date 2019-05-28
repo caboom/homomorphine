@@ -18,6 +18,8 @@ find_package(Boost 1.60 REQUIRED COMPONENTS log program_options unit_test_framew
 find_package(Threads)
 find_package(SEAL 3.2.0 EXACT REQUIRED)
 find_library(HELIB_FOUND NAMES helib)
+find_library(TFHE_FFTW_FOUND NAMES tfhe-fftw)
+find_library(TFHE_AVX_FOUND NAMES tfhe-spqlios-avx)
 
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
@@ -52,6 +54,18 @@ if (HELIB_FOUND)
   set (SRC_FILES ${SRC_FILES} src/helib_backend.cpp)
   set (Other_LIBRARIES ${Other_LIBRARIES} helib ntl)
   set (HAS_HELIB "#define __HAS_HELIB__")
+endif()
+
+if (TFHE_FFTW_FOUND)
+  message (">> TFHE with FFTW found - building with TFHE")
+  set (SRC_FILES ${SRC_FILES} src/tfhe_backend.cpp)
+  set (Other_LIBRARIES ${Other_LIBRARIES} tfhe-fftw)
+  set (HAS_TFHE "#define __HAS_TFHE__")
+elseif (TFHE_AVX_FOUND)
+  message (">> TFHE with AVX found - building with TFHE")
+  set (SRC_FILES ${SRC_FILES} src/tfhe_backend.cpp)
+  set (Other_LIBRARIES ${Other_LIBRARIES} tfhe-spqlios-avx)
+  set (HAS_TFHE "#define __HAS_TFHE__")
 endif()
 
 # set homomorphine version
