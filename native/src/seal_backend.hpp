@@ -5,6 +5,7 @@
 #include <utility>
 #include <sstream>
 #include <string>
+#include <math.h>
 #include <seal/seal.h>
 #include <boost/log/trivial.hpp>
 #include <boost/log/utility/setup.hpp>

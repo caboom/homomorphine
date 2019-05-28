@@ -375,11 +375,16 @@ namespace homomorphine
 
   vector<long> SealBackend::decodeValuesWithCKKS(Plaintext plain_result) {
     vector<double> results;
+    vector<long> results_l;
     CKKSEncoder encoder(this->context);
 
     encoder.decode(plain_result, results);
 
-    vector<long> results_l(results.begin(), results.end());
+    // cast vector, but with rounding
+    results_l.reserve(results.size());
+    for (double value : results) { 
+      results_l.push_back((long)round(value));
+    }
     results.clear();
 
     return results_l;
