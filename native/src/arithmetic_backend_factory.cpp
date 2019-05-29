@@ -1,4 +1,4 @@
-#include "backend_factory.hpp"
+#include "arithmetic_backend_factory.hpp"
 
 namespace homomorphine 
 {
@@ -7,12 +7,12 @@ namespace homomorphine
   // BackendFactory class implementation
   //
 
-  Backend* BackendFactory::create(string name)
+  ArithmeticBackend* ArithmeticBackendFactory::create(string name)
   {
     return create(getType(name));
   }
 
-  Backend* BackendFactory::create(BackendType type)
+  ArithmeticBackend* ArithmeticBackendFactory::create(ArithmeticBackendType type)
   {
     #ifdef __HAS_SEAL__
     if (type == B_SEAL) {
@@ -35,7 +35,7 @@ namespace homomorphine
     throw BackendFactoryException("Unknown/unsupported backend type");
   }
   
-  BackendType BackendFactory::getType(string name) {
+  ArithmeticBackendType ArithmeticBackendFactory::getType(string name) {
     boost::algorithm::to_lower(name);
 
     #ifdef __HAS_SEAL__

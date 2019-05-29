@@ -31,10 +31,10 @@ set(SRC_FILES
    src/interface.cpp
    src/server.cpp
    src/api.cpp
-   src/backend.cpp
-   src/backend_factory.cpp
+   src/arithmetic_backend.cpp
+   src/arithmetic_backend_factory.cpp
    src/util.cpp
-   src/clang_backend_interface.cpp)
+   src/clang_arithmetic_backend_interface.cpp)
 
 set(Other_LIBRARIES
   Threads::Threads 
@@ -89,7 +89,7 @@ target_link_libraries(homomorphine ${Boost_LIBRARIES} ${Other_LIBRARIES})
 
 # installation config
 set_target_properties(homomorphine PROPERTIES PUBLIC_HEADER 
-  "src/backend_factory.hpp;src/backend.hpp;src/clang_backend_interface.hpp;src/clang_types.hpp;src/constants.hpp;src/util.hpp")
+  "src/arithmetic_backend_factory.hpp;src/arithmetic_backend.hpp;src/clang_arithmetic_backend_interface.hpp;src/clang_types.hpp;src/constants.hpp;src/util.hpp")
 
 install(TARGETS homomorphine-service DESTINATION bin)
 install(TARGETS homomorphine LIBRARY DESTINATION lib PUBLIC_HEADER DESTINATION include/homomorphine)

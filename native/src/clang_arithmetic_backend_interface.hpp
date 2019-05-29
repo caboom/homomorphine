@@ -4,7 +4,7 @@ extern "C" {
   #include "clang_types.hpp"
 
   //! Backend wrapper that can be used by CLang wrapper in other programming languages (i.e. Golang)
-  typedef void* BackendWrapper;
+  typedef void* ArithmeticBackendWrapper;
 
   /*!
    * Creates the specific backend using the backend name
@@ -12,14 +12,14 @@ extern "C" {
    * \param type backend name
    * \returns backend wrapper
    */
-  BackendWrapper CreateBackend(char *type);
+  ArithmeticBackendWrapper CreateArithmeticBackend(char *type);
 
   /*!
    * Memory allocation cleanup
    * 
    * \param wrapper backend wrapper
    */
-  void FreeBackend(BackendWrapper wrapper);
+  void FreeArithmeticBackend(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Backend initialization method - initializes all the basic
@@ -27,7 +27,7 @@ extern "C" {
    * 
    * \param wrapper backend wrapper
    */
-  void InitBackend(BackendWrapper wrapper);
+  void InitArithmeticBackend(ArithmeticBackendWrapper wrapper);
 
   /*! 
    * Sets the specific homomorphic algorithm implementation
@@ -36,7 +36,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param algorithm homomorphic encryption algorithm
    */
-  void SetBackendAlgorithm(BackendWrapper wrapper, char* algorithm);
+  void SetArithmeticBackendAlgorithm(ArithmeticBackendWrapper wrapper, char* algorithm);
   
   /*!
    * Returns the specific parameter
@@ -45,7 +45,7 @@ extern "C" {
    * \param key parameter name
    * \return parameter value
    */
-  char* GetBackendParam(BackendWrapper wrapper, char* key);
+  char* GetArithmeticBackendParam(ArithmeticBackendWrapper wrapper, char* key);
 
   /*!
    * Sets the specific parameter
@@ -54,14 +54,14 @@ extern "C" {
    * \param key parameter name
    * \param value parameter value
    */
-  void SetBackendParam(BackendWrapper wrapper, char* key, char* value);
+  void SetArithmeticBackendParam(ArithmeticBackendWrapper wrapper, char* key, char* value);
 
   /*!
    * Generates the public/secret key pair
    * 
    * \param wrapper backend wrapper
    */
-  void GenerateBackendKeys(BackendWrapper wrapper);
+  void GenerateArithmeticBackendKeys(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Returns the UUEncoded public key
@@ -69,7 +69,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \return public key
    */
-  char* GetBackendPublicKey(BackendWrapper wrapper);
+  char* GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Returns the UUEncoded secret key
@@ -77,7 +77,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \return secret key
    */
-  char* GetBackendSecretKey(BackendWrapper wrapper);
+  char* GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Sets the public key 
@@ -85,7 +85,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param public_key UUEncoded public key
    */
-  void SetBackendPublicKey(BackendWrapper wrapper, char* public_key);
+  void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, char* public_key);
 
   /*!
    * Sets the secret key 
@@ -93,7 +93,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param secret_key UUEncoded secret key
    */
-  void SetBackendSecretKey(BackendWrapper wrapper, char* secret_key);
+  void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, char* secret_key);
 
   /*!
    * Sets the both public and secret keys 
@@ -102,7 +102,7 @@ extern "C" {
    * \param public_key UUEncoded public key
    * \param secret_key UUEncoded secret key
    */
-  void SetBackendKeys(BackendWrapper wrapper, char* public_key, char* secret_key);
+  void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, char* public_key, char* secret_key);
 
   /*!
    * Returns the UUEncoded cipher containing ecrypted value, or vector of values
@@ -110,7 +110,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \return UUEncoded cipher
    */
-  char* GetBackendCipher(BackendWrapper wrapper);
+  char* GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Sets the UUEncoded cipher containing ecrypted value, or vector of values
@@ -118,7 +118,7 @@ extern "C" {
    * \param wrapper backend wrappers
    * \param cipher UUEncoded cipher
    */
-  void SetBackendCipher(BackendWrapper wrapper, char* cipher);
+  void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, char* cipher);
 
   /*!
    * Encrypts the single value using the public key
@@ -127,7 +127,7 @@ extern "C" {
    * \param value value
    * \return UUEncoded cipher
    */
-  char* BackendEncrypt(BackendWrapper wrapper, long value);
+  char* ArithmeticBackendEncrypt(ArithmeticBackendWrapper wrapper, long value);
 
   /*!
    * Decrypts the single value using the secret key
@@ -135,7 +135,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \return decrypted value
    */
-  long BackendDecrypt(BackendWrapper wrapper);
+  long ArithmeticBackendDecrypt(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Adds the value to encrypted value
@@ -143,14 +143,14 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param value value
    */
-  void BackendAdd(BackendWrapper wrapper, long value);
+  void ArithmeticBackendAdd(ArithmeticBackendWrapper wrapper, long value);
 
   /*!
    * Negates a single encrypted value, or a vector of encrypted values
    * 
    * \param wrapper backend wrapper
    */
-  void BackendNegate(BackendWrapper wrapper);
+  void ArithmeticBackendNegate(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Multiplies the value with the encrypted value
@@ -158,7 +158,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param value value
    */
-  void BackendMultiply(BackendWrapper wrapper, long value);
+  void ArithmeticBackendMultiply(ArithmeticBackendWrapper wrapper, long value);
 
 #ifdef __cplusplus
 }

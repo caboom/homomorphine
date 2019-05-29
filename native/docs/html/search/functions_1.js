@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['create',['create',['../classhomomorphine_1_1_backend_factory.html#a9ae5c335f385dffda0c7385e12798831',1,'homomorphine::BackendFactory::create(string name)'],['../classhomomorphine_1_1_backend_factory.html#a5956ea2aa0baed370946aea57bfcc45d',1,'homomorphine::BackendFactory::create(BackendType type)']]]
+  ['create',['create',['../classhomomorphine_1_1_arithmetic_backend_factory.html#af14e3d4dad4d9c9a281fe95f460eeca4',1,'homomorphine::ArithmeticBackendFactory::create(string name)'],['../classhomomorphine_1_1_arithmetic_backend_factory.html#a3c38197c6857fdebe31410ea649940a6',1,'homomorphine::ArithmeticBackendFactory::create(ArithmeticBackendType type)']]]
 ];

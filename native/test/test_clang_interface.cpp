@@ -6,7 +6,7 @@
 #include <boost/test/included/unit_test.hpp>
 
 #include "../src/clang_types.hpp"
-#include "../src/clang_backend_interface.hpp"
+#include "../src/clang_arithmetic_backend_interface.hpp"
 
 using namespace std;
 
@@ -28,36 +28,36 @@ BOOST_AUTO_TEST_CASE( test_backend_clang_interface )
   string backend_name = "seal";
 
   // create the backends
-  BackendWrapper wrapper = CreateBackend((char *)backend_name.c_str());
-  BackendWrapper encrypt_wrapper = CreateBackend((char *)backend_name.c_str());
+  ArithmeticBackendWrapper wrapper = CreateArithmeticBackend((char *)backend_name.c_str());
+  ArithmeticBackendWrapper encrypt_wrapper = CreateArithmeticBackend((char *)backend_name.c_str());
 
   // generate basic key pair
-  SetBackendAlgorithm(wrapper, (char *)algorithm.c_str());
-  InitBackend(wrapper);
+  SetArithmeticBackendAlgorithm(wrapper, (char *)algorithm.c_str());
+  InitArithmeticBackend(wrapper);
 
-  GenerateBackendKeys(wrapper);
-  char* public_key = GetBackendPublicKey(wrapper);
-  char* secret_key = GetBackendSecretKey(wrapper);
+  GenerateArithmeticBackendKeys(wrapper);
+  char* public_key = GetArithmeticBackendPublicKey(wrapper);
+  char* secret_key = GetArithmeticBackendSecretKey(wrapper);
 
   // test the encryption
-  SetBackendAlgorithm(encrypt_wrapper, (char *)algorithm.c_str());
-  InitBackend(encrypt_wrapper);
+  SetArithmeticBackendAlgorithm(encrypt_wrapper, (char *)algorithm.c_str());
+  InitArithmeticBackend(encrypt_wrapper);
 
-  SetBackendPublicKey(encrypt_wrapper, public_key);
-  BackendEncrypt(encrypt_wrapper, 10000);
+  SetArithmeticBackendPublicKey(encrypt_wrapper, public_key);
+  ArithmeticBackendEncrypt(encrypt_wrapper, 10000);
 
   // do the basic numeric operations
-  BackendAdd(encrypt_wrapper, 25);
-  BackendNegate(encrypt_wrapper);
-  BackendMultiply(encrypt_wrapper, 1000);
+  ArithmeticBackendAdd(encrypt_wrapper, 25);
+  ArithmeticBackendNegate(encrypt_wrapper);
+  ArithmeticBackendMultiply(encrypt_wrapper, 1000);
 
   // check the result
-  SetBackendSecretKey(encrypt_wrapper, secret_key);
+  SetArithmeticBackendSecretKey(encrypt_wrapper, secret_key);
 
-  BOOST_TEST ( BackendDecrypt(encrypt_wrapper) == -10025000 );
+  BOOST_TEST ( ArithmeticBackendDecrypt(encrypt_wrapper) == -10025000 );
 
   // clean the result
-  FreeBackend(wrapper);
-  FreeBackend(encrypt_wrapper);
+  FreeArithmeticBackend(wrapper);
+  FreeArithmeticBackend(encrypt_wrapper);
 }
 #endif

@@ -5,7 +5,7 @@
 #include <boost/algorithm/string.hpp>
 
 #include "info.hpp"
-#include "backend.hpp"
+#include "arithmetic_backend.hpp"
 
 #ifdef __HAS_SEAL__
 #include "seal_backend.hpp"
@@ -24,7 +24,7 @@ using namespace std;
 namespace homomorphine 
 {
   //! Type of Homomorphic Backend (Currently supported: SEAL, HELib)
-  enum BackendType { 
+  enum ArithmeticBackendType { 
     B_SEAL,    /*!< SEAL Backend */
     B_HELib,   /*!< HELib Backend */
     B_TFHE,    /*!< TFHE Backend */
@@ -33,11 +33,11 @@ namespace homomorphine
 
   /*! /brief Factory for generating specific homomorphic backend.
    *  
-   * BackendFactory is generating a specific homomorphic backend 
-   * and interface that each backend need to provide is defined by 
+   * ArithmeticBackendFactory is generating a specific arithmetic homomorphic 
+   * backend and interface that each backend need to provide is defined by 
    * Backend class.  
    */
-  class BackendFactory
+  class ArithmeticBackendFactory
   {
     public:
       
@@ -47,7 +47,7 @@ namespace homomorphine
        * \param name string literal with name of the backend
        * \return specific implementation of Backend interface
        */
-      static Backend* create(string name);
+      static ArithmeticBackend* create(string name);
 
       /*!
        * Create a backend using the backend type.
@@ -55,7 +55,7 @@ namespace homomorphine
        * \param type backend type
        * \return specific implementation of Backend interface
        */
-      static Backend* create(BackendType type);
+      static ArithmeticBackend* create(ArithmeticBackendType type);
 
       /*!
        * Resolves the type of the backend using the name of the backend.
@@ -63,7 +63,7 @@ namespace homomorphine
        * \param name string literal with name of the backend
        * \return backend type
        */
-      static BackendType getType(string name);
+      static ArithmeticBackendType getType(string name);
   };
 
   /*! /brief BackendFactory exception.

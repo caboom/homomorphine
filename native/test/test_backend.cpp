@@ -4,7 +4,8 @@
 #include <iostream>
 #include <boost/test/included/unit_test.hpp>
 
-#include "../src/backend_factory.hpp"
+#include "../src/arithmetic_backend.hpp"
+#include "../src/arithmetic_backend_factory.hpp"
 
 using namespace std;
 using namespace homomorphine;
@@ -27,7 +28,7 @@ BOOST_AUTO_TEST_CASE( simple_seal_bfv_backend_test )
   long result;
   string public_key;
   string secret_key;
-  Backend* backend = BackendFactory::create("seal");
+  ArithmeticBackend* backend = ArithmeticBackendFactory::create("seal");
 
   backend->setAlgorithm("BFV");
   backend->init();
@@ -38,7 +39,7 @@ BOOST_AUTO_TEST_CASE( simple_seal_bfv_backend_test )
   secret_key = backend->getSecretKey();
 
   // encrypt using a new object
-  Backend* backend_operations = BackendFactory::create("seal");
+  ArithmeticBackend* backend_operations = ArithmeticBackendFactory::create("seal");
 
   backend_operations->setAlgorithm("BFV");
   backend_operations->init();
@@ -71,7 +72,7 @@ BOOST_AUTO_TEST_CASE( simple_seal_ckks_backend_test )
   long result;
   string public_key;
   string secret_key;
-  Backend* backend = BackendFactory::create("seal");
+  ArithmeticBackend* backend = ArithmeticBackendFactory::create("seal");
 
   backend->setAlgorithm("CKKS");
   backend->init();
@@ -82,7 +83,7 @@ BOOST_AUTO_TEST_CASE( simple_seal_ckks_backend_test )
   secret_key = backend->getSecretKey();
 
   // encrypt using a new object
-  Backend* backend_operations = BackendFactory::create("seal");
+  ArithmeticBackend* backend_operations = ArithmeticBackendFactory::create("seal");
 
   backend_operations->setAlgorithm("CKKS");
   backend_operations->init();
@@ -123,7 +124,7 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   string secret_key;
 
   // initialize HELib backend
-  Backend* backend = BackendFactory::create("helib");
+  ArithmeticBackend* backend = ArithmeticBackendFactory::create("helib");
   backend->init();
 
   // generate keys
@@ -133,7 +134,7 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   cipher = backend->encrypt(10);
 
   // encrypt using a new object
-  Backend* backend_operations = BackendFactory::create("helib");
+  ArithmeticBackend* backend_operations = ArithmeticBackendFactory::create("helib");
   backend_operations->init();
 
   backend_operations->setPublicKey(public_key);

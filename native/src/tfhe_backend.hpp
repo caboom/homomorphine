@@ -9,7 +9,7 @@
 #include <tfhe/tfhe_io.h>
 
 #include "util.hpp"
-#include "backend.hpp"
+#include "arithmetic_backend.hpp"
 #include "constants.hpp"
 
 using namespace std;
@@ -25,7 +25,7 @@ namespace homomorphine
    *
    * This class is an implementation of the SEAL backend.
    */
-  class TFHEBackend : public Backend
+  class TFHEBackend : public ArithmeticBackend
   {
     private:
       TFHEAlgorithmType algorithm;    /*!< TFHE algorithm type */

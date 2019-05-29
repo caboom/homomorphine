@@ -16,19 +16,19 @@ namespace homomorphine
   
   /*! /brief Backend interface
    * 
-   * Provides an interface that each specific backend has to provide
+   * Provides an interface that each specific arithmetic backend has to provide
    */
-  class Backend
+  class ArithmeticBackend
   {
     protected:
-      map<string, string> params; /*!< params that are consumed by specific implementations of the homomorphic backend */
+      map<string, string> params; /*!< params that are consumed by specific implementations of the arithmetic homomorphic backend */
 
     public:
 
       /*! 
        * Backend cleanup
        */
-      virtual ~Backend() { this->params.clear(); };
+      virtual ~ArithmeticBackend() { this->params.clear(); };
 
       /*! 
        * Sets the specific homomorphic algorithm implementation

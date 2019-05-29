@@ -11,8 +11,8 @@
 #include <boost/lexical_cast.hpp>
 #include <cpprest/http_listener.h>
 
-#include "backend.hpp"
-#include "backend_factory.hpp"
+#include "arithmetic_backend.hpp"
+#include "arithmetic_backend_factory.hpp"
 
 using namespace std;
 using namespace web;

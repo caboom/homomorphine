@@ -11,7 +11,7 @@
 #include <boost/log/utility/setup.hpp>
 
 #include "util.hpp"
-#include "backend.hpp"
+#include "arithmetic_backend.hpp"
 #include "constants.hpp"
 
 using namespace seal;
@@ -32,7 +32,7 @@ namespace homomorphine
    *
    * This class is an implementation of the SEAL backend.
    */
-  class SealBackend : public Backend
+  class SealBackend : public ArithmeticBackend
   {
     private:
       std::shared_ptr<SEALContext> context;               /*!< SEAL context object */

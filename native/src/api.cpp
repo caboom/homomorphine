@@ -32,13 +32,13 @@ namespace homomorphine
   //
 
   ApiResponse Api::get(vector<string> &path) {
-    Backend* backend;
+    ArithmeticBackend* backend;
     ApiResponse response;
     json::value response_body;
 
     try 
     {
-      backend = BackendFactory::create(path[0]);  
+      backend = ArithmeticBackendFactory::create(path[0]);  
       backend->setAlgorithm(path[1]);
       backend->init();
 
@@ -98,7 +98,7 @@ namespace homomorphine
   }
 
   ApiResponse Api::post(vector<string> &path, string body) {
-    Backend* backend;
+    ArithmeticBackend* backend;
     ApiResponse response;
     json::value response_body;
 
@@ -106,7 +106,7 @@ namespace homomorphine
     {
       json::value obj = json::value::parse(body);
 
-      backend = BackendFactory::create(path[0]);  
+      backend = ArithmeticBackendFactory::create(path[0]);  
       backend->setAlgorithm(path[1]);
       backend->init();
 

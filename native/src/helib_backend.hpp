@@ -11,7 +11,7 @@
 #include <helib/EncryptedArray.h>
 
 #include "util.hpp"
-#include "backend.hpp"
+#include "arithmetic_backend.hpp"
 #include "constants.hpp"
 
 using namespace NTL;
@@ -29,7 +29,7 @@ namespace homomorphine
    *
    * This class is an implementation of the SEAL backend.
    */
-  class HELibBackend : public Backend
+  class HELibBackend : public ArithmeticBackend
   {
     private:
       FHEcontext* context = nullptr;   /*!< HELib context object */
