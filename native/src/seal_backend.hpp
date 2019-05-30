@@ -11,6 +11,7 @@
 #include <boost/log/utility/setup.hpp>
 
 #include "util.hpp"
+#include "backend.hpp"
 #include "arithmetic_backend.hpp"
 #include "constants.hpp"
 

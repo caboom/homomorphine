@@ -9,6 +9,7 @@
 #include <tfhe/tfhe_io.h>
 
 #include "util.hpp"
+#include "backend.hpp"
 #include "arithmetic_backend.hpp"
 #include "constants.hpp"
 

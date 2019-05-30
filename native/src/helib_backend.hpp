@@ -12,6 +12,7 @@
 
 #include "util.hpp"
 #include "arithmetic_backend.hpp"
+#include "backend.hpp"
 #include "constants.hpp"
 
 using namespace NTL;
