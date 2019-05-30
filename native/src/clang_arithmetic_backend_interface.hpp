@@ -1,3 +1,6 @@
+#ifndef _HOMOMORPHINE_CLANG_ARITHMETIC_BACKEND_TYPES_H_
+#define _HOMOMORPHINE_CLANG_ARITHMETIC_BACKEND_TYPES_H_
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -162,4 +165,6 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

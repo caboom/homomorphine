@@ -16,7 +16,7 @@ ArithmeticBackendWrapper CreateArithmeticBackend(char* type)
   return (void*)backend;
 }
   
-void FreeBackend(ArithmeticBackendWrapper wrapper)
+void FreeArithmeticBackend(ArithmeticBackendWrapper wrapper)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
   delete backend;
@@ -57,7 +57,7 @@ void SetArithmeticBackendParam(ArithmeticBackendWrapper wrapper, char* key, char
   backend->setParam(str_key, str_value);
 }
   
-void GenerateBackendKeys(ArithmeticBackendWrapper wrapper)
+void GenerateArithmeticBackendKeys(ArithmeticBackendWrapper wrapper)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
   backend->generateKeys();
