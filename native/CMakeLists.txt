@@ -31,7 +31,7 @@ set(SRC_FILES
    src/interface.cpp
    src/server.cpp
    src/api.cpp
-   src/arithmetic_backend.cpp
+   src/backend.cpp
    src/arithmetic_backend_factory.cpp
    src/util.cpp
    src/clang_arithmetic_backend_interface.cpp)
