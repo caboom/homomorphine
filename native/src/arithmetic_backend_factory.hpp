@@ -1,5 +1,5 @@
-#ifndef _HOMOMORPHINE_BACKEND_FACTORY_H_
-#define _HOMOMORPHINE_BACKEND_FACTORY_H_
+#ifndef _ARITHMETIC_HOMOMORPHINE_BACKEND_FACTORY_H_
+#define _ARITHMETIC_HOMOMORPHINE_BACKEND_FACTORY_H_
 
 #include <string>
 #include <boost/algorithm/string.hpp>

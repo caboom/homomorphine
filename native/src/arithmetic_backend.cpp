@@ -27,30 +27,4 @@ namespace homomorphine {
     this->params[key] = value;
   }
 
-  //
-  // BackendException class implementation
-  //
-
-  BackendException::BackendException(const char* msg) 
-  {
-    this->msg = msg;
-  }
-
-  const char* BackendException::getMessage() {
-    return this->msg;
-  }  
-
-  //
-  // BackendOperationNotSupported class implementation
-  //
-
-  BackendOperationNotSupported::BackendOperationNotSupported(const char* msg) 
-  {
-    this->msg = msg;
-  }
-
-  const char* BackendOperationNotSupported::getMessage() {
-    return this->msg;
-  }
-
 }
