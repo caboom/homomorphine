@@ -33,6 +33,7 @@ set(SRC_FILES
    src/api.cpp
    src/backend.cpp
    src/arithmetic_backend_factory.cpp
+   src/boolean_circuit_backend_factory.cpp
    src/util.cpp
    src/clang_arithmetic_backend_interface.cpp)
 

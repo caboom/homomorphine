@@ -112,6 +112,32 @@ namespace homomorphine
        * \param cipher UUEncoded cipher
        */
       void setCipher(string cipher);
+
+      void NOT(int value);
+
+      void COPY(int value);
+
+      void NAND(int value);
+
+      void OR(int value);
+
+      void AND(int value);
+
+      void XOR(int value);
+
+      void XNOR(int value);
+
+      void NOR(int value);
+
+      void ADDNY(int value);
+
+      void ADDYN(int value);
+
+      void ORNY(int value);
+
+      void ORYN(int value);
+
+      void MUX(int a, int b);
   };
 }
 
