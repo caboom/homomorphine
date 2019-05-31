@@ -62,49 +62,4 @@ namespace homomorphine {
 
   }
 
-  string TFHEBackend::encrypt(vector<long> values)
-  {
-    return "";
-  }
-
-  string TFHEBackend::encrypt(long value)
-  {
-    return "";
-  }
-
-  vector<long> TFHEBackend::decryptValues()
-  {
-    return vector<long>();
-  }
-
-  long TFHEBackend::decrypt()
-  {
-    return 0;
-  }
-
-  void TFHEBackend::add(vector<long> values)
-  {
-
-  }
-
-  void TFHEBackend::add(long value)
-  {
-
-  }
-
-  void TFHEBackend::negate()
-  {
-
-  }
-
-  void TFHEBackend::multiply(vector<long> values)
-  {
-
-  }
-
-  void TFHEBackend::multiply(long value)
-  {
-
-  }
-
 }

@@ -13,23 +13,23 @@ namespace homomorphine
 {
   /*! /brief Backend interface
    * 
-   * Provides an interface that each specific arithmetic backend has to provide
+   * Provides an interface that each specific boolean circuit backend has to provide
    */
-  class ArithmeticBackend : public Backend
+  class BooleanCircuitBackend : public Backend
   {
     protected:
-      map<string, string> params; /*!< params that are consumed by specific implementations of the arithmetic homomorphic backend */
+      map<string, string> params; /*!< params that are consumed by specific implementations of the boolean circuit homomorphic backend */
 
     public:
 
       /*! 
        * Backend cleanup
        */
-      virtual ~ArithmeticBackend() { this->params.clear(); };
+      virtual ~BooleanCircuitBackend() { this->params.clear(); };
 
       /*! 
        * Sets the specific homomorphic algorithm implementation
-       * that backend provides
+       * that boolean circuit backend provides
        * 
        * \param algorithm homomorphic encryption algorithm
        */
@@ -103,7 +103,7 @@ namespace homomorphine
        */
       virtual void setCipher(string cipher) = 0;
   };
-  
+
 }
 
 #endif

@@ -28,20 +28,20 @@ namespace homomorphine
     public:
 
       /*! 
-       * Backend cleanup
+       * Arithmetic backend cleanup
        */
       virtual ~ArithmeticBackend() { this->params.clear(); };
 
       /*! 
        * Sets the specific homomorphic algorithm implementation
-       * that backend provides
+       * that arithmetic backend provides
        * 
        * \param algorithm homomorphic encryption algorithm
        */
       virtual void setAlgorithm(string algorithm) = 0;
 
       /*!
-       * Backend initialization method - initializes all the basic
+       * Algorithm backend initialization method - initializes all the basic
        * parameters and behavior of a specific backend implementation
        */
       virtual void init() = 0;
