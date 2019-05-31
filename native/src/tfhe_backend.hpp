@@ -10,7 +10,7 @@
 
 #include "util.hpp"
 #include "backend.hpp"
-#include "arithmetic_backend.hpp"
+#include "boolean_circuit_backend.hpp"
 #include "constants.hpp"
 
 using namespace std;
@@ -26,7 +26,7 @@ namespace homomorphine
    *
    * This class is an implementation of the SEAL backend.
    */
-  class TFHEBackend : public ArithmeticBackend
+  class TFHEBackend : public BooleanCircuitBackend
   {
     private:
       TFHEAlgorithmType algorithm;    /*!< TFHE algorithm type */
@@ -112,69 +112,6 @@ namespace homomorphine
        * \param cipher UUEncoded cipher
        */
       void setCipher(string cipher);
-
-      /*!
-       * Encrypts the vector of values using the public key
-       * 
-       * \param values vector of values
-       * \return UUEncoded cipher
-       */
-      string encrypt(vector<long> values); 
-
-      /*!
-       * Encrypts the single value using the public key
-       * 
-       * \param value value
-       * \return UUEncoded cipher
-       */
-      string encrypt(long value);
-
-      /*!
-       * Decrypts the vector of values using the secret key
-       * 
-       * \return vector of decrypted values
-       */
-      vector<long> decryptValues();
-
-      /*!
-       * Decrypts the single value using the secret key
-       * 
-       * \return decrypted value
-       */
-      long decrypt();
-
-      /*!
-       * Adds the vector of values to encrypted vector of values
-       * 
-       * \param values vector of values
-       */
-      void add(vector<long> values);
-
-      /*!
-       * Adds the value to encrypted value
-       * 
-       * \param value value
-       */
-      void add(long value);
-
-      /*!
-       * Negates a single encrypted value, or a vector of encrypted values
-       */
-      void negate();
-
-      /*!
-       * Multiplies the vector of values with the encrypted vector of values
-       * 
-       * \param values vector of values
-       */
-      void multiply(vector<long> values);
-
-      /*!
-       * Multiplies the value with the encrypted value
-       * 
-       * \param value value
-       */
-      void multiply(long value);
   };
 }
 

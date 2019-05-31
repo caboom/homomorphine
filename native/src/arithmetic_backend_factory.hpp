@@ -1,10 +1,11 @@
-#ifndef _ARITHMETIC_HOMOMORPHINE_BACKEND_FACTORY_H_
-#define _ARITHMETIC_HOMOMORPHINE_BACKEND_FACTORY_H_
+#ifndef _HOMOMORPHINE_ARITHMETIC_BACKEND_FACTORY_H_
+#define _HOMOMORPHINE_ARITHMETIC_BACKEND_FACTORY_H_
 
 #include <string>
 #include <boost/algorithm/string.hpp>
 
 #include "info.hpp"
+#include "util.hpp"
 #include "arithmetic_backend.hpp"
 
 #ifdef __HAS_SEAL__
@@ -15,10 +16,6 @@
 #include "helib_backend.hpp"
 #endif
 
-#ifdef __HAS_TFHE__
-#include "tfhe_backend.hpp"
-#endif
-
 using namespace std;
 
 namespace homomorphine 
@@ -27,7 +24,6 @@ namespace homomorphine
   enum ArithmeticBackendType { 
     B_SEAL,    /*!< SEAL Backend */
     B_HELib,   /*!< HELib Backend */
-    B_TFHE,    /*!< TFHE Backend */
     B_UNKNOWN  /*!< Unknown backend - usually represents an error in resolving the backend */
   }; 
 
@@ -66,18 +62,18 @@ namespace homomorphine
       static ArithmeticBackendType getType(string name);
   };
 
-  /*! /brief BackendFactory exception.
+  /*! /brief ArithmeticBackendFactory exception.
    * 
-   * Thrown in case BackendFactory can't provide, or resolve a
+   * Thrown in case ArithmeticBackendFactory can't provide, or resolve a
    * specific backend.
    */
-  class BackendFactoryException : public std::exception 
+  class ArithmeticBackendFactoryException : public std::exception 
   {
 	  private:
       const char* msg; /*!< exception message */
 
     public:
-      BackendFactoryException(const char* msg);
+      ArithmeticBackendFactoryException(const char* msg);
 
       const char* getMessage();
   };

@@ -26,13 +26,7 @@ namespace homomorphine
     } 
     #endif
 
-    #ifdef __HAS_TFHE__
-    if (type == B_TFHE) {
-      return new TFHEBackend();
-    } 
-    #endif
-
-    throw BackendFactoryException("Unknown/unsupported backend type");
+    throw ArithmeticBackendFactoryException("Unknown/unsupported backend type");
   }
   
   ArithmeticBackendType ArithmeticBackendFactory::getType(string name) {
@@ -46,10 +40,6 @@ namespace homomorphine
     if (name == "helib") return B_HELib;
     #endif
 
-    #ifdef __HAS_TFHE__
-    if (name == "tfhe") return B_TFHE;
-    #endif
-
     return B_UNKNOWN;
   } 
 
@@ -57,12 +47,12 @@ namespace homomorphine
   // BackendFactoryException class implementation
   //
 
-  BackendFactoryException::BackendFactoryException(const char* msg) 
+  ArithmeticBackendFactoryException::ArithmeticBackendFactoryException(const char* msg) 
   {
     this->msg = msg;
   }
 
-  const char* BackendFactoryException::getMessage() {
+  const char* ArithmeticBackendFactoryException::getMessage() {
     return this->msg;
   }  
 }
