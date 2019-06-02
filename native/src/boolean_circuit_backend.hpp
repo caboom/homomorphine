@@ -11,6 +11,24 @@ using namespace std;
 
 namespace homomorphine 
 {
+  /*! 
+   * Types of boolean circuit operations
+   */
+  enum class BooleanCircuitOperation { 
+    NOT,    /*!< Boolean NOT operation */
+    COPY,   /*!< Boolean COPY operation */
+    NAND,   /*!< Boolean NAND operation */
+    OR,     /*!< Boolean OR operation */
+    AND,    /*!< Boolean AND operation */
+    XOR,    /*!< Boolean XOR operation */
+    XNOR,   /*!< Boolean XNOR operation */
+    NOR,    /*!< Boolean NOR operation */
+    ADDNY,  /*!< Boolean ADDNY operation */ 
+    ADDYN,  /*!< Boolean ADDYN operation */
+    ORNY,   /*!< Boolean ORNY operation */
+    ORYN    /*!< Boolean ORYN operation */
+  }; 
+
   /*! /brief Backend interface
    * 
    * Provides an interface that each specific boolean circuit backend has to provide
@@ -103,31 +121,13 @@ namespace homomorphine
        */
       virtual void setCipher(string cipher) = 0;
 
-      virtual void NOT(int value) = 0;
-
-      virtual void COPY(int value) = 0;
-
-      virtual void NAND(int value) = 0;
-
-      virtual void OR(int value) = 0;
-
-      virtual void AND(int value) = 0;
-
-      virtual void XOR(int value) = 0;
-
-      virtual void XNOR(int value) = 0;
-
-      virtual void NOR(int value) = 0;
-
-      virtual void ADDNY(int value) = 0;
-
-      virtual void ADDYN(int value) = 0;
-
-      virtual void ORNY(int value) = 0;
-
-      virtual void ORYN(int value) = 0;
-
-      virtual void MUX(int a, int b) = 0;
+      /*!
+       * Perform boolean operation on cypher
+       * 
+       * \param value value
+       * \param operation type of operation
+       */
+      virtual void process(int value, BooleanCircuitOperation operation) = 0;
   };
 
 }

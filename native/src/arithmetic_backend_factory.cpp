@@ -15,13 +15,13 @@ namespace homomorphine
   ArithmeticBackend* ArithmeticBackendFactory::create(ArithmeticBackendType type)
   {
     #ifdef __HAS_SEAL__
-    if (type == B_SEAL) {
+    if (type == ArithmeticBackendType::SEAL) {
       return new SealBackend();
     }
     #endif
 
     #ifdef __HAS_HELIB__
-    if (type == B_HELib) {
+    if (type == ArithmeticBackendType::HELIB) {
       return new HELibBackend();
     } 
     #endif
@@ -33,14 +33,14 @@ namespace homomorphine
     boost::algorithm::to_lower(name);
 
     #ifdef __HAS_SEAL__
-    if (name == "seal") return B_SEAL;
+    if (name == "seal") return ArithmeticBackendType::SEAL;
     #endif
     
     #ifdef __HAS_HELIB__
-    if (name == "helib") return B_HELib;
+    if (name == "helib") return ArithmeticBackendType::HELIB;
     #endif
 
-    return B_UNKNOWN;
+    return ArithmeticBackendType::UNKNOWN;
   } 
 
   //

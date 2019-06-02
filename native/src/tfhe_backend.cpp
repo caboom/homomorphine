@@ -62,67 +62,7 @@ namespace homomorphine {
 
   }
 
-  void TFHEBackend::NOT(int value)
-  {
-
-  }
-
-  void TFHEBackend::COPY(int value)
-  {
-
-  }
-
-  void TFHEBackend::NAND(int value)
-  {
-
-  }
-
-  void TFHEBackend::OR(int value)
-  {
-
-  }
-
-  void TFHEBackend::AND(int value)
-  {
-
-  }
-
-  void TFHEBackend::XOR(int value)
-  {
-
-  }
-
-  void TFHEBackend::XNOR(int value)
-  {
-
-  }
-
-  void TFHEBackend::NOR(int value)
-  {
-
-  }
-
-  void TFHEBackend::ADDNY(int value)
-  {
-
-  }
-
-  void TFHEBackend::ADDYN(int value)
-  {
-
-  }
-
-  void TFHEBackend::ORNY(int value)
-  {
-
-  }
-
-  void TFHEBackend::ORYN(int value)
-  {
-
-  }
-
-  void TFHEBackend::MUX(int a, int b)
+  void TFHEBackend::process(int value, BooleanCircuitOperation operation)
   {
 
   }

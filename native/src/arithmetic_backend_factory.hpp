@@ -21,10 +21,10 @@ using namespace std;
 namespace homomorphine 
 {
   //! Type of Homomorphic Backend (Currently supported: SEAL, HELib)
-  enum ArithmeticBackendType { 
-    B_SEAL,    /*!< SEAL Backend */
-    B_HELib,   /*!< HELib Backend */
-    B_UNKNOWN  /*!< Unknown backend - usually represents an error in resolving the backend */
+  enum class ArithmeticBackendType { 
+    SEAL,    /*!< SEAL Backend */
+    HELIB,   /*!< HELib Backend */
+    UNKNOWN  /*!< Unknown backend - usually represents an error in resolving the backend */
   }; 
 
   /*! /brief Factory for generating specific homomorphic backend.
