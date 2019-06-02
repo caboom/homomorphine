@@ -224,7 +224,6 @@ namespace homomorphine
   string SealBackend::encrypt(vector<long> values)
   {
     stringstream cipher_stream;
-    string encrypted_value;
     Plaintext plain_matrix;
     Encryptor encryptor(this->context, this->public_key);
      
@@ -236,16 +235,15 @@ namespace homomorphine
       encryptor.encrypt(this->encodeWithBFV(values), this->cipher);
     }
 
+    // save to stream
     this->cipher.save(cipher_stream);
-    encrypted_value = Util::uuencodeStream(cipher_stream);
 
-    return encrypted_value;
+    return Util::uuencodeStream(cipher_stream);
   }
 
   string SealBackend::encrypt(long value)
   {
     stringstream cipher_stream;
-    string encrypted_value;
     Encryptor encryptor(this->context, this->public_key);
 
     // encode with proper encode (BFV is default)
@@ -257,9 +255,8 @@ namespace homomorphine
     }
 
     this->cipher.save(cipher_stream);
-    encrypted_value = Util::uuencodeStream(cipher_stream);
-
-    return encrypted_value;
+    
+    return Util::uuencodeStream(cipher_stream);
   }
 
   Plaintext SealBackend::encodeWithBFV(vector<long> values)

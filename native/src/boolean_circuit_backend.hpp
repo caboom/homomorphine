@@ -122,6 +122,21 @@ namespace homomorphine
       virtual void setCipher(string cipher) = 0;
 
       /*!
+       * Encrypts the single value using the public key
+       * 
+       * \param value value
+       * \return UUEncoded cipher
+       */
+      virtual string encrypt(int value) = 0;
+
+      /*!
+       * Decrypts the single value using the secret key
+       * 
+       * \return decrypted value
+       */
+      virtual int decrypt() = 0;
+
+      /*!
        * Perform boolean operation on cypher
        * 
        * \param value value

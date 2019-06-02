@@ -32,6 +32,7 @@ namespace homomorphine
 
       static const int TFHE_RANDOM_DEPTH = 3;
       static const int TFHE_MINIMUM_LAMBDA = 110;
+      static const int TFHE_BITS_ENCRYPT = 16;
   };
 }
 

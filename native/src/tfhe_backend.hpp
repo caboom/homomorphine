@@ -32,8 +32,10 @@ namespace homomorphine
       TFHEAlgorithm algorithm;                                       /*!< TFHE algorithm type */
       TFheGateBootstrappingParameterSet *context = nullptr;          /*!< TFHE params */
       int random_depth;                                              /*!< random vector depth */
+      int bits_encrypt;                                              /*!< number of bits used for encryption */
       TFheGateBootstrappingSecretKeySet* secret_key = nullptr;       /*!< secret key (contains public/cloud key as well) */
       const TFheGateBootstrappingCloudKeySet* public_key = nullptr;  /*!< public key */
+      LweSample* cipher;                                             /*!< cipher */
 
       /*!
        * Generate seed vector
@@ -113,6 +115,14 @@ namespace homomorphine
       void setKeys(string public_key, string secret_key);
 
       /*!
+       * Encrypts the single value using the public key
+       * 
+       * \param value value
+       * \return UUEncoded cipher
+       */
+      string encrypt(int value);
+
+      /*!
        * Returns the UUEncoded cipher containing ecrypted value, or vector of values
        * 
        * \return UUEncoded cipher
@@ -125,6 +135,13 @@ namespace homomorphine
        * \param cipher UUEncoded cipher
        */
       void setCipher(string cipher);
+
+      /*!
+       * Decrypts the single value using the secret key
+       * 
+       * \return decrypted value
+       */
+      int decrypt();
 
       /*!
        * Perform boolean operation on cypher
