@@ -22,11 +22,11 @@ BOOST_AUTO_TEST_CASE( dummy_test )
 #ifdef __HAS_TFHE__
 
 // Basic TFHE backend test
-BOOST_AUTO_TEST_CASE( tfhe_check_serialization )
+BOOST_AUTO_TEST_CASE( tfhe_check_encryption )
 {
-  int value = 100321;
+  int value = 10321;
 
-  BOOST_TEST_MESSAGE( "Testing a TFHE backend serialization." );
+  BOOST_TEST_MESSAGE( "Testing a TFHE backend encryption..." );
 
   string public_key;
   string secret_key;
@@ -37,19 +37,8 @@ BOOST_AUTO_TEST_CASE( tfhe_check_serialization )
 
   // generate uuencoded keys
   backend->generateKeys();
-  public_key = backend->getPublicKey();
-  secret_key = backend->getSecretKey();
-
   backend->encrypt(value);
-
-  // encrypt using a new object
-  BooleanCircuitBackend* backend_operations = BooleanCircuitBackendFactory::create("tfhe");
-  backend_operations->init();
-  backend_operations->setSecretKey(secret_key);
-  backend_operations->setCipher(backend->getCipher());
-
-  // check
-  BOOST_TEST_MESSAGE( "RESULT: " + to_string(backend_operations->decrypt()) );
+  BOOST_TEST ( backend->decrypt() == value );
 }
 
 #endif

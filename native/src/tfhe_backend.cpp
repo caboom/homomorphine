@@ -50,9 +50,10 @@ namespace homomorphine {
 
   void TFHEBackend::generateKeys()  
   {
-    vector<uint32_t> seed = this->getSeed(this->random_depth);
+    //vector<uint32_t> seed = this->getSeed(this->random_depth);
+    uint32_t seed[] = { 314, 1592, 657 };
 
-    tfhe_random_generator_setSeed(&seed[0], seed.size());
+    tfhe_random_generator_setSeed(seed, 3);
 
     // secret key contains public one as well...
     if (this->secret_key != nullptr) {
@@ -145,6 +146,15 @@ namespace homomorphine {
   {
     stringstream cipher_stream;
 
+    // delete cipher if exists
+    if (this->cipher != nullptr) {
+      delete(this->cipher);
+    }
+
+    // initialize cipher
+    this->cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
+
+    // decode cipher from stream
     Util::uudecodeString(cipher, cipher_stream);
     import_gate_bootstrapping_ciphertext_fromStream(cipher_stream, this->cipher, this->context);
   }
