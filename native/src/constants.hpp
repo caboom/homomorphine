@@ -30,7 +30,7 @@ namespace homomorphine
       static const unsigned long HELIB_DEGREE_OF_FIELD_EXTENSION = 0;
       static const unsigned long HELIB_MINIMUM_NUMBER_OF_SLOTS = 0;
 
-      static const int TFHE_RANDOM_DEPTH = 10;
+      static const int TFHE_RANDOM_DEPTH = 3;
       static const int TFHE_MINIMUM_LAMBDA = 110;
   };
 }

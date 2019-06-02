@@ -1,5 +1,5 @@
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE backend
+#define BOOST_TEST_MODULE arithmetic backend
 
 #include <iostream>
 #include <boost/test/included/unit_test.hpp>

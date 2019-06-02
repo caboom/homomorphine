@@ -102,7 +102,7 @@ namespace homomorphine {
   {
     vector<uint32_t> result(size);
     boost::random::mt19937 generator;
-    boost::random::uniform_int_distribution<> distribution(numeric_limits<uint32_t>::min(), numeric_limits<uint32_t>::max());
+    boost::random::uniform_int_distribution<> distribution(0, numeric_limits<int>::max());
 
     // seed the generator and generate random numbers
     generator.seed(time(0));
