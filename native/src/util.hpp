@@ -1,6 +1,8 @@
 #ifndef _HOMOMORPHINE_UTIL_H_
 #define _HOMOMORPHINE_UTIL_H_
 
+#include <limits>
+#include <ctime> 
 #include <iostream>
 #include <utility>
 #include <sstream>
@@ -13,6 +15,8 @@
 #include <boost/archive/iterators/transform_width.hpp>
 #include <boost/archive/iterators/ostream_iterator.hpp>
 #include <boost/archive/iterators/remove_whitespace.hpp>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
 
 using namespace std;
 using namespace boost::archive::iterators;
@@ -43,6 +47,14 @@ namespace homomorphine
        * \param string_stream stream containing a decoded stream
        */
       static const void uudecodeString(string content, stringstream &string_stream);
+
+      /*!
+       * Generates a vector of random values
+       * 
+       * \param size size of vector
+       * \return vector of random numbers
+       */
+      static const vector<int> getRandomVector(int &size);
   };
 }
 

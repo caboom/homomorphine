@@ -22,8 +22,8 @@ using namespace boost::archive::iterators;
 namespace homomorphine 
 {
   //! HELib algorithms - there is only one used
-  enum HELibAlgorithmType { 
-    HELIB_DEFAULT_ALGORITHM
+  enum HELibAlgorithm { 
+    DEFAULT
   }; 
 
   /*! /brief HELib backend
@@ -38,7 +38,7 @@ namespace homomorphine
       FHESecKey* secret_key = nullptr; /*!< HELib secret */
       ZZX polynomial;                  /*!< NTL polynomial, used internally by HELib */
       Ctxt* cipher = nullptr;          /*!< cipher */
-      HELibAlgorithmType algorithm;    /*!< HELib algorithm type */
+      HELibAlgorithm algorithm;    /*!< HELib algorithm type */
 
       unsigned long hamming_weight;    /*!< Hamming weight - used for encrypting the value(s) */
 

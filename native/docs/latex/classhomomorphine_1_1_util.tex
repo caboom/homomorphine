@@ -10,6 +10,8 @@
 static const string \mbox{\hyperlink{classhomomorphine_1_1_util_a26f29995aa48f4374993ec4afeca2ac8}{uuencode\+Stream}} (stringstream \&string\+\_\+stream)
 \item 
 static const void \mbox{\hyperlink{classhomomorphine_1_1_util_aba5af6d7356aca8c70ae4fb1e5d36b70}{uudecode\+String}} (string content, stringstream \&string\+\_\+stream)
+\item 
+static const vector$<$ int $>$ \mbox{\hyperlink{classhomomorphine_1_1_util_a2dcf1d83028f3d47ba49b80696fefef7}{get\+Random\+Vector}} (int \&size)
 \end{DoxyCompactItemize}
 
 
@@ -19,6 +21,22 @@ static const void \mbox{\hyperlink{classhomomorphine_1_1_util_aba5af6d7356aca8c7
 This class provides a various utility functions. At this moment it supports U\+U\+Encoding/\+U\+U\+Decoding of the binary string streams used to serialize various binary objects for external usage and standardization of the interface. 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{classhomomorphine_1_1_util_a2dcf1d83028f3d47ba49b80696fefef7}\label{classhomomorphine_1_1_util_a2dcf1d83028f3d47ba49b80696fefef7}} 
+\index{homomorphine::Util@{homomorphine::Util}!getRandomVector@{getRandomVector}}
+\index{getRandomVector@{getRandomVector}!homomorphine::Util@{homomorphine::Util}}
+\subsubsection{\texorpdfstring{getRandomVector()}{getRandomVector()}}
+{\footnotesize\ttfamily const vector$<$ int $>$ homomorphine\+::\+Util\+::get\+Random\+Vector (\begin{DoxyParamCaption}\item[{int \&}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Generates a vector of random values
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & size of vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of random numbers 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classhomomorphine_1_1_util_aba5af6d7356aca8c70ae4fb1e5d36b70}\label{classhomomorphine_1_1_util_aba5af6d7356aca8c70ae4fb1e5d36b70}} 
 \index{homomorphine::Util@{homomorphine::Util}!uudecodeString@{uudecodeString}}
 \index{uudecodeString@{uudecodeString}!homomorphine::Util@{homomorphine::Util}}

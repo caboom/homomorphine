@@ -17,31 +17,30 @@ namespace homomorphine
     this->algorithm = getAlgorithmType(algorithm);
   }
 
-  void SealBackend::setAlgorithm(SealAlgorithmType algorithm) 
+  void SealBackend::setAlgorithm(SealAlgorithm algorithm) 
   {
     this->algorithm = algorithm;
   }
 
-  SealAlgorithmType SealBackend::getAlgorithmType(string name) 
+  SealAlgorithm SealBackend::getAlgorithmType(string name) 
   {
     boost::algorithm::to_lower(name);
 
-    if (name == "bfv") return SEAL_BFV;
-    if (name == "ckks") return SEAL_CKKS;
+    if (name == "bfv") return SealAlgorithm::BFV;
+    if (name == "ckks") return SealAlgorithm::CKKS;
 
-    return SEAL_UNKNOWN;
+    return SealAlgorithm::UNKNOWN;
   }
 
   void SealBackend::init() 
   {
-    if (this->algorithm == SEAL_BFV) { 
+    if (this->algorithm == SealAlgorithm::BFV) { 
       this->initBFV();
     } 
-    else if (this->algorithm == SEAL_CKKS) {
+    else if (this->algorithm == SealAlgorithm::CKKS) {
       this->initCKKS();
     } 
     else {
-      BOOST_LOG_TRIVIAL(error) << "Unknown backend: " << this->algorithm;
       throw BackendException("Unknown backend");
     }
   }
@@ -230,7 +229,7 @@ namespace homomorphine
     Encryptor encryptor(this->context, this->public_key);
      
      // encode with proper encode (BFV is default)
-    if (this->algorithm == SEAL_CKKS) {
+    if (this->algorithm == SealAlgorithm::CKKS) {
       encryptor.encrypt(this->encodeWithCKKS(values), this->cipher);
     }
     else {
@@ -250,7 +249,7 @@ namespace homomorphine
     Encryptor encryptor(this->context, this->public_key);
 
     // encode with proper encode (BFV is default)
-    if (this->algorithm == SEAL_CKKS) {
+    if (this->algorithm == SealAlgorithm::CKKS) {
       encryptor.encrypt(this->encodeWithCKKS(value), this->cipher);
     }
     else {
@@ -314,7 +313,7 @@ namespace homomorphine
     );
 
     // decode with either CKKS or BFV Integer decoder
-    if (this->algorithm == SEAL_CKKS) {
+    if (this->algorithm == SealAlgorithm::CKKS) {
       result = this->decodeWithCKKS(plain_result);
     }
     else {
@@ -336,7 +335,7 @@ namespace homomorphine
     );
 
     // decode with either CKKS or BFV Integer decoder
-    if (this->algorithm == SEAL_CKKS) {
+    if (this->algorithm == SealAlgorithm::CKKS) {
       result = this->decodeValuesWithCKKS(plain_result);
     }
     else {
@@ -398,7 +397,7 @@ namespace homomorphine
     Encryptor encryptor(this->context, this->public_key);
    
     // encode either with CKKS or BFV
-    if (this->algorithm == SEAL_CKKS) {
+    if (this->algorithm == SealAlgorithm::CKKS) {
       plaintext_value = this->encodeWithCKKS(values);
     }
     else {
@@ -417,7 +416,7 @@ namespace homomorphine
     Encryptor encryptor(this->context, this->public_key);
 
     // encode either with CKKS or BFV
-    if (this->algorithm == SEAL_CKKS) {
+    if (this->algorithm == SealAlgorithm::CKKS) {
       plaintext_value = this->encodeWithCKKS(value);
     }
     else {
@@ -444,7 +443,7 @@ namespace homomorphine
     auto relin_keys = keygen.relin_keys(30);
     
     // encode either with CKKS or BFV
-    if (this->algorithm == SEAL_CKKS) {
+    if (this->algorithm == SealAlgorithm::CKKS) {
       plaintext_value = this->encodeWithCKKS(values);
     }
     else {
@@ -464,7 +463,7 @@ namespace homomorphine
     Encryptor encryptor(this->context, this->public_key);
 
     // encode either with CKKS or BFV
-    if (this->algorithm == SEAL_CKKS) {
+    if (this->algorithm == SealAlgorithm::CKKS) {
       plaintext_value = this->encodeWithCKKS(value);
     }
     else {

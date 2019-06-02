@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE( serialization_deserialization_test )
   SealBackend seal_deserialization;
   
   // generate keys
-  seal.setAlgorithm(SEAL_BFV);
+  seal.setAlgorithm(SealAlgorithm::BFV);
   seal.init();
 
   seal.generateKeys();
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE( serialization_deserialization_test )
   secret_key = seal.getSecretKey();
 
   // create deserialization SEAL backend
-  seal_deserialization.setAlgorithm(SEAL_BFV);
+  seal_deserialization.setAlgorithm(SealAlgorithm::BFV);
   seal_deserialization.init();
 
   // add key
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE( batch_bvf_operations_test )
   vector<long> add_to_values { 20, 50 };
   vector<long> add_to_values_again { 10, 20 };
   
-  seal.setAlgorithm(SEAL_BFV);
+  seal.setAlgorithm(SealAlgorithm::BFV);
   seal.init();
 
   // test generating uuencoded keys
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE( batch_bvf_operations_test )
   // encrypt using a new object
   SealBackend seal_encrypt;
 
-  seal_encrypt.setAlgorithm(SEAL_BFV);
+  seal_encrypt.setAlgorithm(SealAlgorithm::BFV);
   seal_encrypt.init();
 
   seal_encrypt.setPublicKey(public_key);
@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE( batch_ckks_operations_test )
   vector<long> add_to_values { 20, 50 };
   vector<long> add_to_values_again { 10, 20 };
   
-  seal.setAlgorithm(SEAL_CKKS);
+  seal.setAlgorithm(SealAlgorithm::CKKS);
   seal.init();
 
   // test generating uuencoded keys
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE( batch_ckks_operations_test )
   // encrypt using a new object
   SealBackend seal_encrypt;
 
-  seal_encrypt.setAlgorithm(SEAL_CKKS);
+  seal_encrypt.setAlgorithm(SealAlgorithm::CKKS);
   seal_encrypt.init();
 
   seal_encrypt.setPublicKey(public_key);
@@ -153,7 +153,7 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
   string cipher;
   SealBackend seal;
   
-  seal.setAlgorithm(SEAL_BFV);
+  seal.setAlgorithm(SealAlgorithm::BFV);
   seal.init();
 
   // test generating uuencoded keys
@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE( single_operation_test )
   // encrypt using a new object
   SealBackend seal_encrypt;
 
-  seal_encrypt.setAlgorithm(SEAL_BFV);
+  seal_encrypt.setAlgorithm(SealAlgorithm::BFV);
   seal_encrypt.init();
 
   seal_encrypt.setPublicKey(public_key);

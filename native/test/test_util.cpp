@@ -34,13 +34,13 @@ string generateRandomString(int len) {
   return rnd_string;
 }
 
-// Test SEAL backend
-BOOST_AUTO_TEST_CASE( test_constructor )
+// Test uuencoding/decoding
+BOOST_AUTO_TEST_CASE( test_uuencode )
 {
   stringstream rnd_string_stream;
   stringstream decoded_rnd_string_stream;
 
-  BOOST_TEST_MESSAGE( "Testing util class methods..." );
+  BOOST_TEST_MESSAGE( "Testing uuencoding/uudecoding..." );
 
   // initialize random string
   string rnd_string = generateRandomString(TEST_RANDOM_STR_SIZE);
@@ -51,4 +51,13 @@ BOOST_AUTO_TEST_CASE( test_constructor )
   Util::uudecodeString(uuencoded_string, decoded_rnd_string_stream);
   
   BOOST_TEST( rnd_string == decoded_rnd_string_stream.str() );
+}
+
+// Test RND generator
+BOOST_AUTO_TEST_CASE( test_random )
+{
+  int size = 10;
+  BOOST_TEST_MESSAGE( "Testing random generator (dummy test)..." );
+
+  vector<int> values = Util::getRandomVector(size);
 }

@@ -7,7 +7,7 @@ namespace homomorphine
 
   void HELibBackend::setAlgorithm(string algorithm) 
   {
-    this->algorithm = HELIB_DEFAULT_ALGORITHM; // there is only one atm
+    this->algorithm = HELibAlgorithm::DEFAULT; // there is only one atm
   }
   
   void HELibBackend::init() 

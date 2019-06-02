@@ -23,10 +23,10 @@ namespace homomorphine
 {
   
   //! SEAL algorithms 
-  enum SealAlgorithmType { 
-    SEAL_BFV,     /*!< SEAL BFV backend */
-    SEAL_CKKS,    /*!< SEAL CKKS backend */
-    SEAL_UNKNOWN  /*!< Unknown algorithm type - usually an error */
+  enum class SealAlgorithm { 
+    BFV,     /*!< SEAL BFV backend */
+    CKKS,    /*!< SEAL CKKS backend */
+    UNKNOWN  /*!< Unknown algorithm type - usually an error */
   }; 
 
   /*! /brief SEAL backend
@@ -38,7 +38,7 @@ namespace homomorphine
     private:
       std::shared_ptr<SEALContext> context;               /*!< SEAL context object */
       KeyGenerator *keygen = nullptr;                     /*!< SEAL key generator */
-      SealAlgorithmType algorithm;                        /*!< SEAL algorithm type (BFV, or CKKS) */
+      SealAlgorithm algorithm;                            /*!< SEAL algorithm type (BFV, or CKKS) */
       EncryptionParameters *encryption_params = nullptr;  /*!< SEAL specific encryption parameters */
       PublicKey public_key;                               /*!< SEAL public key */
       SecretKey secret_key;                               /*!< SEAL secret key */
@@ -52,7 +52,7 @@ namespace homomorphine
        * \param name algorithm name
        * \return algorithm type
        */
-      SealAlgorithmType getAlgorithmType(string name);
+      SealAlgorithm getAlgorithmType(string name);
 
       /*!
        * Initialize BFV specific stuff of SEAL backend
@@ -154,7 +154,7 @@ namespace homomorphine
        * 
        * \param algorithm homomorphic encryption algorithm
        */
-      void setAlgorithm(SealAlgorithmType algorithm);
+      void setAlgorithm(SealAlgorithm algorithm);
 
       /*!
        * Generates the public/secret key pair

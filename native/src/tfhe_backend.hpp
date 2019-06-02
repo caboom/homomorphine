@@ -18,8 +18,8 @@ using namespace std;
 namespace homomorphine 
 {
   //! TFHE algorithms - there is only one used
-  enum TFHEAlgorithmType { 
-    TFHE_DEFAULT_ALGORITHM
+  enum class TFHEAlgorithm { 
+    DEFAULT
   }; 
 
   /*! /brief TFHE backend
@@ -29,7 +29,20 @@ namespace homomorphine
   class TFHEBackend : public BooleanCircuitBackend
   {
     private:
-      TFHEAlgorithmType algorithm;    /*!< TFHE algorithm type */
+      TFHEAlgorithm algorithm;                                       /*!< TFHE algorithm type */
+      TFheGateBootstrappingParameterSet *context = nullptr;          /*!< TFHE params */
+      int random_depth;                                              /*!< random vector depth */
+      TFheGateBootstrappingSecretKeySet* secret_key = nullptr;       /*!< secret key (contains public/cloud key as well) */
+      const TFheGateBootstrappingCloudKeySet* public_key = nullptr;  /*!< public key */
+
+      /*!
+       * Generate seed vector
+       * 
+       * /param size vector size
+       * /return seed vector
+       * 
+       */
+      vector<uint32_t> getSeed(int &size);
 
     public:
        
