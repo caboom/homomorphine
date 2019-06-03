@@ -23,23 +23,35 @@ void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a2c6ed82eeb597b99ae6
 \item 
 string \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a8b096d4780f3b65f0fa0cb3ca6cb9ab8}{get\+Public\+Key}} ()
 \item 
+void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_acd7a366e43b8408d370424f136fc9f21}{write\+Public\+Key\+To\+Stream}} (ostream \&stream)
+\item 
 string \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a57af39a901a44fef6aad76503739fde4}{get\+Secret\+Key}} ()
+\item 
+void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_ac20314b484b23a46ff2070445576f413}{write\+Secret\+Key\+To\+Stream}} (ostream \&stream)
 \item 
 pair$<$ string, string $>$ \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_ab45838cc01a4e71425e2aa0279e12c0e}{get\+Keys}} ()
 \item 
 void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_af54dc3990d99aab69c97172d0e5b4e51}{set\+Public\+Key}} (string public\+\_\+key)
 \item 
+void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a2b9f132cc4dde870db1e69553349813b}{read\+Public\+Key\+From\+Stream}} (istream \&stream)
+\item 
 void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a483a6695be2d733d48e2180ffb25d053}{set\+Secret\+Key}} (string secret\+\_\+key)
+\item 
+void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_ad1ed1336d11c5b75419efa58aa9071e3}{read\+Secret\+Key\+From\+Stream}} (istream \&stream)
 \item 
 void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a2980c8eaf3556057aac364a1e61ab8cd}{set\+Keys}} (string public\+\_\+key, string secret\+\_\+key)
 \item 
 string \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a9ba4311289e3b8c47f389f4f44de7d5d}{get\+Cipher}} ()
 \item 
+void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a3ec7bec3476ac21921f518ba7a3ff6b2}{write\+Cipher\+To\+Stream}} (ostream \&stream)
+\item 
 void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a5baa6ad05fbb23d27c4ec4bb018a8c64}{set\+Cipher}} (string cipher)
 \item 
-string \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_af030a10bdd905f7cccf72c8eabfefdd7}{encrypt}} (vector$<$ long $>$ values)
+void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a91b1a5b9baa1031addb9fce1e4a05ec0}{read\+Cipher\+From\+Stream}} (istream \&stream)
 \item 
-string \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a6a958824a123eab41b2099dbc001dc13}{encrypt}} (long value)
+void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_ae142417734796968fe66c4b6174d2b8a}{encrypt}} (vector$<$ long $>$ values)
+\item 
+void \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a0fc8b8ad698a9816dde898087b6b5c57}{encrypt}} (long value)
 \item 
 vector$<$ long $>$ \mbox{\hyperlink{classhomomorphine_1_1_h_e_lib_backend_a650d87bee6056a404f8ab81ec0f84980}{decrypt\+Values}} ()
 \item 
@@ -137,11 +149,11 @@ vector of decrypted values
 
 Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_a2fb1ce64e74c4930b7d364ce3b9cc8fe}{homomorphine\+::\+Arithmetic\+Backend}}.
 
-\mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_af030a10bdd905f7cccf72c8eabfefdd7}\label{classhomomorphine_1_1_h_e_lib_backend_af030a10bdd905f7cccf72c8eabfefdd7}} 
+\mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_ae142417734796968fe66c4b6174d2b8a}\label{classhomomorphine_1_1_h_e_lib_backend_ae142417734796968fe66c4b6174d2b8a}} 
 \index{homomorphine::HELibBackend@{homomorphine::HELibBackend}!encrypt@{encrypt}}
 \index{encrypt@{encrypt}!homomorphine::HELibBackend@{homomorphine::HELibBackend}}
 \subsubsection{\texorpdfstring{encrypt()}{encrypt()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily string homomorphine\+::\+H\+E\+Lib\+Backend\+::encrypt (\begin{DoxyParamCaption}\item[{vector$<$ long $>$}]{values }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+{\footnotesize\ttfamily void homomorphine\+::\+H\+E\+Lib\+Backend\+::encrypt (\begin{DoxyParamCaption}\item[{vector$<$ long $>$}]{values }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
 
 Encrypts the vector of values using the public key
 
@@ -155,13 +167,13 @@ U\+U\+Encoded cipher
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_ae97a4987b6024961d8b70a4a0ad2d653}{homomorphine\+::\+Arithmetic\+Backend}}.
+Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_a684c16673191eb5f7c6400f3d34cbcc1}{homomorphine\+::\+Arithmetic\+Backend}}.
 
-\mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_a6a958824a123eab41b2099dbc001dc13}\label{classhomomorphine_1_1_h_e_lib_backend_a6a958824a123eab41b2099dbc001dc13}} 
+\mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_a0fc8b8ad698a9816dde898087b6b5c57}\label{classhomomorphine_1_1_h_e_lib_backend_a0fc8b8ad698a9816dde898087b6b5c57}} 
 \index{homomorphine::HELibBackend@{homomorphine::HELibBackend}!encrypt@{encrypt}}
 \index{encrypt@{encrypt}!homomorphine::HELibBackend@{homomorphine::HELibBackend}}
 \subsubsection{\texorpdfstring{encrypt()}{encrypt()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily string homomorphine\+::\+H\+E\+Lib\+Backend\+::encrypt (\begin{DoxyParamCaption}\item[{long}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+{\footnotesize\ttfamily void homomorphine\+::\+H\+E\+Lib\+Backend\+::encrypt (\begin{DoxyParamCaption}\item[{long}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
 
 Encrypts the single value using the public key
 
@@ -175,7 +187,7 @@ U\+U\+Encoded cipher
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_ad6aedf61ae1a6257e81bd415ec08ac17}{homomorphine\+::\+Arithmetic\+Backend}}.
+Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_abdf6100f3d87580c942526027823fdb1}{homomorphine\+::\+Arithmetic\+Backend}}.
 
 \mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_a2c6ed82eeb597b99ae6cdb2734412a0f}\label{classhomomorphine_1_1_h_e_lib_backend_a2c6ed82eeb597b99ae6cdb2734412a0f}} 
 \index{homomorphine::HELibBackend@{homomorphine::HELibBackend}!generateKeys@{generateKeys}}
@@ -301,6 +313,57 @@ Negates a single encrypted value, or a vector of encrypted values
 
 Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_ad27913060534c42b5812a1e4cf21475f}{homomorphine\+::\+Arithmetic\+Backend}}.
 
+\mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_a91b1a5b9baa1031addb9fce1e4a05ec0}\label{classhomomorphine_1_1_h_e_lib_backend_a91b1a5b9baa1031addb9fce1e4a05ec0}} 
+\index{homomorphine::HELibBackend@{homomorphine::HELibBackend}!readCipherFromStream@{readCipherFromStream}}
+\index{readCipherFromStream@{readCipherFromStream}!homomorphine::HELibBackend@{homomorphine::HELibBackend}}
+\subsubsection{\texorpdfstring{readCipherFromStream()}{readCipherFromStream()}}
+{\footnotesize\ttfamily void homomorphine\+::\+H\+E\+Lib\+Backend\+::read\+Cipher\+From\+Stream (\begin{DoxyParamCaption}\item[{istream \&}]{stream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Reads the cipher from input stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & cipher stream \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_ac8fe4568424c616b653a955b172c480b}{homomorphine\+::\+Arithmetic\+Backend}}.
+
+\mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_a2b9f132cc4dde870db1e69553349813b}\label{classhomomorphine_1_1_h_e_lib_backend_a2b9f132cc4dde870db1e69553349813b}} 
+\index{homomorphine::HELibBackend@{homomorphine::HELibBackend}!readPublicKeyFromStream@{readPublicKeyFromStream}}
+\index{readPublicKeyFromStream@{readPublicKeyFromStream}!homomorphine::HELibBackend@{homomorphine::HELibBackend}}
+\subsubsection{\texorpdfstring{readPublicKeyFromStream()}{readPublicKeyFromStream()}}
+{\footnotesize\ttfamily void homomorphine\+::\+H\+E\+Lib\+Backend\+::read\+Public\+Key\+From\+Stream (\begin{DoxyParamCaption}\item[{istream \&}]{stream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Sets the public key from stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & public key binary stream \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_aab5aac202ce0911e99e8adce7ffb707a}{homomorphine\+::\+Arithmetic\+Backend}}.
+
+\mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_ad1ed1336d11c5b75419efa58aa9071e3}\label{classhomomorphine_1_1_h_e_lib_backend_ad1ed1336d11c5b75419efa58aa9071e3}} 
+\index{homomorphine::HELibBackend@{homomorphine::HELibBackend}!readSecretKeyFromStream@{readSecretKeyFromStream}}
+\index{readSecretKeyFromStream@{readSecretKeyFromStream}!homomorphine::HELibBackend@{homomorphine::HELibBackend}}
+\subsubsection{\texorpdfstring{readSecretKeyFromStream()}{readSecretKeyFromStream()}}
+{\footnotesize\ttfamily void homomorphine\+::\+H\+E\+Lib\+Backend\+::read\+Secret\+Key\+From\+Stream (\begin{DoxyParamCaption}\item[{istream \&}]{stream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Sets the secret key from stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & secret key binary stream \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_a69b65cd979de00a9afa0c38c3b4329b0}{homomorphine\+::\+Arithmetic\+Backend}}.
+
 \mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_a39478377b0e299fd90f5c7bb6c8efe89}\label{classhomomorphine_1_1_h_e_lib_backend_a39478377b0e299fd90f5c7bb6c8efe89}} 
 \index{homomorphine::HELibBackend@{homomorphine::HELibBackend}!setAlgorithm@{setAlgorithm}}
 \index{setAlgorithm@{setAlgorithm}!homomorphine::HELibBackend@{homomorphine::HELibBackend}}
@@ -387,6 +450,57 @@ Sets the secret key
 
 
 Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_a0bb3c2728df4662c6472d4d43215410f}{homomorphine\+::\+Arithmetic\+Backend}}.
+
+\mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_a3ec7bec3476ac21921f518ba7a3ff6b2}\label{classhomomorphine_1_1_h_e_lib_backend_a3ec7bec3476ac21921f518ba7a3ff6b2}} 
+\index{homomorphine::HELibBackend@{homomorphine::HELibBackend}!writeCipherToStream@{writeCipherToStream}}
+\index{writeCipherToStream@{writeCipherToStream}!homomorphine::HELibBackend@{homomorphine::HELibBackend}}
+\subsubsection{\texorpdfstring{writeCipherToStream()}{writeCipherToStream()}}
+{\footnotesize\ttfamily void homomorphine\+::\+H\+E\+Lib\+Backend\+::write\+Cipher\+To\+Stream (\begin{DoxyParamCaption}\item[{ostream \&}]{stream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Writes the cipher to output stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & output stream \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_a659d4f63a1020d942d561b7fa5e9eddf}{homomorphine\+::\+Arithmetic\+Backend}}.
+
+\mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_acd7a366e43b8408d370424f136fc9f21}\label{classhomomorphine_1_1_h_e_lib_backend_acd7a366e43b8408d370424f136fc9f21}} 
+\index{homomorphine::HELibBackend@{homomorphine::HELibBackend}!writePublicKeyToStream@{writePublicKeyToStream}}
+\index{writePublicKeyToStream@{writePublicKeyToStream}!homomorphine::HELibBackend@{homomorphine::HELibBackend}}
+\subsubsection{\texorpdfstring{writePublicKeyToStream()}{writePublicKeyToStream()}}
+{\footnotesize\ttfamily void homomorphine\+::\+H\+E\+Lib\+Backend\+::write\+Public\+Key\+To\+Stream (\begin{DoxyParamCaption}\item[{ostream \&}]{stream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Writes the public key to a stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & public key stream \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_a2552b81a08e286969a0ff44428d59af4}{homomorphine\+::\+Arithmetic\+Backend}}.
+
+\mbox{\Hypertarget{classhomomorphine_1_1_h_e_lib_backend_ac20314b484b23a46ff2070445576f413}\label{classhomomorphine_1_1_h_e_lib_backend_ac20314b484b23a46ff2070445576f413}} 
+\index{homomorphine::HELibBackend@{homomorphine::HELibBackend}!writeSecretKeyToStream@{writeSecretKeyToStream}}
+\index{writeSecretKeyToStream@{writeSecretKeyToStream}!homomorphine::HELibBackend@{homomorphine::HELibBackend}}
+\subsubsection{\texorpdfstring{writeSecretKeyToStream()}{writeSecretKeyToStream()}}
+{\footnotesize\ttfamily void homomorphine\+::\+H\+E\+Lib\+Backend\+::write\+Secret\+Key\+To\+Stream (\begin{DoxyParamCaption}\item[{ostream \&}]{stream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Writes the secret key to a stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & secret key stream \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classhomomorphine_1_1_arithmetic_backend_ad88c797bbb2073ed3af460e568725c3f}{homomorphine\+::\+Arithmetic\+Backend}}.
 
 
 

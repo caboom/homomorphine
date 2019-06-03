@@ -130,15 +130,11 @@ void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, char* cipher)
   backend->setCipher(str_cipher);
 }
 
-char* ArithmeticBackendEncrypt(ArithmeticBackendWrapper wrapper, long value)
+void ArithmeticBackendEncrypt(ArithmeticBackendWrapper wrapper, long value)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
-  string cipher = backend->encrypt(value);
 
-  char* result = new char[cipher.length()+1];
-  strcpy (result, cipher.c_str());
-
-  return result;
+  backend->encrypt(value);
 }
 
 long ArithmeticBackendDecrypt(ArithmeticBackendWrapper wrapper)

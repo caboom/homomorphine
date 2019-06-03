@@ -130,7 +130,7 @@ extern "C" {
    * \param value value
    * \return UUEncoded cipher
    */
-  char* ArithmeticBackendEncrypt(ArithmeticBackendWrapper wrapper, long value);
+  void ArithmeticBackendEncrypt(ArithmeticBackendWrapper wrapper, long value);
 
   /*!
    * Decrypts the single value using the secret key

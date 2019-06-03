@@ -109,6 +109,11 @@ namespace homomorphine
 
     return Util::uuencodeStream(key_stream); 
   }
+
+  void HELibBackend::writePublicKeyToStream(ostream& stream)
+  {
+    writePubKeyBinary(stream, *this->public_key);
+  }
   
   string HELibBackend::getSecretKey()
   {
@@ -117,6 +122,11 @@ namespace homomorphine
 
     return Util::uuencodeStream(key_stream); 
   } 
+
+  void HELibBackend::writeSecretKeyToStream(ostream& stream)
+  {
+    writeSecKeyBinary(stream, *this->secret_key); 
+  }
   
   pair<string, string> HELibBackend::getKeys()
   {
@@ -130,6 +140,11 @@ namespace homomorphine
 
     readPubKeyBinary(key_stream, *this->public_key);
   }
+
+  void HELibBackend::readPublicKeyFromStream(istream &stream)
+  {
+    readPubKeyBinary(stream, *this->public_key);
+  }
   
   void HELibBackend::setSecretKey(string secret_key)
   {
@@ -137,6 +152,11 @@ namespace homomorphine
     Util::uudecodeString(secret_key, key_stream);
 
     readSecKeyBinary(key_stream, *this->secret_key);
+  }
+
+  void HELibBackend::readSecretKeyFromStream(istream &stream)
+  {
+    readSecKeyBinary(stream, *this->secret_key);
   }
   
   void HELibBackend::setKeys(string public_key, string secret_key)
@@ -156,6 +176,11 @@ namespace homomorphine
     return cipher; 
   }
 
+  void HELibBackend::writeCipherToStream(ostream& stream)
+  {
+    this->cipher->write(stream);
+  }
+
   void HELibBackend::setCipher(string cipher)
   {
     stringstream cipher_stream;
@@ -167,16 +192,24 @@ namespace homomorphine
     Util::uudecodeString(cipher, cipher_stream);
     this->cipher->read(cipher_stream);
   }
-      
-  // !!!TODO!!!
-  string HELibBackend::encrypt(vector<long> values)
+
+  void HELibBackend::readCipherFromStream(istream &stream)
   {
-    return "";
+    if (this->cipher == nullptr) {
+      this->cipher = new Ctxt(*this->public_key);
+    }
+
+    this->cipher->read(stream);
   }
       
-  string HELibBackend::encrypt(long value)
+  // !!!TODO!!!
+  void HELibBackend::encrypt(vector<long> values)
   {
-    stringstream cipher_stream;
+    
+  }
+      
+  void HELibBackend::encrypt(long value)
+  {
     const EncryptedArray& ea = *(this->public_key->getContext().ea);
     vector<long> values(ea.size());
 
@@ -191,10 +224,6 @@ namespace homomorphine
 
     // encrypt the value
     ea.encrypt(*this->cipher, *this->public_key, values);
-
-    // return uuencoded cipher string
-    this->cipher->write(cipher_stream);
-    return Util::uuencodeStream(cipher_stream);
   }
 
   // !!!TODO!!!

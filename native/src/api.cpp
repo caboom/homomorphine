@@ -115,8 +115,9 @@ namespace homomorphine
         backend->setPublicKey(obj[U("public_key")].as_string());
         vector<long> values = this->extractJSONValues(obj[U("values")].as_array());
 
-        response_body[U("encrypted_value")] = json::value(backend->encrypt(values));
+        backend->encrypt(values);
 
+        response_body[U("encrypted_value")] = json::value(backend->getCipher());
         response.setStatus(status_codes::OK);
         response.setContent(response_body);
       }

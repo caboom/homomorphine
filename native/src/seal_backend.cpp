@@ -129,6 +129,11 @@ namespace homomorphine
     return Util::uuencodeStream(key_stream);   
   }
 
+  void SealBackend::writePublicKeyToStream(ostream& stream)
+  {
+    this->public_key.save(stream);
+  }
+
   string SealBackend::getSecretKey()
   {
     stringstream key_stream;
@@ -137,19 +142,14 @@ namespace homomorphine
     return Util::uuencodeStream(key_stream);   
   }
 
+  void SealBackend::writeSecretKeyToStream(ostream& stream)
+  {
+    this->secret_key.save(stream);
+  }
+
   pair<string, string> SealBackend::getKeys() 
   {
     return pair<string, string> (this->getPublicKey(), this->getSecretKey());
-  }
-
-  PublicKey SealBackend::getSealPublicKey()
-  {
-    return this->public_key;
-  }
-  
-  SecretKey SealBackend::getSealSecretKey()
-  {
-    return this->secret_key;
   }
 
   void SealBackend::setPublicKey(string public_key)
@@ -158,6 +158,11 @@ namespace homomorphine
     Util::uudecodeString(public_key, key_stream);
 
     this->public_key.load(this->context, key_stream);
+  }
+
+  void SealBackend::readPublicKeyFromStream(istream &stream)
+  {
+    this->public_key.load(this->context, stream);
   }
       
   void SealBackend::setSecretKey(string secret_key)
@@ -168,31 +173,15 @@ namespace homomorphine
     this->secret_key.load(this->context, key_stream); 
   }
 
+  void SealBackend::readSecretKeyFromStream(istream &stream)
+  {
+    this->secret_key.load(this->context, stream);
+  }
+
   void SealBackend::setKeys(string public_key, string secret_key)
   {
     this->setPublicKey(public_key);
     this->setSecretKey(secret_key);
-  }
-
-  pair<PublicKey, SecretKey> SealBackend::getSealKeys()
-  {
-    return pair<PublicKey, SecretKey> (this->public_key, this->secret_key);
-  }
-
-  void SealBackend::setSealPublicKey(PublicKey public_key)
-  {
-    this->public_key = public_key;
-  }
-  
-  void SealBackend::setSealSecretKey(SecretKey secret_key)
-  {
-    this->secret_key = secret_key;
-  }
-  
-  void SealBackend::setSealKeys(PublicKey public_key, SecretKey secret_key)
-  {
-    this->public_key = public_key;
-    this->secret_key = secret_key;
   }
 
   string SealBackend::getCipher()
@@ -205,6 +194,11 @@ namespace homomorphine
 
     return cipher; 
   }
+
+  void SealBackend::writeCipherToStream(ostream& stream)
+  {
+    this->cipher.save(stream);
+  }
       
   void SealBackend::setCipher(string cipher)
   {
@@ -214,6 +208,11 @@ namespace homomorphine
     this->cipher.load(this->context, cipher_stream);
   }
 
+  void SealBackend::readCipherFromStream(istream &stream)
+  {
+    this->cipher.load(this->context, stream);
+  }
+
   void SealBackend::generateKeys() 
   {
     this->public_key = this->keygen->public_key();
@@ -221,9 +220,8 @@ namespace homomorphine
     this->relin_keys = this->keygen->relin_keys(DefaultParams::dbc_max());
   }
 
-  string SealBackend::encrypt(vector<long> values)
+  void SealBackend::encrypt(vector<long> values)
   {
-    stringstream cipher_stream;
     Plaintext plain_matrix;
     Encryptor encryptor(this->context, this->public_key);
      
@@ -234,16 +232,10 @@ namespace homomorphine
     else {
       encryptor.encrypt(this->encodeWithBFV(values), this->cipher);
     }
-
-    // save to stream
-    this->cipher.save(cipher_stream);
-
-    return Util::uuencodeStream(cipher_stream);
   }
 
-  string SealBackend::encrypt(long value)
+  void SealBackend::encrypt(long value)
   {
-    stringstream cipher_stream;
     Encryptor encryptor(this->context, this->public_key);
 
     // encode with proper encode (BFV is default)
@@ -253,10 +245,6 @@ namespace homomorphine
     else {
       encryptor.encrypt(this->encodeWithBFV(value), this->cipher);
     }
-
-    this->cipher.save(cipher_stream);
-    
-    return Util::uuencodeStream(cipher_stream);
   }
 
   Plaintext SealBackend::encodeWithBFV(vector<long> values)

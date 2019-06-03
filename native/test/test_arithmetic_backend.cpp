@@ -130,15 +130,16 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   // generate keys
   backend->generateKeys();
   public_key = backend->getPublicKey();
-  secret_key = backend->getSecretKey();
-  cipher = backend->encrypt(10);
+  secret_key = backend->getSecretKey();  
+  backend->encrypt(10);
+
 
   // encrypt using a new object
   ArithmeticBackend* backend_operations = ArithmeticBackendFactory::create("helib");
   backend_operations->init();
 
   backend_operations->setPublicKey(public_key);
-  backend_operations->setCipher(cipher);
+  backend_operations->setCipher(backend->getCipher());
 
   // do some basic numeric operations
   backend_operations->add(10);

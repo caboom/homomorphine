@@ -169,11 +169,25 @@ namespace homomorphine
       string getPublicKey();
 
       /*!
+       * Writes the public key to a stream
+       * 
+       * \param stream public key stream
+       */
+      void writePublicKeyToStream(ostream& stream);
+
+      /*!
        * Returns the UUEncoded secret key
        * 
        * \return secret key
        */
       string getSecretKey();
+
+      /*!
+       * Writes the secret key to a stream
+       * 
+       * \param stream secret key stream
+       */
+      void writeSecretKeyToStream(ostream& stream);
 
       /*!
        * Returns the pair of UUEncoded public and secret keys
@@ -190,11 +204,25 @@ namespace homomorphine
       void setPublicKey(string public_key);
 
       /*!
+       * Sets the public key from stream
+       * 
+       * \param stream public key binary stream
+       */
+      void readPublicKeyFromStream(istream &stream);
+
+      /*!
        * Sets the secret key 
        * 
        * \param secret_key UUEncoded secret key
        */
       void setSecretKey(string secret_key);
+
+      /*!
+       * Sets the secret key from stream
+       * 
+       * \param stream secret key binary stream
+       */
+      void readSecretKeyFromStream(istream &stream);
 
       /*!
        * Sets the both public and secret keys 
@@ -212,6 +240,13 @@ namespace homomorphine
       string getCipher();
 
       /*!
+       * Writes the cipher to output stream
+       * 
+       * \param stream output stream
+       */
+      void writeCipherToStream(ostream& stream);
+
+      /*!
        * Sets the UUEncoded cipher containing ecrypted value, or vector of values
        * 
        * \param cipher UUEncoded cipher
@@ -219,12 +254,19 @@ namespace homomorphine
       void setCipher(string cipher);
 
       /*!
+       * Reads the cipher from input stream
+       * 
+       * \param stream cipher stream
+       */
+      void readCipherFromStream(istream &stream);
+
+      /*!
        * Encrypts the vector of values using the public key
        * 
        * \param values vector of values
        * \return UUEncoded cipher
        */
-      string encrypt(vector<long> values);
+      void encrypt(vector<long> values);
 
       /*!
        * Encrypts the single value using the public key
@@ -232,7 +274,7 @@ namespace homomorphine
        * \param value value
        * \return UUEncoded cipher
        */
-      string encrypt(long value);
+      void encrypt(long value);
 
       /*!
        * Decrypts the vector of values using the secret key
@@ -280,50 +322,6 @@ namespace homomorphine
        * \param value value
        */
       void multiply(long value);
-
-      /*!
-       * Returns the SEAL public key object
-       * 
-       * \return public key
-       */
-      PublicKey getSealPublicKey();
-
-      /*!
-       * Returns the SEAL secret key object
-       * 
-       * \return secret key
-       */
-      SecretKey getSealSecretKey();
-
-      /*!
-       * Returns the SEAL public and secret key object pair
-       * 
-       * \return public and secret key pair
-       */
-      pair<PublicKey, SecretKey> getSealKeys();
-
-      /*!
-       * Sets the public key using the SEAL public key object
-       * 
-       * \param public_key public key
-       */
-      void setSealPublicKey(PublicKey public_key);
-
-      /*!
-       * Sets the public key using the SEAL secret key object
-       * 
-       * \param secret_key secret key
-       */
-      void setSealSecretKey(SecretKey secret_key);
-
-      /*!
-       * Sets the both public and secret keys using the SEAL 
-       * public and secret key objects
-       * 
-       * \param public_key public key
-       * \param secret_key secret key
-       */
-      void setSealKeys(PublicKey public_key, SecretKey secret_key);
   };
 }
 
