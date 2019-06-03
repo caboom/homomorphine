@@ -26,8 +26,8 @@ BOOST_AUTO_TEST_CASE( simple_seal_bfv_backend_test )
   BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (SEAL implementation with BFV)..." );
 
   long result;
-  string public_key;
-  string secret_key;
+  stringstream public_key;
+  stringstream secret_key;
   ArithmeticBackend* backend = ArithmeticBackendFactory::create("seal");
 
   backend->setAlgorithm("BFV");
@@ -35,8 +35,8 @@ BOOST_AUTO_TEST_CASE( simple_seal_bfv_backend_test )
 
   // generate uuencoded keys
   backend->generateKeys();
-  public_key = backend->getPublicKey();
-  secret_key = backend->getSecretKey();
+  backend->writePublicKeyToStream(public_key);
+  backend->writeSecretKeyToStream(secret_key);
 
   // encrypt using a new object
   ArithmeticBackend* backend_operations = ArithmeticBackendFactory::create("seal");
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE( simple_seal_bfv_backend_test )
   backend_operations->setAlgorithm("BFV");
   backend_operations->init();
 
-  backend_operations->setPublicKey(public_key);
+  backend_operations->readPublicKeyFromStream(public_key);
   backend_operations->encrypt(10000);
 
   // do some basic numeric operations
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE( simple_seal_bfv_backend_test )
   backend_operations->multiply(11);
 
   // check the results
-  backend_operations->setSecretKey(secret_key);
+  backend_operations->readSecretKeyFromStream(secret_key);
   result = backend_operations->decrypt();
 
   BOOST_TEST ( result == -5510450 );
@@ -70,8 +70,8 @@ BOOST_AUTO_TEST_CASE( simple_seal_ckks_backend_test )
   BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (SEAL implementation with CKKS)..." );
 
   long result;
-  string public_key;
-  string secret_key;
+  stringstream public_key;
+  stringstream secret_key;
   ArithmeticBackend* backend = ArithmeticBackendFactory::create("seal");
 
   backend->setAlgorithm("CKKS");
@@ -79,8 +79,8 @@ BOOST_AUTO_TEST_CASE( simple_seal_ckks_backend_test )
 
   // generate uuencoded keys
   backend->generateKeys();
-  public_key = backend->getPublicKey();
-  secret_key = backend->getSecretKey();
+  backend->writePublicKeyToStream(public_key);
+  backend->writeSecretKeyToStream(secret_key);
 
   // encrypt using a new object
   ArithmeticBackend* backend_operations = ArithmeticBackendFactory::create("seal");
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE( simple_seal_ckks_backend_test )
   backend_operations->setAlgorithm("CKKS");
   backend_operations->init();
 
-  backend_operations->setPublicKey(public_key);
+  backend_operations->readPublicKeyFromStream(public_key);
   backend_operations->encrypt(10);
 
   // do some basic numeric operations
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE( simple_seal_ckks_backend_test )
   backend_operations->add(50);
 
   // check the results
-  backend_operations->setSecretKey(secret_key);
+  backend_operations->readSecretKeyFromStream(secret_key);
   result = backend_operations->decrypt();
 
   BOOST_TEST ( result == 20 );
@@ -119,9 +119,9 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   BOOST_TEST_MESSAGE( "Testing a generic homomorphic encryption backend (HELib implementation)..." );
 
   int result;
-  string cipher;
-  string public_key;
-  string secret_key;
+  stringstream cipher;
+  stringstream public_key;
+  stringstream secret_key;
 
   // initialize HELib backend
   ArithmeticBackend* backend = ArithmeticBackendFactory::create("helib");
@@ -129,8 +129,8 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
 
   // generate keys
   backend->generateKeys();
-  public_key = backend->getPublicKey();
-  secret_key = backend->getSecretKey();  
+  backend->writePublicKeyToStream(public_key);
+  backend->writeSecretKeyToStream(secret_key);
   backend->encrypt(10);
 
 
@@ -138,17 +138,17 @@ BOOST_AUTO_TEST_CASE( simple_helib_backend_test )
   ArithmeticBackend* backend_operations = ArithmeticBackendFactory::create("helib");
   backend_operations->init();
 
-  backend_operations->setPublicKey(public_key);
+  backend_operations->readPublicKeyFromStream(public_key);
   backend_operations->setCipher(backend->getCipher());
 
   // do some basic numeric operations
   backend_operations->add(10);
   backend_operations->multiply(5);
 
-  cipher = backend_operations->getCipher();
+  backend_operations->writeCipherToStream(cipher);
 
   // check the results
-  backend->setCipher(cipher);
+  backend->readCipherFromStream(cipher);
   result = backend->decrypt();
 
   // TODO - still not working properly
