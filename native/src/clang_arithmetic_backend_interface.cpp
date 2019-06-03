@@ -65,10 +65,13 @@ void GenerateArithmeticBackendKeys(ArithmeticBackendWrapper wrapper)
 
 char* GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper)
 {
+  stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
-  string public_key = backend->getPublicKey();
 
-  char* result = new char[public_key.length()+1];
+  backend->writePublicKeyToStream(stream);
+  string public_key = stream.str();
+
+  char* result = new char[public_key.size()+1];
   strcpy (result, public_key.c_str());
 
   return result;
@@ -76,8 +79,11 @@ char* GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper)
 
 char* GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper)
 {
+  stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
-  string secret_key = backend->getSecretKey();
+
+  backend->writeSecretKeyToStream(stream);
+  string secret_key = stream.str();
 
   char* result = new char[secret_key.length()+1];
   strcpy (result, secret_key.c_str());
@@ -87,34 +93,39 @@ char* GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper)
 
 void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, char* public_key)
 {
-  string str_public_key(public_key);
+  stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
 
-  backend->setPublicKey(str_public_key);
+  stream << public_key;
+  backend->readPublicKeyFromStream(stream);
 }
   
 void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, char* secret_key)
 {
-  string str_secret_key(secret_key);
+  stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
-  
-  backend->setSecretKey(str_secret_key);
+
+  stream << secret_key;
+  backend->readSecretKeyFromStream(stream);
 }
 
 void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, char* public_key, char* secret_key)
 {
-  string str_public_key(public_key);
-  string str_secret_key(secret_key);
+  stringstream public_key_stream;
+  stringstream secret_key_stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
   
-  backend->setPublicKey(str_public_key);
-  backend->setSecretKey(str_secret_key);
+  backend->readPublicKeyFromStream(public_key_stream);
+  backend->readSecretKeyFromStream(secret_key_stream);
 }
 
 char* GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper)
 {
+  stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
-  string cipher = backend->getCipher();
+
+  backend->writeCipherToStream(stream);
+  string cipher = stream.str();
 
   char* result = new char[cipher.length()+1];
   strcpy (result, cipher.c_str());
@@ -124,10 +135,12 @@ char* GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper)
 
 void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, char* cipher)
 {
-  string str_cipher(cipher);
+  stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
+
+  stream << cipher;
   
-  backend->setCipher(str_cipher);
+  backend->readCipherFromStream(stream);
 }
 
 void ArithmeticBackendEncrypt(ArithmeticBackendWrapper wrapper, long value)
