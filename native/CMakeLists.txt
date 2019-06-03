@@ -42,7 +42,7 @@ set(Other_LIBRARIES
   cpprestsdk::cpprest 
 )
 
-# find homomorphic libraries - currently supported SEAL and HElib
+# find homomorphic libraries - currently supported SEAL, HElib and TFHE
 if (SEAL_FOUND)
   message (">> SEAL found - building with SEAL")
   set (SRC_FILES ${SRC_FILES} src/seal_backend.cpp)
@@ -89,8 +89,16 @@ target_link_libraries(homomorphine-service ${Boost_LIBRARIES} ${Other_LIBRARIES}
 target_link_libraries(homomorphine ${Boost_LIBRARIES} ${Other_LIBRARIES})
 
 # installation config
-set_target_properties(homomorphine PROPERTIES PUBLIC_HEADER 
-  "src/arithmetic_backend_factory.hpp;src/arithmetic_backend.hpp;src/clang_arithmetic_backend_interface.hpp;src/clang_types.hpp;src/constants.hpp;src/util.hpp")
+string(CONCAT HEADER_FILES 
+  "src/arithmetic_backend_factory.hpp\;"
+  "src/arithmetic_backend.hpp\;"
+  "src/boolean_circuit_backend.hpp\;"
+  "src/clang_arithmetic_backend_interface.hpp\;"
+  "src/clang_types.hpp\;"
+  "src/constants.hpp\;"
+  "src/util.hpp")
+
+set_target_properties(homomorphine PROPERTIES PUBLIC_HEADER ${HEADER_FILES})
 
 install(TARGETS homomorphine-service DESTINATION bin)
 install(TARGETS homomorphine LIBRARY DESTINATION lib PUBLIC_HEADER DESTINATION include/homomorphine)

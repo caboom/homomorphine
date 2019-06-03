@@ -24,21 +24,34 @@ BOOST_AUTO_TEST_CASE( dummy_test )
 // Basic TFHE backend test
 BOOST_AUTO_TEST_CASE( tfhe_check_encryption )
 {
-  int value = 10321;
+  int value = 12228;
+  stringstream cipher;
+  stringstream public_key;
+  stringstream secret_key;
 
   BOOST_TEST_MESSAGE( "Testing a TFHE backend encryption..." );
 
-  string public_key;
-  string secret_key;
+  // create and initialize backend
   BooleanCircuitBackend* backend = BooleanCircuitBackendFactory::create("tfhe");
-
-  // initialize
   backend->init();
 
-  // generate uuencoded keys
+  // generate keys and get key streams
   backend->generateKeys();
+  backend->writePublicKeyToStream(public_key);
+  backend->writeSecretKeyToStream(secret_key);
+
+  // encrypt the value and write cipher to a stream
   backend->encrypt(value);
-  BOOST_TEST ( backend->decrypt() == value );
+  backend->writeCipherToStream(cipher);
+
+  // create new backend and initialize it
+  BooleanCircuitBackend* public_backend = BooleanCircuitBackendFactory::create("tfhe");
+  public_backend->init();
+  public_backend->readPublicKeyFromStream(public_key);
+  public_backend->readSecretKeyFromStream(secret_key);
+  public_backend->readCipherFromStream(cipher);
+ 
+  BOOST_TEST ( backend->decrypt() == public_backend->decrypt() );
 }
 
 #endif

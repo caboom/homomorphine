@@ -50,10 +50,9 @@ namespace homomorphine {
 
   void TFHEBackend::generateKeys()  
   {
-    //vector<uint32_t> seed = this->getSeed(this->random_depth);
-    uint32_t seed[] = { 314, 1592, 657 };
+    vector<uint32_t> seed = this->getSeed(this->random_depth);
 
-    tfhe_random_generator_setSeed(seed, 3);
+    tfhe_random_generator_setSeed(&seed[0], seed.size());
 
     // secret key contains public one as well...
     if (this->secret_key != nullptr) {
@@ -76,12 +75,22 @@ namespace homomorphine {
     return Util::uuencodeStream(key_stream);    
   }
 
+  void TFHEBackend::writePublicKeyToStream(ostream& stream)
+  {
+    export_tfheGateBootstrappingCloudKeySet_toStream(stream, this->public_key);
+  }
+
   string TFHEBackend::getSecretKey()
   {
     stringstream key_stream;
     export_tfheGateBootstrappingSecretKeySet_toStream(key_stream, this->secret_key);
 
     return Util::uuencodeStream(key_stream);  
+  }
+
+  void TFHEBackend::writeSecretKeyToStream(ostream& stream)
+  {
+    export_tfheGateBootstrappingSecretKeySet_toStream(stream, this->secret_key);
   }
 
   pair<string, string> TFHEBackend::getKeys()
@@ -97,6 +106,11 @@ namespace homomorphine {
     this->public_key = new_tfheGateBootstrappingCloudKeySet_fromStream(key_stream);
   }
 
+  void TFHEBackend::readPublicKeyFromStream(istream &stream)
+  {
+    this->public_key = new_tfheGateBootstrappingCloudKeySet_fromStream(stream);
+  }
+
   void TFHEBackend::setSecretKey(string secret_key)
   {
     stringstream key_stream;
@@ -105,26 +119,15 @@ namespace homomorphine {
     this->secret_key = new_tfheGateBootstrappingSecretKeySet_fromStream(key_stream);
   }
 
+  void TFHEBackend::readSecretKeyFromStream(istream &stream)
+  {
+    this->secret_key = new_tfheGateBootstrappingSecretKeySet_fromStream(stream);
+  }
+
   void TFHEBackend::setKeys(string public_key, string secret_key)
   {
     this->setPublicKey(public_key);
     this->setSecretKey(secret_key);
-  }
-
-  string TFHEBackend::encrypt(int value)
-  {
-    stringstream cipher_stream;
-    this->cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
-
-    // encrypt all the bits
-    for (int i = 0; i < this->bits_encrypt; i++) {
-      bootsSymEncrypt(&this->cipher[i], (value>>i)&1, this->secret_key);
-    }
-
-    // export cipher to stream
-    export_gate_bootstrapping_ciphertext_toStream(cipher_stream, this->cipher, this->context);
-
-    return Util::uuencodeStream(cipher_stream);
   }
 
   string TFHEBackend::getCipher()
@@ -136,10 +139,21 @@ namespace homomorphine {
       return "";
     }
 
-    // export cipher to stream
-    export_gate_bootstrapping_ciphertext_toStream(cipher_stream, this->cipher, this->context);
-
+    // export cipher to stream and UUEncode the stream
+    for (int i = 0; i < this->bits_encrypt; i++) {
+      export_gate_bootstrapping_ciphertext_toStream(cipher_stream, &this->cipher[i], this->context);
+    }
+    
     return Util::uuencodeStream(cipher_stream);
+  }
+
+  void TFHEBackend::writeCipherToStream(ostream& stream)
+  {
+    if (this->cipher != nullptr) {
+      for (int i = 0; i < this->bits_encrypt; i++) {
+        export_gate_bootstrapping_ciphertext_toStream(stream, &this->cipher[i], this->context);
+      }
+    }
   }
 
   void TFHEBackend::setCipher(string cipher)
@@ -156,7 +170,34 @@ namespace homomorphine {
 
     // decode cipher from stream
     Util::uudecodeString(cipher, cipher_stream);
-    import_gate_bootstrapping_ciphertext_fromStream(cipher_stream, this->cipher, this->context);
+    for (int i = 0; i< this->bits_encrypt; i++) {
+      import_gate_bootstrapping_ciphertext_fromStream(cipher_stream, &this->cipher[i], this->context);
+    }
+  }
+
+  void TFHEBackend::readCipherFromStream(istream &stream) 
+  {
+    // delete cipher if exists
+    if (this->cipher != nullptr) {
+      delete(this->cipher);
+    }
+
+    // initialize cipher and read each bit of a cipher
+    this->cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
+
+    for (int i = 0; i< this->bits_encrypt; i++) {
+      import_gate_bootstrapping_ciphertext_fromStream(stream, &this->cipher[i], this->context);
+    }
+  }
+
+  void TFHEBackend::encrypt(int value)
+  {
+    this->cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
+
+    // encrypt all the bits
+    for (int i = 0; i < this->bits_encrypt; i++) {
+      bootsSymEncrypt(&this->cipher[i], (value>>i)&1, this->secret_key);
+    }
   }
 
   int TFHEBackend::decrypt()

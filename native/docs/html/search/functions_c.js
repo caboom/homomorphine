@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['_7earithmeticbackend',['~ArithmeticBackend',['../classhomomorphine_1_1_arithmetic_backend.html#ac93050bb4b1f8ba31ab52695f3634b8f',1,'homomorphine::ArithmeticBackend']]],
-  ['_7ebooleancircuitbackend',['~BooleanCircuitBackend',['../classhomomorphine_1_1_boolean_circuit_backend.html#a3fbc0d1eb111dbd97b619922a310eab1',1,'homomorphine::BooleanCircuitBackend']]],
-  ['_7ehelibbackend',['~HELibBackend',['../classhomomorphine_1_1_h_e_lib_backend.html#a1ef98efe05281fefbe6d044dc474017a',1,'homomorphine::HELibBackend']]],
-  ['_7esealbackend',['~SealBackend',['../classhomomorphine_1_1_seal_backend.html#a7224092a19a3472a5143d16b80fb9775',1,'homomorphine::SealBackend']]],
-  ['_7etfhebackend',['~TFHEBackend',['../classhomomorphine_1_1_t_f_h_e_backend.html#a0cbae6cb5d528611a9be5cae27e2b2f9',1,'homomorphine::TFHEBackend']]]
+  ['writeciphertostream',['writeCipherToStream',['../classhomomorphine_1_1_boolean_circuit_backend.html#af62f09ea74d408c6f084b5d79b4e20ea',1,'homomorphine::BooleanCircuitBackend::writeCipherToStream()'],['../classhomomorphine_1_1_t_f_h_e_backend.html#af7090a4540c3b3e6d52124376f20194f',1,'homomorphine::TFHEBackend::writeCipherToStream()']]],
+  ['writepublickeytostream',['writePublicKeyToStream',['../classhomomorphine_1_1_boolean_circuit_backend.html#a3c4e797cfde43d6b3c19706b1a725a4b',1,'homomorphine::BooleanCircuitBackend::writePublicKeyToStream()'],['../classhomomorphine_1_1_t_f_h_e_backend.html#a6a8ca621a19cb54ae6ea3cb9a333ab6d',1,'homomorphine::TFHEBackend::writePublicKeyToStream()']]],
+  ['writesecretkeytostream',['writeSecretKeyToStream',['../classhomomorphine_1_1_boolean_circuit_backend.html#a7019ee56035fcfe38e17e56fd645a34d',1,'homomorphine::BooleanCircuitBackend::writeSecretKeyToStream()'],['../classhomomorphine_1_1_t_f_h_e_backend.html#a624e35bbad3a1ee51b359b6660a6de89',1,'homomorphine::TFHEBackend::writeSecretKeyToStream()']]]
 ];

@@ -71,12 +71,27 @@ namespace homomorphine
        */
       virtual string getPublicKey() = 0;
 
+
+      /*!
+       * Writes the public key to a stream
+       * 
+       * \param stream public key stream
+       */
+      virtual void writePublicKeyToStream(ostream& stream) = 0;
+
       /*!
        * Returns the UUEncoded secret key
        * 
        * \return secret key
        */
       virtual string getSecretKey() = 0;
+
+      /*!
+       * Writes the secret key to a stream
+       * 
+       * \param stream secret key stream
+       */
+      virtual void writeSecretKeyToStream(ostream& stream) = 0;
 
       /*!
        * Returns the pair of UUEncoded public and secret keys
@@ -93,11 +108,25 @@ namespace homomorphine
       virtual void setPublicKey(string public_key) = 0;
 
       /*!
+       * Sets the public key from stream
+       * 
+       * \param stream public key binary stream
+       */
+      virtual void readPublicKeyFromStream(istream &stream) = 0;
+
+      /*!
        * Sets the secret key 
        * 
        * \param secret_key UUEncoded secret key
        */
       virtual void setSecretKey(string secret_key) = 0;
+
+      /*!
+       * Sets the secret key from stream
+       * 
+       * \param stream secret key binary stream
+       */
+      virtual void readSecretKeyFromStream(istream &stream) = 0;
 
       /*!
        * Sets the both public and secret keys 
@@ -115,6 +144,13 @@ namespace homomorphine
       virtual string getCipher() = 0;
 
       /*!
+       * Writes the cipher to output stream
+       * 
+       * \param stream output stream
+       */
+      virtual void writeCipherToStream(ostream& stream) = 0;
+
+      /*!
        * Sets the UUEncoded cipher containing ecrypted value, or vector of values
        * 
        * \param cipher UUEncoded cipher
@@ -122,12 +158,19 @@ namespace homomorphine
       virtual void setCipher(string cipher) = 0;
 
       /*!
+       * Reads the cipher from input stream
+       * 
+       * \param stream cipher stream
+       */
+      virtual void readCipherFromStream(istream &stream) = 0;
+
+      /*!
        * Encrypts the single value using the public key
        * 
        * \param value value
        * \return UUEncoded cipher
        */
-      virtual string encrypt(int value) = 0;
+      virtual void encrypt(int value) = 0;
 
       /*!
        * Decrypts the single value using the secret key
