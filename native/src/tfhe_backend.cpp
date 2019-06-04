@@ -166,6 +166,45 @@ namespace homomorphine {
     // cleanup
     delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, cipher);
   }
+  
+  string TFHEBackend::encodeToString(int value)
+  {
+    string result;
+    stringstream stream;
+    LweSample* cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
+
+    for (int i = 0; i < this->bits_encrypt; i++) {
+      bootsCONSTANT(&cipher[i], (64>>i)&1, this->public_key);
+    }
+
+    // export cipher to stream and encode the stream
+    for (int i = 0; i < this->bits_encrypt; i++) {
+      export_gate_bootstrapping_ciphertext_toStream(stream, &cipher[i], this->public_key->params);
+    }
+    result = Util::uuencodeStream(stream);
+
+    // cleanup
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, cipher);
+
+    return result;
+  }
+
+  void TFHEBackend::encodeToStream(int value, ostream& stream)
+  {
+    LweSample* cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->public_key->params);
+
+    for (int i = 0; i < this->bits_encrypt; i++) {
+      bootsCONSTANT(&cipher[i], (value>>i)&1, this->public_key);
+    }
+
+    // export cipher to stream and encode the stream
+    for (int i = 0; i < this->bits_encrypt; i++) {
+      export_gate_bootstrapping_ciphertext_toStream(stream, &cipher[i], this->public_key->params);
+    }
+
+    // cleanup
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, cipher);
+  }
 
   int TFHEBackend::decryptFromStream(istream& stream)
   {

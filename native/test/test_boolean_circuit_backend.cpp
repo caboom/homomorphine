@@ -87,4 +87,43 @@ BOOST_AUTO_TEST_CASE( tfhe_check_simple_operation )
   BOOST_TEST ( backend->decryptFromStream(result_cipher) == 65519 );
 }
 
+// Basic TFHE backend test
+BOOST_AUTO_TEST_CASE( tfhe_check_simple_operation_with_public_encoding )
+{
+  int value_x = 2069;   // 0000100000010101
+  int value_y = 143;    // 0000000010001111
+  stringstream cipher_x;
+  stringstream cipher_y;
+  stringstream result_cipher;
+  stringstream public_key;
+  stringstream secret_key;
+
+  BOOST_TEST_MESSAGE( "Testing a simple TFHE operations - encoding at public end..." );
+
+  // create and initialize backend
+  BooleanCircuitBackend* backend = BooleanCircuitBackendFactory::create("tfhe");
+  backend->init();
+
+  // generate keys and get key streams
+  backend->generateKeys();
+  backend->writePublicKeyToStream(public_key);
+  backend->writeSecretKeyToStream(secret_key);
+
+  // encrypt the value and write cipher to a stream
+  backend->encryptToStream(value_x, cipher_x);
+
+  // create new backend and initialize it
+  BooleanCircuitBackend* test_backend = BooleanCircuitBackendFactory::create("tfhe");
+  test_backend->init();
+  test_backend->readPublicKeyFromStream(public_key);
+
+  // encode the value and write cipher to a stream
+  test_backend->encodeToStream(value_y, cipher_y);
+
+  test_backend->process(result_cipher, cipher_x, cipher_y, BooleanCircuitOperation::AND);
+  
+  // decrypt the value and veryf the result
+  BOOST_TEST ( backend->decryptFromStream(result_cipher) == (value_x & value_y) );
+}
+
 #endif
