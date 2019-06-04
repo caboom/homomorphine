@@ -22,16 +22,6 @@ namespace homomorphine
     this->algorithm = algorithm;
   }
 
-  SealAlgorithm SealBackend::getAlgorithmType(string name) 
-  {
-    boost::algorithm::to_lower(name);
-
-    if (name == "bfv") return SealAlgorithm::BFV;
-    if (name == "ckks") return SealAlgorithm::CKKS;
-
-    return SealAlgorithm::UNKNOWN;
-  }
-
   void SealBackend::init() 
   {
     if (this->algorithm == SealAlgorithm::BFV) { 
@@ -43,82 +33,6 @@ namespace homomorphine
     else {
       throw BackendException("Unknown backend");
     }
-  }
-
-  void SealBackend::initBFV() 
-  {
-    uint64_t coeff_modulus;
-    int security_level;
-
-    if (this->encryption_params != nullptr) {
-      delete(this->encryption_params);
-    }
-    this->encryption_params = new EncryptionParameters(scheme_type::BFV);
-
-    // check if there is poly modulus degree option
-    params.count("poly_modulus_degree") ?
-      this->encryption_params->set_poly_modulus_degree(stoi(this->params["poly_modulus_degree"])) :
-      this->encryption_params->set_poly_modulus_degree(Constants::SEAL_POLY_MODULUS_DEGREE_BFV);
-
-    // check if there is coefficient modulus option
-    params.count("coeff_modulus") ?
-      coeff_modulus = stoull(this->params["coeff_modulus"]) :
-      coeff_modulus = Constants::SEAL_COEFF_MODULUS;
-
-    // check if the #bits for encryption had been set
-    params.count("security_level") ?
-      security_level = stoi(this->params["security_level"]) :
-      security_level = Constants::SEAL_SECURITY_LEVEL; 
-
-    // use different functions depending on the security level (128 is default)
-    switch (security_level) {
-      case 192:
-        this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_192(coeff_modulus));
-      case 256:
-        this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_256(coeff_modulus));
-      default:
-        this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(coeff_modulus));
-    }
-
-    // use default recommendation for now
-    this->encryption_params->set_plain_modulus(40961);
-
-    this->context = SEALContext::Create(*this->encryption_params);
-
-    if(this->keygen != nullptr) {
-      delete(this->keygen);
-    }
-    this->keygen = new KeyGenerator(context);
-  }
-
-  void SealBackend::initCKKS() 
-  {
-    if (this->encryption_params != nullptr) {
-      delete(this->encryption_params);
-    }
-    this->encryption_params = new EncryptionParameters(scheme_type::CKKS);
-
-    // CKKS needs scale to determine bit-precision of encoding
-    params.count("scale") ?
-      this->scale = stod(this->params["scale"]):
-      this->scale = Constants::SEAL_CKKS_SCALE;
-
-    // check if there is poly modulus degree option
-    params.count("poly_modulus_degree") ?
-      this->encryption_params->set_poly_modulus_degree(stoi(this->params["poly_modulus_degree"])) :
-      this->encryption_params->set_poly_modulus_degree(Constants::SEAL_POLY_MODULUS_DEGREE_CKKS);
-
-    // check if there is coefficient modulus option
-    params.count("coeff_modulus") ?
-      this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(stoi(this->params["coeff_modulus"]))) :
-      this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(Constants::SEAL_COEFF_MODULUS));
-
-    this->context = SEALContext::Create(*this->encryption_params);
-
-    if (this->keygen != nullptr) {
-      delete(this->keygen);
-    }
-    this->keygen = new KeyGenerator(context);
   }
 
   string SealBackend::getPublicKey()
@@ -247,45 +161,6 @@ namespace homomorphine
     }
   }
 
-  Plaintext SealBackend::encodeWithBFV(vector<long> values)
-  {
-    Plaintext plain_matrix;
-    BatchEncoder batch_encoder(this->context); 
-    size_t slot_count = batch_encoder.slot_count();
-    vector<int64_t> int64_values(begin(values), end(values));
-
-    batch_encoder.encode(int64_values, plain_matrix);
-
-    return plain_matrix;
-  }
-
-  Plaintext SealBackend::encodeWithBFV(long value)
-  {
-    IntegerEncoder encoder(this->context);
-    return encoder.encode((int64_t)value);
-  }
-
-  Plaintext SealBackend::encodeWithCKKS(vector<long> values)
-  {
-    Plaintext plain_matrix;
-    CKKSEncoder encoder(this->context);
-    vector<double> double_values(begin(values), end(values));
-
-    encoder.encode(double_values, this->scale, plain_matrix);
-
-    return plain_matrix;
-  }
-
-  Plaintext SealBackend::encodeWithCKKS(long value)
-  {
-    Plaintext plain_matrix;
-    CKKSEncoder encoder(this->context);
-
-    encoder.encode((double)value, this->scale, plain_matrix);
-
-    return plain_matrix;
-  }
-
   long SealBackend::decrypt()
   {
     long result;
@@ -328,50 +203,6 @@ namespace homomorphine
     }
 
     return result;
-  }
-
-  long SealBackend::decodeWithBFV(Plaintext plain_result) 
-  {
-    IntegerEncoder encoder(this->context);
-    return encoder.decode_int64(plain_result);
-  }
-
-  vector<long> SealBackend::decodeValuesWithBFV(Plaintext plain_result) 
-  {
-    vector<int64_t> result;
-    BatchEncoder batch_encoder(this->context);
-    
-    batch_encoder.decode(plain_result, result);
-    vector<long> long_result(begin(result), end(result));
-    result.clear();
-
-    return long_result;
-  }
-
-  long SealBackend::decodeWithCKKS(Plaintext plain_result) {
-    vector<double> results;
-    CKKSEncoder encoder(this->context);
-
-    encoder.decode(plain_result, results);
-
-    return lround(results[0]);
-  }
-
-  vector<long> SealBackend::decodeValuesWithCKKS(Plaintext plain_result) {
-    vector<double> results;
-    vector<long> results_l;
-    CKKSEncoder encoder(this->context);
-
-    encoder.decode(plain_result, results);
-
-    // cast vector, but with rounding
-    results_l.reserve(results.size());
-    for (double value : results) { 
-      results_l.push_back((long)round(value));
-    }
-    results.clear();
-
-    return results_l;
   }
 
   void SealBackend::add(vector<long> values)
@@ -457,6 +288,179 @@ namespace homomorphine
 
     encryptor.encrypt(plaintext_value, encrypted_value);
     evaluator.multiply_inplace(this->cipher, encrypted_value);
+  }
+
+  //
+  // PRIVATE INTERFACE
+  //
+  
+  SealAlgorithm SealBackend::getAlgorithmType(string name) 
+  {
+    boost::algorithm::to_lower(name);
+
+    if (name == "bfv") return SealAlgorithm::BFV;
+    if (name == "ckks") return SealAlgorithm::CKKS;
+
+    return SealAlgorithm::UNKNOWN;
+  }
+
+  void SealBackend::initBFV() 
+  {
+    uint64_t coeff_modulus;
+    int security_level;
+
+    if (this->encryption_params != nullptr) {
+      delete(this->encryption_params);
+    }
+    this->encryption_params = new EncryptionParameters(scheme_type::BFV);
+
+    // check if there is poly modulus degree option
+    params.count("poly_modulus_degree") ?
+      this->encryption_params->set_poly_modulus_degree(stoi(this->params["poly_modulus_degree"])) :
+      this->encryption_params->set_poly_modulus_degree(Constants::SEAL_POLY_MODULUS_DEGREE_BFV);
+
+    // check if there is coefficient modulus option
+    params.count("coeff_modulus") ?
+      coeff_modulus = stoull(this->params["coeff_modulus"]) :
+      coeff_modulus = Constants::SEAL_COEFF_MODULUS;
+
+    // check if the #bits for encryption had been set
+    params.count("security_level") ?
+      security_level = stoi(this->params["security_level"]) :
+      security_level = Constants::SEAL_SECURITY_LEVEL; 
+
+    // use different functions depending on the security level (128 is default)
+    switch (security_level) {
+      case 192:
+        this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_192(coeff_modulus));
+      case 256:
+        this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_256(coeff_modulus));
+      default:
+        this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(coeff_modulus));
+    }
+
+    // use default recommendation for now
+    this->encryption_params->set_plain_modulus(40961);
+
+    this->context = SEALContext::Create(*this->encryption_params);
+
+    if(this->keygen != nullptr) {
+      delete(this->keygen);
+    }
+    this->keygen = new KeyGenerator(context);
+  }
+
+  void SealBackend::initCKKS() 
+  {
+    if (this->encryption_params != nullptr) {
+      delete(this->encryption_params);
+    }
+    this->encryption_params = new EncryptionParameters(scheme_type::CKKS);
+
+    // CKKS needs scale to determine bit-precision of encoding
+    params.count("scale") ?
+      this->scale = stod(this->params["scale"]):
+      this->scale = Constants::SEAL_CKKS_SCALE;
+
+    // check if there is poly modulus degree option
+    params.count("poly_modulus_degree") ?
+      this->encryption_params->set_poly_modulus_degree(stoi(this->params["poly_modulus_degree"])) :
+      this->encryption_params->set_poly_modulus_degree(Constants::SEAL_POLY_MODULUS_DEGREE_CKKS);
+
+    // check if there is coefficient modulus option
+    params.count("coeff_modulus") ?
+      this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(stoi(this->params["coeff_modulus"]))) :
+      this->encryption_params->set_coeff_modulus(DefaultParams::coeff_modulus_128(Constants::SEAL_COEFF_MODULUS));
+
+    this->context = SEALContext::Create(*this->encryption_params);
+
+    if (this->keygen != nullptr) {
+      delete(this->keygen);
+    }
+    this->keygen = new KeyGenerator(context);
+  }
+
+  Plaintext SealBackend::encodeWithBFV(vector<long> values)
+  {
+    Plaintext plain_matrix;
+    BatchEncoder batch_encoder(this->context); 
+    size_t slot_count = batch_encoder.slot_count();
+    vector<int64_t> int64_values(begin(values), end(values));
+
+    batch_encoder.encode(int64_values, plain_matrix);
+
+    return plain_matrix;
+  }
+
+  Plaintext SealBackend::encodeWithBFV(long value)
+  {
+    IntegerEncoder encoder(this->context);
+    return encoder.encode((int64_t)value);
+  }
+
+  Plaintext SealBackend::encodeWithCKKS(vector<long> values)
+  {
+    Plaintext plain_matrix;
+    CKKSEncoder encoder(this->context);
+    vector<double> double_values(begin(values), end(values));
+
+    encoder.encode(double_values, this->scale, plain_matrix);
+
+    return plain_matrix;
+  }
+
+  Plaintext SealBackend::encodeWithCKKS(long value)
+  {
+    Plaintext plain_matrix;
+    CKKSEncoder encoder(this->context);
+
+    encoder.encode((double)value, this->scale, plain_matrix);
+
+    return plain_matrix;
+  }
+  
+  long SealBackend::decodeWithBFV(Plaintext plain_result) 
+  {
+    IntegerEncoder encoder(this->context);
+    return encoder.decode_int64(plain_result);
+  }
+
+  vector<long> SealBackend::decodeValuesWithBFV(Plaintext plain_result) 
+  {
+    vector<int64_t> result;
+    BatchEncoder batch_encoder(this->context);
+    
+    batch_encoder.decode(plain_result, result);
+    vector<long> long_result(begin(result), end(result));
+    result.clear();
+
+    return long_result;
+  }
+
+  long SealBackend::decodeWithCKKS(Plaintext plain_result) {
+    vector<double> results;
+    CKKSEncoder encoder(this->context);
+
+    encoder.decode(plain_result, results);
+
+    return lround(results[0]);
+  }
+
+  vector<long> SealBackend::decodeValuesWithCKKS(Plaintext plain_result) {
+    vector<double> results;
+    vector<long> results_l;
+    CKKSEncoder encoder(this->context);
+
+    encoder.decode(plain_result, results);
+
+    // cast vector, but with rounding
+    results_l.reserve(results.size());
+    for (double value : results) { 
+      results_l.push_back((long)round(value));
+    }
+    results.clear();
+
+    return results_l;
   }
 
 }

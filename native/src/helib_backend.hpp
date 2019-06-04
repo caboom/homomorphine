@@ -38,7 +38,7 @@ namespace homomorphine
       FHESecKey* secret_key = nullptr; /*!< HELib secret */
       ZZX polynomial;                  /*!< NTL polynomial, used internally by HELib */
       Ctxt* cipher = nullptr;          /*!< cipher */
-      HELibAlgorithm algorithm;    /*!< HELib algorithm type */
+      HELibAlgorithm algorithm;        /*!< HELib algorithm type */
 
       unsigned long hamming_weight;    /*!< Hamming weight - used for encrypting the value(s) */
 

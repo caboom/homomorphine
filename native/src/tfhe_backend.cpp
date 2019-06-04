@@ -306,6 +306,10 @@ namespace homomorphine {
     delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, z);
   }
 
+  //
+  // PRIVATE INTERFACE
+  //
+
   vector<uint32_t> TFHEBackend::getSeed(int &size) 
   {
     vector<uint32_t> result(size);
