@@ -23,10 +23,6 @@ namespace homomorphine
     XOR,    /*!< Boolean XOR operation */
     XNOR,   /*!< Boolean XNOR operation */
     NOR,    /*!< Boolean NOR operation */
-    ANDNY,  /*!< Boolean ADDNY operation */ 
-    ANDYN,  /*!< Boolean ADDYN operation */
-    ORNY,   /*!< Boolean ORNY operation */
-    ORYN,   /*!< Boolean ORYN operation */
     MUX     /*!< Boolean MUX operation */
   }; 
 
@@ -161,7 +157,8 @@ namespace homomorphine
       virtual string encodeToString(int value) = 0;
 
       /*!
-       * Encodes the single value using the public key and writes it to output stream (use instead encryption on public end)
+       * Encodes the single value using the public key and writes it to output stream 
+       * (use instead encryption on public end)
        * 
        * \param value integer value that will be be encoded
        * \param stream output stream

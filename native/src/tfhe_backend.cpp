@@ -283,18 +283,6 @@ namespace homomorphine {
       case BooleanCircuitOperation::NOR:
         for (int i = 0; i < this->bits_encrypt; i++) { bootsNOR(&output[i], &x[i], &y[i], this->public_key); }
         break; 
-      case BooleanCircuitOperation::ANDNY:
-        for (int i = 0; i < this->bits_encrypt; i++) { bootsANDNY(&output[i], &x[i], &y[i], this->public_key); }
-        break; 
-      case BooleanCircuitOperation::ANDYN:
-        for (int i = 0; i < this->bits_encrypt; i++) { bootsANDYN(&output[i], &x[i], &y[i], this->public_key); }
-        break; 
-      case BooleanCircuitOperation::ORNY:
-        for (int i = 0; i < this->bits_encrypt; i++) { bootsORNY(&output[i], &x[i], &y[i], this->public_key); }
-        break; 
-      case BooleanCircuitOperation::ORYN:
-        for (int i = 0; i < this->bits_encrypt; i++) { bootsORYN(&output[i], &x[i], &y[i], this->public_key); }
-        break; 
       // if the operation is not matched, it's due to wrong number of 
       // argumens for that operation in that case, cleanup and throw an exception
       default:
