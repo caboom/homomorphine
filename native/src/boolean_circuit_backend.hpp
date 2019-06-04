@@ -23,10 +23,11 @@ namespace homomorphine
     XOR,    /*!< Boolean XOR operation */
     XNOR,   /*!< Boolean XNOR operation */
     NOR,    /*!< Boolean NOR operation */
-    ADDNY,  /*!< Boolean ADDNY operation */ 
-    ADDYN,  /*!< Boolean ADDYN operation */
+    ANDNY,  /*!< Boolean ADDNY operation */ 
+    ANDYN,  /*!< Boolean ADDYN operation */
     ORNY,   /*!< Boolean ORNY operation */
-    ORYN    /*!< Boolean ORYN operation */
+    ORYN,   /*!< Boolean ORYN operation */
+    MUX     /*!< Boolean MUX operation */
   }; 
 
   /*! /brief Backend interface
@@ -70,7 +71,6 @@ namespace homomorphine
        * \return public key
        */
       virtual string getPublicKey() = 0;
-
 
       /*!
        * Writes the public key to a stream
@@ -137,55 +137,54 @@ namespace homomorphine
       virtual void setKeys(string public_key, string secret_key) = 0;
 
       /*!
-       * Returns the UUEncoded cipher containing ecrypted value, or vector of values
+       * Encrypts the single value using the secret key
        * 
+       * \param value integer value that will be encrypted
        * \return UUEncoded cipher
        */
-      virtual string getCipher() = 0;
+      virtual string encryptToString(int value) = 0;
 
       /*!
-       * Writes the cipher to output stream
+       * Encrypts the single value using the secret key and writes it to output stream
        * 
+       * \param value integer value that will be be encrypted
        * \param stream output stream
        */
-      virtual void writeCipherToStream(ostream& stream) = 0;
-
-      /*!
-       * Sets the UUEncoded cipher containing ecrypted value, or vector of values
-       * 
-       * \param cipher UUEncoded cipher
-       */
-      virtual void setCipher(string cipher) = 0;
-
-      /*!
-       * Reads the cipher from input stream
-       * 
-       * \param stream cipher stream
-       */
-      virtual void readCipherFromStream(istream &stream) = 0;
-
-      /*!
-       * Encrypts the single value using the public key
-       * 
-       * \param value value
-       * \return UUEncoded cipher
-       */
-      virtual void encrypt(int value) = 0;
+      virtual void encryptToStream(int value, ostream& stream) = 0;
 
       /*!
        * Decrypts the single value using the secret key
        * 
        * \return decrypted value
        */
-      virtual int decrypt() = 0;
+      virtual int decryptFromStream(istream& stream) = 0;
 
       /*!
-       * Perform boolean operation on cypher
+       * Perform boolean operation on single cipher
        * 
-       * \param value value
+       * \param cipher_x cipher #1
        * \param operation type of operation
        */
-      virtual void process(int value, BooleanCircuitOperation operation) = 0;
+      virtual void process(ostream& result, istream& cipher_x, BooleanCircuitOperation operation) = 0;
+
+      /*!
+       * Perform boolean operation on 2 ciphers
+       * 
+       * \param cipher_x cipher #1
+       * \param cipher_y cipher #2
+       * \param operation type of operation
+       */
+      virtual void process(ostream& result, istream& cipher_x, istream& cipher_y, BooleanCircuitOperation operation) = 0;
+
+      /*!
+       * Perform boolean operation on 3 ciphers
+       * 
+       * \param cipher_x cipher #1
+       * \param cipher_y cipher #2
+       * \param cipher_y cipher #3
+       * \param operation type of operation
+       */
+      virtual void process(ostream& result, istream& cipher_x, istream& cipher_y, istream& cipher_z, BooleanCircuitOperation operation) = 0;
   };
 
 }

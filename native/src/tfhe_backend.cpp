@@ -4,10 +4,6 @@ namespace homomorphine {
   
   TFHEBackend::~TFHEBackend()
   {
-    if (this->cipher != nullptr) {
-      delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->cipher);
-    }
-    
     // secret key contains public one as well...
     if (this->secret_key != nullptr) {
       delete(this->secret_key);
@@ -130,91 +126,184 @@ namespace homomorphine {
     this->setSecretKey(secret_key);
   }
 
-  string TFHEBackend::getCipher()
+  string TFHEBackend::encryptToString(int value)
   {
-    stringstream cipher_stream;
-
-    // sanity check
-    if (this->cipher == nullptr) {
-      return "";
-    }
-
-    // export cipher to stream and UUEncode the stream
-    for (int i = 0; i < this->bits_encrypt; i++) {
-      export_gate_bootstrapping_ciphertext_toStream(cipher_stream, &this->cipher[i], this->context);
-    }
-    
-    return Util::uuencodeStream(cipher_stream);
-  }
-
-  void TFHEBackend::writeCipherToStream(ostream& stream)
-  {
-    if (this->cipher != nullptr) {
-      for (int i = 0; i < this->bits_encrypt; i++) {
-        export_gate_bootstrapping_ciphertext_toStream(stream, &this->cipher[i], this->context);
-      }
-    }
-  }
-
-  void TFHEBackend::setCipher(string cipher)
-  {
-    stringstream cipher_stream;
-
-    // delete cipher if exists
-    if (this->cipher != nullptr) {
-      delete(this->cipher);
-    }
-
-    // initialize cipher
-    this->cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
-
-    // decode cipher from stream
-    Util::uudecodeString(cipher, cipher_stream);
-    for (int i = 0; i< this->bits_encrypt; i++) {
-      import_gate_bootstrapping_ciphertext_fromStream(cipher_stream, &this->cipher[i], this->context);
-    }
-  }
-
-  void TFHEBackend::readCipherFromStream(istream &stream) 
-  {
-    // delete cipher if exists
-    if (this->cipher != nullptr) {
-      delete(this->cipher);
-    }
-
-    // initialize cipher and read each bit of a cipher
-    this->cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
-
-    for (int i = 0; i< this->bits_encrypt; i++) {
-      import_gate_bootstrapping_ciphertext_fromStream(stream, &this->cipher[i], this->context);
-    }
-  }
-
-  void TFHEBackend::encrypt(int value)
-  {
-    this->cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
+    string result;
+    stringstream stream;
+    LweSample* cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
 
     // encrypt all the bits
     for (int i = 0; i < this->bits_encrypt; i++) {
-      bootsSymEncrypt(&this->cipher[i], (value>>i)&1, this->secret_key);
+      bootsSymEncrypt(&cipher[i], (value>>i)&1, this->secret_key);
     }
-  }
-
-  int TFHEBackend::decrypt()
-  {
-    int result = 0;
-
-    for (int i = 0; i< this->bits_encrypt; i++) {
-      int ai = bootsSymDecrypt(&this->cipher[i], this->secret_key);
-      result |= (ai<<i);
+    
+    // export cipher to stream and encode the stream
+    for (int i = 0; i < this->bits_encrypt; i++) {
+      export_gate_bootstrapping_ciphertext_toStream(stream, &cipher[i], this->context);
     }
+    result = Util::uuencodeStream(stream);
+
+    // cleanup
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, cipher);
 
     return result;
   }
 
-  void TFHEBackend::process(int value, BooleanCircuitOperation operation)
+  void TFHEBackend::encryptToStream(int value, ostream& stream) 
   {
+    LweSample* cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
 
+    // encrypt all the bits
+    for (int i = 0; i < this->bits_encrypt; i++) {
+      bootsSymEncrypt(&cipher[i], (value>>i)&1, this->secret_key);
+    }
+    
+    // export cipher to stream and encode the stream
+    for (int i = 0; i < this->bits_encrypt; i++) {
+      export_gate_bootstrapping_ciphertext_toStream(stream, &cipher[i], this->context);
+    }
+
+    // cleanup
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, cipher);
+  }
+
+  int TFHEBackend::decryptFromStream(istream& stream)
+  {
+    int result = 0;
+    LweSample* cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->context);
+
+    // import cipher from stream
+    for (int i = 0; i< this->bits_encrypt; i++) {
+      import_gate_bootstrapping_ciphertext_fromStream(stream, &cipher[i], this->context);
+    }
+
+    // decrypt cipher
+    for (int i = 0; i< this->bits_encrypt; i++) {
+      int ai = bootsSymDecrypt(&cipher[i], this->secret_key);
+      result |= (ai<<i);
+    }
+
+    // cleanup
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, cipher);
+
+    return result;
+  }
+
+  void TFHEBackend::process(ostream& result, istream& cipher_x, BooleanCircuitOperation operation)
+  {
+    LweSample* x = this->readCipherFromStream(cipher_x);
+    LweSample* output = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->public_key->params);
+
+    switch(operation)
+    {
+      case BooleanCircuitOperation::NOT:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsNOT(&output[i], &x[i], this->public_key); }
+        break;
+      case BooleanCircuitOperation::COPY:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsCOPY(&output[i], &x[i], this->public_key); }
+        break;
+      // if the operation is not matched, it's due to wrong number of 
+      // argumens for that operation in that case, cleanup and throw an exception
+      default:
+        delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, x);
+
+        throw BackendOperationNotSupported("Wrong number of arguments");
+        break;
+    }
+
+    // write result cipher to result stream
+    this->writeCipherToStream(output, result);
+
+    // cleanup
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, x);
+  }
+
+  void TFHEBackend::process(ostream& result, istream& cipher_x, istream& cipher_y, BooleanCircuitOperation operation)
+  {
+    LweSample* x = this->readCipherFromStream(cipher_x);
+    LweSample* y = this->readCipherFromStream(cipher_y);
+    LweSample* output = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->public_key->params);
+
+    switch(operation)
+    {
+      case BooleanCircuitOperation::NAND:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsNAND(&output[i], &x[i], &y[i], this->public_key); }
+        break;
+      case BooleanCircuitOperation::OR:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsOR(&output[i], &x[i], &y[i], this->public_key); }
+        break; 
+      case BooleanCircuitOperation::AND:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsAND(&output[i], &x[i], &y[i], this->public_key); }
+        break; 
+      case BooleanCircuitOperation::XOR:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsXOR(&output[i], &x[i], &y[i], this->public_key); }
+        break; 
+      case BooleanCircuitOperation::XNOR:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsXNOR(&output[i], &x[i], &y[i], this->public_key); }
+        break; 
+      case BooleanCircuitOperation::NOR:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsNOR(&output[i], &x[i], &y[i], this->public_key); }
+        break; 
+      case BooleanCircuitOperation::ANDNY:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsANDNY(&output[i], &x[i], &y[i], this->public_key); }
+        break; 
+      case BooleanCircuitOperation::ANDYN:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsANDYN(&output[i], &x[i], &y[i], this->public_key); }
+        break; 
+      case BooleanCircuitOperation::ORNY:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsORNY(&output[i], &x[i], &y[i], this->public_key); }
+        break; 
+      case BooleanCircuitOperation::ORYN:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsORYN(&output[i], &x[i], &y[i], this->public_key); }
+        break; 
+      // if the operation is not matched, it's due to wrong number of 
+      // argumens for that operation in that case, cleanup and throw an exception
+      default:
+        delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, x);
+        delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, y);
+
+        throw BackendOperationNotSupported("Wrong number of arguments");
+        break;
+    }
+
+    // write result cipher to result stream
+    this->writeCipherToStream(output, result);
+
+    // cleanup
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, x);
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, y);
+  }
+
+  void TFHEBackend::process(ostream& result, istream& cipher_x, istream& cipher_y, istream& cipher_z, BooleanCircuitOperation operation)
+  {
+    LweSample* x = this->readCipherFromStream(cipher_x);
+    LweSample* y = this->readCipherFromStream(cipher_y);
+    LweSample* z = this->readCipherFromStream(cipher_z);
+    LweSample* output = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->public_key->params);
+
+    switch(operation)
+    {
+      case BooleanCircuitOperation::MUX:
+        for (int i = 0; i < this->bits_encrypt; i++) { bootsMUX(&output[i], &x[i], &y[i], &z[i], this->public_key); }
+        break;
+      // if the operation is not matched, it's due to wrong number of 
+      // argumens for that operation in that case, cleanup and throw an exception
+      default:
+        delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, x);
+        delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, y);
+        delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, z);
+
+        throw BackendOperationNotSupported("Wrong number of arguments");
+        break;
+    }
+
+    // write result cipher to result stream
+    this->writeCipherToStream(output, result);
+
+    // cleanup
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, x);
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, y);
+    delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, z);
   }
 
   vector<uint32_t> TFHEBackend::getSeed(int &size) 
@@ -231,5 +320,25 @@ namespace homomorphine {
     }
 
     return result;
+  }
+
+  LweSample* TFHEBackend::readCipherFromStream(istream &stream) 
+  {
+    LweSample* cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->public_key->params);
+
+    for (int i = 0; i< this->bits_encrypt; i++) {
+      import_gate_bootstrapping_ciphertext_fromStream(stream, &cipher[i], this->context);
+    }
+
+    return cipher;
+  }
+
+  void TFHEBackend::writeCipherToStream(LweSample* cipher, ostream& stream)
+  {
+    if (cipher != nullptr) {
+      for (int i = 0; i < this->bits_encrypt; i++) {
+        export_gate_bootstrapping_ciphertext_toStream(stream, &cipher[i], this->context);
+      }
+    }
   }
 }

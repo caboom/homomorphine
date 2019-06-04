@@ -35,16 +35,30 @@ namespace homomorphine
       int bits_encrypt;                                              /*!< number of bits used for encryption */
       TFheGateBootstrappingSecretKeySet* secret_key = nullptr;       /*!< secret key (contains public/cloud key as well) */
       const TFheGateBootstrappingCloudKeySet* public_key = nullptr;  /*!< public key */
-      LweSample* cipher;                                             /*!< cipher */
 
       /*!
        * Generate seed vector
        * 
        * /param size vector size
        * /return seed vector
-       * 
        */
       vector<uint32_t> getSeed(int &size);
+
+      /*!
+       * Reads TFHE cipher from a stream 
+       * 
+       * /param stream cipher stream
+       * /return TFHE cipher
+       */
+      LweSample* readCipherFromStream(istream &stream); 
+
+      /*!
+       * Writes TFHE cipher to stream 
+       * 
+       * /param cipher TFHE cipher
+       * /param stream cipher stream
+       */
+      void writeCipherToStream(LweSample* cipher, ostream& stream);
 
     public:
        
@@ -143,55 +157,55 @@ namespace homomorphine
       void setKeys(string public_key, string secret_key);
 
       /*!
-       * Returns the UUEncoded cipher containing ecrypted value, or vector of values
+       * Encrypts the single value using the public key and returns UUEncoded cyphertext
        * 
+       * \param value integer value that will be be encrypted
        * \return UUEncoded cipher
        */
-      string getCipher();
+      string encryptToString(int value);
 
-       /*!
-       * Writes the cipher to output stream
+      /*!
+       * Encrypts the single value using the secret key and writes it to output stream
        * 
+       * \param value integer value that will be be encrypted
        * \param stream output stream
        */
-      void writeCipherToStream(ostream& stream);
-
-      /*!
-       * Sets the UUEncoded cipher containing ecrypted value, or vector of values
-       * 
-       * \param cipher UUEncoded cipher
-       */
-      void setCipher(string cipher);
-
-      /*!
-       * Reads the cipher from input stream
-       * 
-       * \param stream cipher stream
-       */
-      void readCipherFromStream(istream &stream);
-
-      /*!
-       * Encrypts the single value using the public key
-       * 
-       * \param value value
-       * \return UUEncoded cipher
-       */
-      void encrypt(int value);
+      void encryptToStream(int value, ostream& stream);
 
       /*!
        * Decrypts the single value using the secret key
        * 
        * \return decrypted value
        */
-      int decrypt();
+      int decryptFromStream(istream& stream);
 
       /*!
-       * Perform boolean operation on cypher
+       * Perform boolean operation on single cipher
        * 
-       * \param value value
+       * \param cipher_x cipher #1
        * \param operation type of operation
        */
-      void process(int value, BooleanCircuitOperation operation);
+      void process(ostream& result, istream& cipher_x, BooleanCircuitOperation operation);
+
+
+      /*!
+       * Perform boolean operation on 2 ciphers
+       * 
+       * \param cipher_x cipher #1
+       * \param cipher_y cipher #2
+       * \param operation type of operation
+       */
+      void process(ostream& result, istream& cipher_x, istream& cipher_y, BooleanCircuitOperation operation);
+
+      /*!
+       * Perform boolean operation on 3 ciphers
+       * 
+       * \param cipher_x cipher #1
+       * \param cipher_y cipher #2
+       * \param cipher_y cipher #3
+       * \param operation type of operation
+       */
+      void process(ostream& result, istream& cipher_x, istream& cipher_y, istream& cipher_z, BooleanCircuitOperation operation);
   };
 }
 
