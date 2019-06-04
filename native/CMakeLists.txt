@@ -35,7 +35,8 @@ set(SRC_FILES
    src/arithmetic_backend_factory.cpp
    src/boolean_circuit_backend_factory.cpp
    src/util.cpp
-   src/clang_arithmetic_backend_interface.cpp)
+   src/clang_arithmetic_backend_interface.cpp
+   src/clang_boolean_circuit_backend_interface.cpp)
 
 set(Other_LIBRARIES
   Threads::Threads 

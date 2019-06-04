@@ -1,12 +1,12 @@
-#ifndef _HOMOMORPHINE_CLANG_ARITHMETIC_BACKEND_TYPES_H_
-#define _HOMOMORPHINE_CLANG_ARITHMETIC_BACKEND_TYPES_H_
+#ifndef _HOMOMORPHINE_CLANG_ARITHMETIC_BACKEND_INTERFACE_H_
+#define _HOMOMORPHINE_CLANG_ARITHMETIC_BACKEND_INTERFACE_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
   #include "clang_types.hpp"
 
-  //! Backend wrapper that can be used by CLang wrapper in other programming languages (i.e. Golang)
+  //! Arithmetic backend wrapper that can be used by CLang wrapper in other programming languages (i.e. Golang)
   typedef void* ArithmeticBackendWrapper;
 
   /*!
@@ -26,7 +26,7 @@ extern "C" {
 
   /*!
    * Backend initialization method - initializes all the basic
-   * parameters and behavior of a specific backend implementation
+   * parameters and behavior of a specific arithcmetic backend implementation
    * 
    * \param wrapper backend wrapper
    */
@@ -34,7 +34,7 @@ extern "C" {
 
   /*! 
    * Sets the specific homomorphic algorithm implementation
-   * that backend provides
+   * that arithmetic backend provides
    * 
    * \param wrapper backend wrapper
    * \param algorithm homomorphic encryption algorithm
