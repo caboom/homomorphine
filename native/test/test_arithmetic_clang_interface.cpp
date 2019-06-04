@@ -10,11 +10,17 @@
 
 using namespace std;
 
+BOOST_AUTO_TEST_CASE( dummy_test )
+{
+  BOOST_TEST ( true );
+}
+
 //
 // Test generic backend clang wrapper
 //
 
 #ifdef __HAS_SEAL__
+
 BOOST_AUTO_TEST_CASE( test_backend_clang_interface )
 {
   BOOST_TEST_MESSAGE ( "Test generic backend Clang interface..." );
@@ -55,4 +61,5 @@ BOOST_AUTO_TEST_CASE( test_backend_clang_interface )
   FreeArithmeticBackend(wrapper);
   FreeArithmeticBackend(encrypt_wrapper);
 }
+
 #endif

@@ -15,6 +15,7 @@ using namespace homomorphine;
 //
 
 #ifdef __HAS_SEAL__
+
 // Test SEAL backend
 BOOST_AUTO_TEST_CASE( simple_seal_bfv_backend_test )
 {
