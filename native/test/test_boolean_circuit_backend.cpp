@@ -10,11 +10,6 @@
 using namespace std;
 using namespace homomorphine;
 
-BOOST_AUTO_TEST_CASE( dummy_test )
-{
-  BOOST_TEST ( true );
-}
-
 //
 // Tests for TFHE backend
 //
@@ -88,7 +83,7 @@ BOOST_AUTO_TEST_CASE( tfhe_check_simple_operation )
 }
 
 // Basic TFHE backend test
-BOOST_AUTO_TEST_CASE( tfhe_check_simple_operation_with_public_encoding )
+BOOST_AUTO_TEST_CASE( tfhe_check_AND_operation_with_public_encoding )
 {
   int value_x = 2069;   // 0000100000010101
   int value_y = 143;    // 0000000010001111
@@ -98,7 +93,7 @@ BOOST_AUTO_TEST_CASE( tfhe_check_simple_operation_with_public_encoding )
   stringstream public_key;
   stringstream secret_key;
 
-  BOOST_TEST_MESSAGE( "Testing a simple TFHE operations - encoding at public end..." );
+  BOOST_TEST_MESSAGE( "Testing a AND TFHE operation - encoding at public end..." );
 
   // create and initialize backend
   BooleanCircuitBackend* backend = BooleanCircuitBackendFactory::create("tfhe");

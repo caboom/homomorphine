@@ -10,11 +10,6 @@
 using namespace std;
 using namespace homomorphine;
 
-BOOST_AUTO_TEST_CASE( dummy_test )
-{
-  BOOST_TEST ( true );
-}
-
 //
 // Tests for SEAL backend
 //

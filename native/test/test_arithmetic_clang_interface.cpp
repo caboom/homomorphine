@@ -10,11 +10,6 @@
 
 using namespace std;
 
-BOOST_AUTO_TEST_CASE( dummy_test )
-{
-  BOOST_TEST ( true );
-}
-
 //
 // Test generic backend clang wrapper
 //
