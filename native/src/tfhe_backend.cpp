@@ -258,11 +258,6 @@ namespace homomorphine {
     this->process(result, cipher_x, cipher_y, BooleanCircuitOperation::XOR);
   }
 
-  void TFHEBackend::OR(ostream& result, istream& cipher_x, istream& cipher_y)
-  {
-    this->process(result, cipher_x, cipher_y, BooleanCircuitOperation::OR);
-  }
-
   void TFHEBackend::XNOR(ostream& result, istream& cipher_x, istream& cipher_y)
   {
     this->process(result, cipher_x, cipher_y, BooleanCircuitOperation::XNOR);
