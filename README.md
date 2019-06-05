@@ -1,10 +1,10 @@
 # Homomorphine
 
-Homomorphine is a less stressful interface for various Homomorphic encryption libraries and algorithms. Its (ultimate) goal is to remove a complexity of using various homomorphic backends, try to do (semi)automated optimizations and noise management to reduce the implicit complexity of dealing with the homomorphic encryption. Currently supported backends are [SEAL](https://github.com/microsoft/SEAL) and [HELib](https://github.com/homenc/HElib) (**warning:** HELib support is currently partially broken).
+Homomorphine is a less stressful interface for various Homomorphic encryption libraries and algorithms/models. Its (ultimate) goal is to remove a complexity of using various homomorphic backends, try to do (semi)automated optimizations and noise management to reduce the implicit complexity of dealing with the homomorphic encryption. Currently supported aritmetic model backends are [SEAL](https://github.com/microsoft/SEAL) [HELib](https://github.com/homenc/HElib) (**warning:** HELib support is currently partially broken). Homomorphine also supports boolean circuits models and it currently supports [TFHE](https://github.com/tfhe/tfhe) library. It also provides a different interface for arithmetic (modular and approximate number) and boolean circuit models given the different nature of operations performed on ciphers.
 
 # Installation
 
-You will have to install at least one of currently supported backend (either [SEAL](https://github.com/microsoft/SEAL) or [HELib](https://github.com/homenc/HElib)) and you will have to have C++14 compliant compiler (i.e. GCC 8/9), Basic Boost package(s) and CMake. On OS/X 10.14 and later you can use Homebrew to install these:
+You will have to install at least one of currently supported backends (either [SEAL](https://github.com/microsoft/SEAL), [HELib](https://github.com/homenc/HElib), or [TFHE](https://github.com/tfhe/tfhe)) and you will have to have C++14 compatible compiler (i.e. GCC 8/9), basic Boost package(s) and CMake. On OS/X 10.14 and later you can use Homebrew to install these:
 
 ```shell
 brew install gcc boost cmake
@@ -25,13 +25,11 @@ You can run the test suit using ctest:
 ctest --verbose
 ```
 
-# Examples and documentation
-
-At the moment it's best to check the tests in the test folder for a basic usage, however, more examples are coming in near future. Documentation can be found in the ./native/docs folder.
+Depending on your operating system and already installed libraries, you might also need libcrypto and openssl libraries (and relevant dev packages) in order to compile 
 
 # Homomorphine as a service
 
-You can run Homomorphine as a service using homomorphine-service command:
+For running homomorphine as a service you will need [cpprestsdk](https://github.com/microsoft/cpprestsdk), otherwise service executable won't be compiled. You can run Homomorphine as a service using homomorphine-service command:
 
 ```shell
 ./homomorphine-service --config=./config/devel.json
@@ -53,6 +51,10 @@ currently supported interface is only RESTFul HTTP interface (HTTPS is coming re
 ```
 
 Homomorphine is not intended to be used as a service (this will be provided through the separate service that will be using [Homomorphine-Go](https://github.com/caboom/homomorphine-go) library), however, it can be practical at the times.
+
+# Examples and documentation
+
+At the moment it's best to check the tests in the test folder for a basic usage, however, more examples are coming in near future. Documentation can be found in the ./native/docs folder.
 
 # Warning 
 
