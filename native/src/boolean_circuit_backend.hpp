@@ -175,60 +175,60 @@ namespace homomorphine
       /*!
        * Perform boolean NOT operation on cipher
        * 
-       * /param result stream with the result cipher
-       * /param cipher cipher with encrypted value
+       * \param result stream with the result cipher
+       * \param cipher cipher with encrypted value
        */
       virtual void NOT(ostream& result, istream& cipher) = 0;
 
       /*!
        * Perform COPY operation on cipher (duplicate to other cipher stream)
        * 
-       * /param cipher cipher with encrypted value
+       * \param cipher cipher with encrypted value
        */
       virtual void COPY(ostream& result, istream& cipher) = 0;
 
       /*!
        * Perform boolean NAND operation on two ciphers
        * 
-       * /param stream with the result cipher
-       * /param cipher_x first cipher with encrypted value
-       * /param cipher_y second cipher with encrypted value
+       * \param stream with the result cipher
+       * \param cipher_x first cipher with encrypted value
+       * \param cipher_y second cipher with encrypted value
        */
       virtual void NAND(ostream& result, istream& cipher_x, istream& cipher_y) = 0;
 
       /*!
        * Perform boolean OR operation on two ciphers
        * 
-       * /param stream with the result cipher
-       * /param cipher_x first cipher with encrypted value
-       * /param cipher_y second cipher with encrypted value
+       * \param stream with the result cipher
+       * \param cipher_x first cipher with encrypted value
+       * \param cipher_y second cipher with encrypted value
        */
       virtual void OR(ostream& result, istream& cipher_x, istream& cipher_y) = 0;
       
       /*!
        * Perform boolean AND operation on two ciphers
        * 
-       * /param stream with the result cipher
-       * /param cipher_x first cipher with encrypted value
-       * /param cipher_y second cipher with encrypted value
+       * \param stream with the result cipher
+       * \param cipher_x first cipher with encrypted value
+       * \param cipher_y second cipher with encrypted value
        */
       virtual void AND(ostream& result, istream& cipher_x, istream& cipher_y) = 0;
 
       /*!
        * Perform boolean XOR operation on two ciphers
        * 
-       * /param stream with the result cipher
-       * /param cipher_x first cipher with encrypted value
-       * /param cipher_y second cipher with encrypted value
+       * \param stream with the result cipher
+       * \param cipher_x first cipher with encrypted value
+       * \param cipher_y second cipher with encrypted value
        */
       virtual void XOR(ostream& result, istream& cipher_x, istream& cipher_y) = 0;
 
       /*!
        * Perform boolean XNOR operation on two ciphers
        * 
-       * /param stream with the result cipher
-       * /param cipher_x first cipher with encrypted value
-       * /param cipher_y second cipher with encrypted value
+       * \param stream with the result cipher
+       * \param cipher_x first cipher with encrypted value
+       * \param cipher_y second cipher with encrypted value
        */
       virtual void XNOR(ostream& result, istream& cipher_x, istream& cipher_y) = 0;
 
@@ -250,34 +250,6 @@ namespace homomorphine
        * /param cipher_z third cipher with encrypted value 
        */
       virtual void MUX(ostream& result, istream& cipher_x, istream& cipher_y, istream& cipher_z) = 0;
-
-
-      /*!
-       * Perform boolean operation on single cipher
-       * 
-       * \param cipher_x cipher #1
-       * \param operation type of operation
-       */
-      virtual void process(ostream& result, istream& cipher_x, BooleanCircuitOperation operation) = 0;
-
-      /*!
-       * Perform boolean operation on 2 ciphers
-       * 
-       * \param cipher_x cipher #1
-       * \param cipher_y cipher #2
-       * \param operation type of operation
-       */
-      virtual void process(ostream& result, istream& cipher_x, istream& cipher_y, BooleanCircuitOperation operation) = 0;
-
-      /*!
-       * Perform boolean operation on 3 ciphers
-       * 
-       * \param cipher_x cipher #1
-       * \param cipher_y cipher #2
-       * \param cipher_y cipher #3
-       * \param operation type of operation
-       */
-      virtual void process(ostream& result, istream& cipher_x, istream& cipher_y, istream& cipher_z, BooleanCircuitOperation operation) = 0;
   };
 
 }

@@ -99,6 +99,51 @@ extern "C" {
    */
   void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, char* public_key, char* secret_key);
 
+  /*!
+   * Returns the cipher byte array containing encrypted value
+   * 
+   * \param wrapper backend wrapper
+   * \param value value
+   * \return encrypted cipher 
+   */
+  char* BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value);
+
+  /*!
+   * Returns the byte array containing encoded value (using public key)
+   * 
+   * \param wrapper backend wrapper
+   * \param value value
+   * \return encoded cipher
+   */
+  char* BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value);
+
+  /*!
+   * Returns a value decrypted from cipher
+   * 
+   * \param wrapper backend wrapper
+   * \param cipher cipher
+   * \return decrypted value
+   */
+  int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, char* cipher);
+
+  /*!
+   * Perform boolean NOT operation on cipher
+   * 
+   * \param result stream with the result cipher
+   * \param cipher cipher 
+   * \return result cipher
+   */
+  char* BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, char* cipher);
+
+  /*!
+   * Perform COPY operation on cipher
+   * 
+   * \param result stream with the result cipher
+   * \param cipher cipher with encrypted value
+   * \return result cipher
+   */
+  char* BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, char* cipher);
+
 #ifdef __cplusplus
 }
 #endif

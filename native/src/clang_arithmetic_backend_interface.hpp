@@ -108,7 +108,7 @@ extern "C" {
   void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, char* public_key, char* secret_key);
 
   /*!
-   * Returns the UUEncoded cipher containing ecrypted value, or vector of values
+   * Returns the UUEncoded cipher containing encrypted value, or vector of values
    * 
    * \param wrapper backend wrapper
    * \return UUEncoded cipher
@@ -116,7 +116,7 @@ extern "C" {
   char* GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper);
 
   /*!
-   * Sets the UUEncoded cipher containing ecrypted value, or vector of values
+   * Sets the UUEncoded cipher containing encrypted value, or vector of values
    * 
    * \param wrapper backend wrappers
    * \param cipher UUEncoded cipher

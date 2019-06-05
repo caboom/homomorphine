@@ -118,3 +118,74 @@ void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, char* pu
   backend->readPublicKeyFromStream(public_key_stream);
   backend->readSecretKeyFromStream(secret_key_stream);
 }
+
+char* BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value)
+{
+  stringstream stream;
+  BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
+
+  backend->encryptToStream(value, stream);
+  string secret_key = stream.str();
+
+  char* result = new char[secret_key.length()+1];
+  strcpy (result, secret_key.c_str());
+
+  return result;
+}
+
+char* BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value)
+{
+  stringstream stream;
+  BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
+
+  backend->encodeToStream(value, stream);
+  string secret_key = stream.str();
+
+  char* result = new char[secret_key.length()+1];
+  strcpy (result, secret_key.c_str());
+
+  return result; 
+}
+
+int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, char* cipher)
+{
+  stringstream stream;
+  BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
+
+  stream << cipher;
+  return backend->decryptFromStream(stream);
+}
+
+char* BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, char* cipher)
+{
+  stringstream cipher_stream;
+  stringstream result_stream;
+  BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
+
+  cipher_stream << cipher;
+
+  backend->NOT(result_stream, cipher_stream);
+  string result_str = result_stream.str();
+
+  char* result = new char[result_str.length()+1];
+  strcpy (result, result_str.c_str());
+
+  return result;
+}
+
+char* BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, char* cipher)
+{
+  stringstream cipher_stream;
+  stringstream result_stream;
+  BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
+
+  cipher_stream << cipher;
+
+  backend->COPY(result_stream, cipher_stream);
+  string result_str = result_stream.str();
+
+  char* result = new char[result_str.length()+1];
+  strcpy (result, result_str.c_str());
+
+  return result;
+}

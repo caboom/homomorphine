@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE( tfhe_check_simple_operation )
   BooleanCircuitBackend* test_backend = BooleanCircuitBackendFactory::create("tfhe");
   test_backend->init();
   test_backend->readPublicKeyFromStream(public_key);
-  test_backend->process(result_cipher, cipher, BooleanCircuitOperation::NOT);
+  test_backend->NOT(result_cipher, cipher);
  
   // decrypt the value and veryf the result
   BOOST_TEST ( backend->decryptFromStream(result_cipher) == 65519 );
