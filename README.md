@@ -2,7 +2,9 @@
 
 Homomorphine is a less stressful interface for various Homomorphic encryption libraries and algorithms/models. Its (ultimate) goal is to remove a complexity of using various homomorphic backends, try to do (semi)automated optimizations and noise management to reduce the implicit complexity of dealing with the homomorphic encryption and implementation of various models providing a simple API, as well as CLang extensions that can be used to easily bind different programming languages to homomorphine and associated libraries. 
 
-Currently supported aritmetic model backends are [SEAL](https://github.com/microsoft/SEAL) and [HELib](https://github.com/homenc/HElib) (**warning:** HELib support is currently partially broken). Homomorphine also supports boolean circuits models and it currently supports [TFHE](https://github.com/tfhe/tfhe) library. It also provides a different interface for arithmetic (modular and approximate number) and boolean circuit models given the different nature of operations performed on ciphers.
+Currently supported aritmetic model backends are [SEAL](https://github.com/microsoft/SEAL) and [HELib](https://github.com/homenc/HElib) (**warning:** HELib support is currently partially broken). Homomorphine also supports boolean circuits models and it currently supports [TFHE](https://github.com/tfhe/tfhe) library. 
+
+Homomorphine provides a different interface for arithmetic (modular and approximate number) and boolean circuit models given the different nature of operations performed on ciphers (boolean vs. numeric arithmetic operations).
 
 # Installation
 
