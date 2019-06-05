@@ -13,7 +13,7 @@ endif ()
 ADD_DEFINITIONS(-DBOOST_LOG_DYN_LINK)
 
 # set the package requirements
-find_package(cpprestsdk REQUIRED)
+find_library(CPPRESTSDK_FOUND cpprest)
 find_package(Boost 1.60 REQUIRED COMPONENTS log program_options unit_test_framework random)
 find_package(Threads)
 find_package(SEAL 3.2.0 EXACT REQUIRED)
@@ -27,10 +27,6 @@ link_directories(${Boost_LIBRARY_DIRS})
 # what to build and link...
 set(SRC_FILES
    src/homomorphine.cpp
-   src/config.cpp
-   src/interface.cpp
-   src/server.cpp
-   src/api.cpp
    src/backend.cpp
    src/arithmetic_backend_factory.cpp
    src/boolean_circuit_backend_factory.cpp
@@ -39,9 +35,19 @@ set(SRC_FILES
    src/clang_boolean_circuit_backend_interface.cpp)
 
 set(Other_LIBRARIES
-  Threads::Threads 
-  cpprestsdk::cpprest 
+  Threads::Threads crypto ssl
 )
+
+if (CPPRESTSDK_FOUND)
+  message (">> CPPRESTSDK found - building REST service")
+  set (SRC_FILES ${SRC_FILES} 
+    src/config.cpp
+    src/interface.cpp
+    src/server.cpp
+    src/api.cpp)
+    set (Other_LIBRARIES ${Other_LIBRARIES} cpprest)
+  set (HAS_HELIB "#define __HAS_CPPRESTSDK__")
+endif()
 
 # find homomorphic libraries - currently supported SEAL, HElib and TFHE
 if (SEAL_FOUND)
@@ -81,12 +87,15 @@ configure_file (
   "src/info.hpp"
 )
 
-# build both service and library
-add_executable(homomorphine-service ${SRC_FILES})
-add_library(homomorphine SHARED ${SRC_FILES})
+# build and link service only if cppresdk is installed
+if (CPPRESTSDK_FOUND)
+  add_executable(homomorphine-service ${SRC_FILES})
+  target_link_libraries(homomorphine-service ${Boost_LIBRARIES} ${Other_LIBRARIES})
+  install(TARGETS homomorphine-service DESTINATION bin)
+endif()
 
-# link libraries
-target_link_libraries(homomorphine-service ${Boost_LIBRARIES} ${Other_LIBRARIES})
+# build and link library
+add_library(homomorphine SHARED ${SRC_FILES})
 target_link_libraries(homomorphine ${Boost_LIBRARIES} ${Other_LIBRARIES})
 
 # installation config
@@ -100,8 +109,6 @@ string(CONCAT HEADER_FILES
   "src/util.hpp")
 
 set_target_properties(homomorphine PROPERTIES PUBLIC_HEADER ${HEADER_FILES})
-
-install(TARGETS homomorphine-service DESTINATION bin)
 install(TARGETS homomorphine LIBRARY DESTINATION lib PUBLIC_HEADER DESTINATION include/homomorphine)
 
 # documentation
@@ -138,7 +145,7 @@ foreach(testSrc ${TEST_SRCS})
   
   add_executable(${testName} ${testSrc})
 
-  target_link_libraries(${testName} ${Boost_LIBRARIES} Threads::Threads cpprestsdk::cpprest SEAL::seal homomorphine)
+  target_link_libraries(${testName} ${Boost_LIBRARIES} ${Other_LIBRARIES} homomorphine)
 
   set_target_properties(${testName} 
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY
