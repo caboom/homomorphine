@@ -228,6 +228,96 @@ namespace homomorphine {
     return result;
   }
 
+  void TFHEBackend::NOT(ostream& result, istream& cipher)
+  {
+    this->process(result, cipher, BooleanCircuitOperation::NOT);
+  }
+
+  void TFHEBackend::COPY(ostream& result, istream& cipher)
+  {
+    this->process(result, cipher, BooleanCircuitOperation::COPY);
+  }
+
+  void TFHEBackend::NAND(ostream& result, istream& cipher_x, istream& cipher_y)
+  {
+    this->process(result, cipher_x, cipher_y, BooleanCircuitOperation::NAND);
+  }
+
+  void TFHEBackend::OR(ostream& result, istream& cipher_x, istream& cipher_y)
+  {
+    this->process(result, cipher_x, cipher_y, BooleanCircuitOperation::OR);
+  }
+
+  void TFHEBackend::AND(ostream& result, istream& cipher_x, istream& cipher_y)
+  {
+    this->process(result, cipher_x, cipher_y, BooleanCircuitOperation::AND);
+  }
+
+  void TFHEBackend::XOR(ostream& result, istream& cipher_x, istream& cipher_y)
+  {
+    this->process(result, cipher_x, cipher_y, BooleanCircuitOperation::XOR);
+  }
+
+  void TFHEBackend::OR(ostream& result, istream& cipher_x, istream& cipher_y)
+  {
+    this->process(result, cipher_x, cipher_y, BooleanCircuitOperation::OR);
+  }
+
+  void TFHEBackend::XNOR(ostream& result, istream& cipher_x, istream& cipher_y)
+  {
+    this->process(result, cipher_x, cipher_y, BooleanCircuitOperation::XNOR);
+  }
+
+  void TFHEBackend::NOR(ostream& result, istream& cipher_x, istream& cipher_y)
+  {
+    this->process(result, cipher_x, cipher_y, BooleanCircuitOperation::NOR);
+  }
+
+  void TFHEBackend::MUX(ostream& result, istream& cipher_x, istream& cipher_y, istream& cipher_z)
+  {
+    this->process(result, cipher_x, cipher_y, cipher_z, BooleanCircuitOperation::MUX);
+  }
+
+  //
+  // PRIVATE INTERFACE
+  //
+
+  vector<uint32_t> TFHEBackend::getSeed(int &size) 
+  {
+    vector<uint32_t> result(size);
+    boost::random::mt19937 generator;
+    boost::random::uniform_int_distribution<> distribution(0, numeric_limits<int>::max());
+
+    // seed the generator and generate random numbers
+    generator.seed(time(0));
+
+    for (int i = 0; i < size; i++) {
+      result[i] = distribution(generator);
+    }
+
+    return result;
+  }
+
+  LweSample* TFHEBackend::readCipherFromStream(istream &stream) 
+  {
+    LweSample* cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->public_key->params);
+
+    for (int i = 0; i< this->bits_encrypt; i++) {
+      import_gate_bootstrapping_ciphertext_fromStream(stream, &cipher[i], this->context);
+    }
+
+    return cipher;
+  }
+
+  void TFHEBackend::writeCipherToStream(LweSample* cipher, ostream& stream)
+  {
+    if (cipher != nullptr) {
+      for (int i = 0; i < this->bits_encrypt; i++) {
+        export_gate_bootstrapping_ciphertext_toStream(stream, &cipher[i], this->context);
+      }
+    }
+  }
+
   void TFHEBackend::process(ostream& result, istream& cipher_x, BooleanCircuitOperation operation)
   {
     LweSample* x = this->readCipherFromStream(cipher_x);
@@ -331,45 +421,5 @@ namespace homomorphine {
     delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, x);
     delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, y);
     delete_gate_bootstrapping_ciphertext_array(this->bits_encrypt, z);
-  }
-
-  //
-  // PRIVATE INTERFACE
-  //
-
-  vector<uint32_t> TFHEBackend::getSeed(int &size) 
-  {
-    vector<uint32_t> result(size);
-    boost::random::mt19937 generator;
-    boost::random::uniform_int_distribution<> distribution(0, numeric_limits<int>::max());
-
-    // seed the generator and generate random numbers
-    generator.seed(time(0));
-
-    for (int i = 0; i < size; i++) {
-      result[i] = distribution(generator);
-    }
-
-    return result;
-  }
-
-  LweSample* TFHEBackend::readCipherFromStream(istream &stream) 
-  {
-    LweSample* cipher = new_gate_bootstrapping_ciphertext_array(this->bits_encrypt, this->public_key->params);
-
-    for (int i = 0; i< this->bits_encrypt; i++) {
-      import_gate_bootstrapping_ciphertext_fromStream(stream, &cipher[i], this->context);
-    }
-
-    return cipher;
-  }
-
-  void TFHEBackend::writeCipherToStream(LweSample* cipher, ostream& stream)
-  {
-    if (cipher != nullptr) {
-      for (int i = 0; i < this->bits_encrypt; i++) {
-        export_gate_bootstrapping_ciphertext_toStream(stream, &cipher[i], this->context);
-      }
-    }
   }
 }

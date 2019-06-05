@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE( tfhe_check_AND_operation_with_public_encoding )
   // encode the value and write cipher to a stream
   test_backend->encodeToStream(value_y, cipher_y);
 
-  test_backend->process(result_cipher, cipher_x, cipher_y, BooleanCircuitOperation::AND);
+  test_backend->AND(result_cipher, cipher_x, cipher_y);
   
   // decrypt the value and veryf the result
   BOOST_TEST ( backend->decryptFromStream(result_cipher) == (value_x & value_y) );

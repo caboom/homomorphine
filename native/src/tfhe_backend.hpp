@@ -60,6 +60,12 @@ namespace homomorphine
        */
       void writeCipherToStream(LweSample* cipher, ostream& stream);
 
+      void process(ostream& result, istream& cipher_x, BooleanCircuitOperation operation);
+
+      void process(ostream& result, istream& cipher_x, istream& cipher_y, BooleanCircuitOperation operation);
+
+      void process(ostream& result, istream& cipher_x, istream& cipher_y, istream& cipher_z, BooleanCircuitOperation operation);
+
     public:
        
       /*! 
@@ -197,32 +203,83 @@ namespace homomorphine
       int decryptFromStream(istream& stream);
 
       /*!
-       * Perform boolean operation on single cipher
+       * Perform boolean NOT operation on cipher
        * 
-       * \param cipher_x cipher #1
-       * \param operation type of operation
+       * /param result stream with the result cipher
+       * /param cipher cipher with encrypted value
        */
-      void process(ostream& result, istream& cipher_x, BooleanCircuitOperation operation);
-
-
-      /*!
-       * Perform boolean operation on 2 ciphers
-       * 
-       * \param cipher_x cipher #1
-       * \param cipher_y cipher #2
-       * \param operation type of operation
-       */
-      void process(ostream& result, istream& cipher_x, istream& cipher_y, BooleanCircuitOperation operation);
+      void NOT(ostream& result, istream& cipher);
 
       /*!
-       * Perform boolean operation on 3 ciphers
+       * Perform COPY operation on cipher (duplicate to other cipher stream)
        * 
-       * \param cipher_x cipher #1
-       * \param cipher_y cipher #2
-       * \param cipher_y cipher #3
-       * \param operation type of operation
+       * /param cipher cipher with encrypted value
        */
-      void process(ostream& result, istream& cipher_x, istream& cipher_y, istream& cipher_z, BooleanCircuitOperation operation);
+      void COPY(ostream& result, istream& cipher);
+
+      /*!
+       * Perform boolean NAND operation on two ciphers
+       * 
+       * /param stream with the result cipher
+       * /param cipher_x first cipher with encrypted value
+       * /param cipher_y second cipher with encrypted value
+       */
+      void NAND(ostream& result, istream& cipher_x, istream& cipher_y);
+
+      /*!
+       * Perform boolean OR operation on two ciphers
+       * 
+       * /param stream with the result cipher
+       * /param cipher_x first cipher with encrypted value
+       * /param cipher_y second cipher with encrypted value
+       */
+      void OR(ostream& result, istream& cipher_x, istream& cipher_y);
+      
+      /*!
+       * Perform boolean AND operation on two ciphers
+       * 
+       * /param stream with the result cipher
+       * /param cipher_x first cipher with encrypted value
+       * /param cipher_y second cipher with encrypted value
+       */
+      void AND(ostream& result, istream& cipher_x, istream& cipher_y);
+
+      /*!
+       * Perform boolean XOR operation on two ciphers
+       * 
+       * /param stream with the result cipher
+       * /param cipher_x first cipher with encrypted value
+       * /param cipher_y second cipher with encrypted value
+       */
+      void XOR(ostream& result, istream& cipher_x, istream& cipher_y);
+
+      /*!
+       * Perform boolean XNOR operation on two ciphers
+       * 
+       * /param stream with the result cipher
+       * /param cipher_x first cipher with encrypted value
+       * /param cipher_y second cipher with encrypted value
+       */
+      void XNOR(ostream& result, istream& cipher_x, istream& cipher_y);
+
+      /*!
+       * Perform boolean NOR operation on two ciphers
+       * 
+       * /param stream with the result cipher
+       * /param cipher_x first cipher with encrypted value
+       * /param cipher_y second cipher with encrypted value
+       */
+      void NOR(ostream& result, istream& cipher_x, istream& cipher_y);
+
+      /*!
+       * Perform boolean MUX operation on three ciphers (x ? y : z)
+       * 
+       * /param stream with the result cipher
+       * /param cipher_x first cipher with encrypted value
+       * /param cipher_y second cipher with encrypted value
+       * /param cipher_z third cipher with encrypted value 
+       */
+      void MUX(ostream& result, istream& cipher_x, istream& cipher_y, istream& cipher_z);
   };
 }
 
