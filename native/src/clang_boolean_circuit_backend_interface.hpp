@@ -10,6 +10,14 @@ extern "C" {
   typedef void* BooleanCircuitBackendWrapper;
 
   /*!
+   * Creates the specific boolean circuit backend using the backend name
+   * 
+   * \param type backend name
+   * \returns backend wrapper
+   */
+  BooleanCircuitBackendWrapper CreateBooleanCircuitBackend(char *type);
+
+  /*!
    * Memory allocation cleanup
    * 
    * \param wrapper backend wrapper

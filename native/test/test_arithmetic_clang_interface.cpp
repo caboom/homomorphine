@@ -1,10 +1,11 @@
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE clang
+#define BOOST_TEST_MODULE clang arithmetic
 
 #include <string>
 #include <iostream>
 #include <boost/test/included/unit_test.hpp>
 
+#include "../src/info.hpp"
 #include "../src/clang_types.hpp"
 #include "../src/clang_arithmetic_backend_interface.hpp"
 
@@ -16,14 +17,14 @@ BOOST_AUTO_TEST_CASE( dummy_test )
 }
 
 //
-// Test generic backend clang wrapper
+// Test arithmetic backend clang wrapper
 //
 
 #ifdef __HAS_SEAL__
 
-BOOST_AUTO_TEST_CASE( test_backend_clang_interface )
+BOOST_AUTO_TEST_CASE( test_arithmetic_backend_clang_interface )
 {
-  BOOST_TEST_MESSAGE ( "Test generic backend Clang interface..." );
+  BOOST_TEST_MESSAGE ( "Test arithmetic backend Clang interface..." );
 
   string algorithm = "bfv";
   string backend_name = "seal";
