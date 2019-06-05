@@ -62,4 +62,4 @@ At the moment it's best to check the tests in the test folder for a basic usage,
 
 # Warning 
 
-Homomorphine-Go is currently not ready for production use and you should use SEAL with BFV algorithm for optimal results, atm.
+Homomorphine is currently not ready for production use (it will be as of version 0.2.x).
