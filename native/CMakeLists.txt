@@ -26,7 +26,6 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 # what to build and link...
 set(SRC_FILES
-   src/homomorphine.cpp
    src/backend.cpp
    src/arithmetic_backend_factory.cpp
    src/boolean_circuit_backend_factory.cpp
@@ -41,6 +40,7 @@ set(Other_LIBRARIES
 if (CPPRESTSDK_FOUND)
   message (">> CPPRESTSDK found - building REST service")
   set (SRC_FILES ${SRC_FILES} 
+    src/homomorphine.cpp
     src/config.cpp
     src/interface.cpp
     src/server.cpp
