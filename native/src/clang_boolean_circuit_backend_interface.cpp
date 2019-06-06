@@ -63,53 +63,69 @@ void GenerateBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper)
   backend->generateKeys();
 }
 
-char* GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper)
+bytes GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper)
 {
+  bytes result;
+  long stream_size;
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
 
+  // fetch the public key
   backend->writePublicKeyToStream(stream);
-  string public_key = stream.str();
 
-  char* result = new char[public_key.size()+1];
-  strcpy (result, public_key.c_str());
+  // read the content
+  stream_size = Util::getStreamSize(stream);
+  char* content = new char[stream_size+1];
+  stream.read(content, stream_size);
+
+  // package and return POD result
+  result.content = content;
+  result.size = stream_size;
 
   return result;
 }
 
-char* GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper)
+bytes GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper)
 {
+  bytes result;
+  long stream_size;
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
 
+  // fetch the secret key
   backend->writeSecretKeyToStream(stream);
-  string secret_key = stream.str();
+  
+  // read the content
+  stream_size = Util::getStreamSize(stream);
+  char* content = new char[stream_size+1];
+  stream.read(content, stream_size);
 
-  char* result = new char[secret_key.length()+1];
-  strcpy (result, secret_key.c_str());
+  // package and return POD result
+  result.content = content;
+  result.size = stream_size;
 
   return result;
 }
 
-void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper, char* public_key)
+void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper, bytes public_key)
 {
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
 
-  stream << public_key;
+  stream.write(public_key.content, public_key.size);
   backend->readPublicKeyFromStream(stream);
 }
   
-void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper, char* secret_key)
+void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper, bytes secret_key)
 {
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
 
-  stream << secret_key;
+  stream.write(secret_key.content, secret_key.size);
   backend->readSecretKeyFromStream(stream);
 }
 
-void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, char* public_key, char* secret_key)
+void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, bytes public_key, bytes secret_key)
 {
   stringstream public_key_stream;
   stringstream secret_key_stream;
@@ -119,73 +135,107 @@ void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, char* pu
   backend->readSecretKeyFromStream(secret_key_stream);
 }
 
-char* BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value)
+bytes BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value)
 {
+  bytes result;
+  long stream_size;
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
 
+  // encrypt to stream
   backend->encryptToStream(value, stream);
-  string secret_key = stream.str();
 
-  char* result = new char[secret_key.length()+1];
-  strcpy (result, secret_key.c_str());
+  // read the content
+  stream_size = Util::getStreamSize(stream);
+  char* content = new char[stream_size+1];
+  stream.read(content, stream_size);
+
+  // package and return POD result
+  result.content = content;
+  result.size = stream_size;
 
   return result;
 }
 
-char* BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value)
+bytes BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value)
 {
+  bytes result;
+  long stream_size;
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
 
+  // encode the stream
   backend->encodeToStream(value, stream);
-  string secret_key = stream.str();
 
-  char* result = new char[secret_key.length()+1];
-  strcpy (result, secret_key.c_str());
+  // read the content
+  stream_size = Util::getStreamSize(stream);
+  char* content = new char[stream_size+1];
+  stream.read(content, stream_size);
 
-  return result; 
+  // package and return POD result
+  result.content = content;
+  result.size = stream_size;
+
+  return result;
 }
 
-int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, char* cipher)
+int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, bytes cipher)
 {
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
 
-  stream << cipher;
+  stream.write(cipher.content, cipher.size);
   return backend->decryptFromStream(stream);
 }
 
-char* BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, char* cipher)
+bytes BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, bytes cipher)
 {
+  bytes result;
+  long stream_size;
   stringstream cipher_stream;
   stringstream result_stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
 
-  cipher_stream << cipher;
+  // read the cipher to stream
+  cipher_stream.write(cipher.content, cipher.size);
 
+  // perform NOT operation
   backend->NOT(result_stream, cipher_stream);
-  string result_str = result_stream.str();
 
-  char* result = new char[result_str.length()+1];
-  strcpy (result, result_str.c_str());
+  // read the content
+  stream_size = Util::getStreamSize(result_stream);
+  char* content = new char[stream_size+1];
+  result_stream.read(content, stream_size);
+
+  // package and return POD result
+  result.content = content;
+  result.size = stream_size;
 
   return result;
 }
 
-char* BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, char* cipher)
+bytes BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, bytes cipher)
 {
+  bytes result;
+  long stream_size;
   stringstream cipher_stream;
   stringstream result_stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
 
-  cipher_stream << cipher;
+  // read the cipher to stream
+  cipher_stream.write(cipher.content, cipher.size);
 
+  // perform COPY operation
   backend->COPY(result_stream, cipher_stream);
-  string result_str = result_stream.str();
 
-  char* result = new char[result_str.length()+1];
-  strcpy (result, result_str.c_str());
+  // read the content
+  stream_size = Util::getStreamSize(result_stream);
+  char* content = new char[stream_size+1];
+  result_stream.read(content, stream_size);
+
+  // package and return POD result
+  result.content = content;
+  result.size = stream_size;
 
   return result;
 }

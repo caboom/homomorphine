@@ -72,7 +72,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \return public key
    */
-  char* GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper);
+  bytes GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper);
 
   /*!
    * Returns the serialized byte array with secret key
@@ -80,7 +80,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \return secret key
    */
-  char* GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper);
+  bytes GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper);
 
   /*!
    * Sets the public key using the key in serialized byte array format
@@ -88,7 +88,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param public_key public key
    */
-  void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper, char* public_key);
+  void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper, bytes public_key);
 
   /*!
    * Sets the secret key using the key in serialized byte array format
@@ -96,7 +96,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param secret_key secret key
    */
-  void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper, char* secret_key);
+  void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper, bytes secret_key);
 
   /*!
    * Sets the both public and secret keys using the keys in serialized byte array format
@@ -105,7 +105,7 @@ extern "C" {
    * \param public_key public key
    * \param secret_key secret key
    */
-  void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, char* public_key, char* secret_key);
+  void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, bytes public_key, bytes secret_key);
 
   /*!
    * Returns the cipher byte array containing encrypted value
@@ -114,7 +114,7 @@ extern "C" {
    * \param value value
    * \return encrypted cipher 
    */
-  char* BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value);
+  bytes BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value);
 
   /*!
    * Returns the byte array containing encoded value (using public key)
@@ -123,7 +123,7 @@ extern "C" {
    * \param value value
    * \return encoded cipher
    */
-  char* BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value);
+  bytes BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value);
 
   /*!
    * Returns a value decrypted from cipher
@@ -132,7 +132,7 @@ extern "C" {
    * \param cipher cipher
    * \return decrypted value
    */
-  int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, char* cipher);
+  int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, bytes cipher);
 
   /*!
    * Perform boolean NOT operation on cipher
@@ -141,7 +141,7 @@ extern "C" {
    * \param cipher cipher 
    * \return result cipher
    */
-  char* BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, char* cipher);
+  bytes BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, bytes cipher);
 
   /*!
    * Perform COPY operation on cipher
@@ -150,7 +150,7 @@ extern "C" {
    * \param cipher cipher with encrypted value
    * \return result cipher
    */
-  char* BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, char* cipher);
+  bytes BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, bytes cipher);
 
 #ifdef __cplusplus
 }

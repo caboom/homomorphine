@@ -36,8 +36,8 @@ BOOST_AUTO_TEST_CASE( test_boolean_circuit_backend_clang_interface )
   InitBooleanCircuitBackend(wrapper);
 
   GenerateBooleanCircuitBackendKeys(wrapper);
-  char* public_key = GetBooleanCircuitBackendPublicKey(wrapper);
-  char* secret_key = GetBooleanCircuitBackendSecretKey(wrapper);
+  bytes public_key = GetBooleanCircuitBackendPublicKey(wrapper);
+  bytes secret_key = GetBooleanCircuitBackendSecretKey(wrapper);
 }
 
 #endif
