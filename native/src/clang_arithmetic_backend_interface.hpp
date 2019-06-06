@@ -67,53 +67,53 @@ extern "C" {
   void GenerateArithmeticBackendKeys(ArithmeticBackendWrapper wrapper);
 
   /*!
-   * Returns the UUEncoded public key
+   * Returns the public key
    * 
    * \param wrapper backend wrapper
    * \return public key
    */
-  char* GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper);
+  bytes GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper);
 
   /*!
-   * Returns the UUEncoded secret key
+   * Returns the secret key
    * 
    * \param wrapper backend wrapper
    * \return secret key
    */
-  char* GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper);
+  bytes GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Sets the public key 
    * 
    * \param wrapper backend wrapper
-   * \param public_key UUEncoded public key
+   * \param public_key public key
    */
-  void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, char* public_key);
+  void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, bytes& public_key);
 
   /*!
    * Sets the secret key 
    * 
    * \param wrapper backend wrapper
-   * \param secret_key UUEncoded secret key
+   * \param secret_key secret key
    */
-  void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, char* secret_key);
+  void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, bytes& secret_key);
 
   /*!
    * Sets the both public and secret keys 
    * 
    * \param wrapper backend wrapper
-   * \param public_key UUEncoded public key
-   * \param secret_key UUEncoded secret key
+   * \param public_key public key
+   * \param secret_key secret key
    */
-  void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, char* public_key, char* secret_key);
+  void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, bytes& public_key, bytes& secret_key);
 
   /*!
-   * Returns the UUEncoded cipher containing encrypted value, or vector of values
+   * Returns the cipher containing encrypted value, or vector of values
    * 
    * \param wrapper backend wrapper
    * \return UUEncoded cipher
    */
-  char* GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper);
+  bytes GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Sets the UUEncoded cipher containing encrypted value, or vector of values
@@ -121,14 +121,14 @@ extern "C" {
    * \param wrapper backend wrappers
    * \param cipher UUEncoded cipher
    */
-  void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, char* cipher);
+  void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, bytes& cipher);
 
   /*!
    * Encrypts the single value using the public key
    * 
    * \param wrapper backend wrapper
    * \param value value
-   * \return UUEncoded cipher
+   * \return cipher
    */
   void ArithmeticBackendEncrypt(ArithmeticBackendWrapper wrapper, long value);
 

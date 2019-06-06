@@ -235,19 +235,19 @@ namespace homomorphine
       /*!
        * Perform boolean NOR operation on two ciphers
        * 
-       * /param stream with the result cipher
-       * /param cipher_x first cipher with encrypted value
-       * /param cipher_y second cipher with encrypted value
+       * \param stream with the result cipher
+       * \param cipher_x first cipher with encrypted value
+       * \param cipher_y second cipher with encrypted value
        */
       virtual void NOR(ostream& result, istream& cipher_x, istream& cipher_y) = 0;
 
       /*!
        * Perform boolean MUX operation on three ciphers (x ? y : z)
        * 
-       * /param stream with the result cipher
-       * /param cipher_x first cipher with encrypted value
-       * /param cipher_y second cipher with encrypted value
-       * /param cipher_z third cipher with encrypted value 
+       * \param stream with the result cipher
+       * \param cipher_x first cipher with encrypted value
+       * \param cipher_y second cipher with encrypted value
+       * \param cipher_z third cipher with encrypted value 
        */
       virtual void MUX(ostream& result, istream& cipher_x, istream& cipher_y, istream& cipher_z) = 0;
   };

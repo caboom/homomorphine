@@ -38,8 +38,8 @@ BOOST_AUTO_TEST_CASE( test_arithmetic_backend_clang_interface )
   InitArithmeticBackend(wrapper);
 
   GenerateArithmeticBackendKeys(wrapper);
-  char* public_key = GetArithmeticBackendPublicKey(wrapper);
-  char* secret_key = GetArithmeticBackendSecretKey(wrapper);
+  bytes public_key = GetArithmeticBackendPublicKey(wrapper);
+  bytes secret_key = GetArithmeticBackendSecretKey(wrapper);
 
   // test the encryption
   SetArithmeticBackendAlgorithm(encrypt_wrapper, (char *)algorithm.c_str());
@@ -52,10 +52,9 @@ BOOST_AUTO_TEST_CASE( test_arithmetic_backend_clang_interface )
   ArithmeticBackendAdd(encrypt_wrapper, 25);
   ArithmeticBackendNegate(encrypt_wrapper);
   ArithmeticBackendMultiply(encrypt_wrapper, 1000);
-
+  
   // check the result
   SetArithmeticBackendSecretKey(encrypt_wrapper, secret_key);
-
   BOOST_TEST ( ArithmeticBackendDecrypt(encrypt_wrapper) == -10025000 );
 
   // clean the result

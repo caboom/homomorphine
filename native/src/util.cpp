@@ -65,4 +65,17 @@ namespace homomorphine
 
     return result;
   }
+
+  const long Util::getStreamSize(istream &stream)
+  {
+    long start, end;
+
+    start = stream.tellg();
+    stream.seekg (start, ios::end);
+    end = stream.tellg();
+    stream.seekg(start, ios::beg);
+
+    return end - start;
+  }
+
 }

@@ -12,7 +12,13 @@ extern "C" {
 typedef struct long_array_t {
   long* elements;
   size_t count;
-} long_array_t;
+} long_array;
+
+//! Wrapper around the char/byte array
+typedef struct byte_array_t {
+  char* content;
+  long size;
+} bytes;
 
 #ifdef __cplusplus
 }

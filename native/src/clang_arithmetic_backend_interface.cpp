@@ -63,53 +63,69 @@ void GenerateArithmeticBackendKeys(ArithmeticBackendWrapper wrapper)
   backend->generateKeys();
 }
 
-char* GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper)
+bytes GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper)
 {
+  bytes result;
+  long stream_size;
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
 
+  // fetch the public key
   backend->writePublicKeyToStream(stream);
-  string public_key = stream.str();
 
-  char* result = new char[public_key.size()+1];
-  strcpy (result, public_key.c_str());
+  // read the content
+  stream_size = Util::getStreamSize(stream);
+  char* content = new char[stream_size+1];
+  stream.read(content, stream_size);
+
+  // package and return POD result
+  result.content = content;
+  result.size = stream_size;
 
   return result;
 }
 
-char* GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper)
+bytes GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper)
 {
+  bytes result;
+  long stream_size;
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
 
+  // fetch the public key
   backend->writeSecretKeyToStream(stream);
-  string secret_key = stream.str();
 
-  char* result = new char[secret_key.length()+1];
-  strcpy (result, secret_key.c_str());
+  // read the content
+  stream_size = Util::getStreamSize(stream);
+  char* content = new char[stream_size+1];
+  stream.read(content, stream_size);
+
+  // package and return POD result
+  result.content = content;
+  result.size = stream_size;
 
   return result;
 }
 
-void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, char* public_key)
+void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, bytes& public_key)
 {
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
 
-  stream << public_key;
+  stream.write(public_key.content, public_key.size);
   backend->readPublicKeyFromStream(stream);
 }
   
-void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, char* secret_key)
+void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, bytes& secret_key)
 {
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
 
-  stream << secret_key;
+  stream.write(secret_key.content, secret_key.size);
   backend->readSecretKeyFromStream(stream);
 }
 
-void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, char* public_key, char* secret_key)
+void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, bytes& public_key, bytes& secret_key)
 {
   stringstream public_key_stream;
   stringstream secret_key_stream;
@@ -119,27 +135,34 @@ void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, char* public_key
   backend->readSecretKeyFromStream(secret_key_stream);
 }
 
-char* GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper)
+bytes GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper)
 {
+  bytes result;
+  long stream_size;
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
 
+  // fetch the cipher stream
   backend->writeCipherToStream(stream);
-  string cipher = stream.str();
+  
+  // read the content
+  stream_size = Util::getStreamSize(stream);
+  char* content = new char[stream_size+1];
+  stream.read(content, stream_size);
 
-  char* result = new char[cipher.length()+1];
-  strcpy (result, cipher.c_str());
+  // package and return POD result
+  result.content = content;
+  result.size = stream_size;
 
   return result;
 }
 
-void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, char* cipher)
+void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, bytes& cipher)
 {
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
 
-  stream << cipher;
-  
+  stream.write(cipher.content, cipher.size);
   backend->readCipherFromStream(stream);
 }
 

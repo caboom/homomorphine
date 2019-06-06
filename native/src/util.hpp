@@ -55,6 +55,14 @@ namespace homomorphine
        * \return vector of random numbers
        */
       static const vector<int> getRandomVector(int &size);
+
+      /*!
+       * Returns total size of input stream in bytes
+       * 
+       * \param stream input stream size
+       * \return stream size in bytes
+       */
+      static const long getStreamSize(istream &stream);
   };
 }
 
