@@ -24,6 +24,9 @@ BOOST_AUTO_TEST_CASE( dummy_test )
 
 BOOST_AUTO_TEST_CASE( test_boolean_circuit_backend_clang_interface )
 {
+  int value = 16;
+  bytes cipher;
+  bytes result_cipher;
   string backend_name = "tfhe";
 
   BOOST_TEST_MESSAGE ( "Test boolean_circuit backend Clang interface..." );
@@ -38,6 +41,18 @@ BOOST_AUTO_TEST_CASE( test_boolean_circuit_backend_clang_interface )
   GenerateBooleanCircuitBackendKeys(wrapper);
   bytes public_key = GetBooleanCircuitBackendPublicKey(wrapper);
   bytes secret_key = GetBooleanCircuitBackendSecretKey(wrapper);
+
+  // encrypt the value and write cipher to a stream
+  cipher = BooleanCircuitEncrypt(wrapper, value);
+
+  // test the encryption
+  InitBooleanCircuitBackend(encrypt_wrapper);
+
+  SetBooleanCircuitBackendPublicKey(encrypt_wrapper, public_key);
+  result_cipher = BooleanCircuitNOT(encrypt_wrapper, cipher);
+
+  // decrypt the value and veryf the result
+  BOOST_TEST ( BooleanCircuitDecrypt(wrapper, result_cipher) == 65519 );
 }
 
 #endif
