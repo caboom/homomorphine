@@ -78,4 +78,20 @@ namespace homomorphine
     return end - start;
   }
 
+  const bytes Util::copyStreamToBytes(istream& stream) 
+  {
+    bytes result;
+    long stream_size;
+
+    stream_size = Util::getStreamSize(stream);
+    char* content = new char[stream_size+1];
+    stream.read(content, stream_size);
+
+    // package and return POD result
+    result.content = content;
+    result.size = stream_size;
+
+    return result;  
+  }
+
 }

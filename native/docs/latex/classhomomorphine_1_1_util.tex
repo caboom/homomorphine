@@ -14,6 +14,8 @@ static const void \mbox{\hyperlink{classhomomorphine_1_1_util_aba5af6d7356aca8c7
 static const vector$<$ int $>$ \mbox{\hyperlink{classhomomorphine_1_1_util_a2dcf1d83028f3d47ba49b80696fefef7}{get\+Random\+Vector}} (int \&size)
 \item 
 static const long \mbox{\hyperlink{classhomomorphine_1_1_util_acf2321afce14e9c20ca572159592e0e2}{get\+Stream\+Size}} (istream \&stream)
+\item 
+static const \mbox{\hyperlink{structbyte__array__t}{bytes}} \mbox{\hyperlink{classhomomorphine_1_1_util_af81e87e9babd7ab4cd37cd3d1725c5b5}{copy\+Stream\+To\+Bytes}} (istream \&stream)
 \end{DoxyCompactItemize}
 
 
@@ -23,6 +25,22 @@ static const long \mbox{\hyperlink{classhomomorphine_1_1_util_acf2321afce14e9c20
 This class provides a various utility functions. At this moment it supports U\+U\+Encoding/\+U\+U\+Decoding of the binary string streams used to serialize various binary objects for external usage and standardization of the interface. 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{classhomomorphine_1_1_util_af81e87e9babd7ab4cd37cd3d1725c5b5}\label{classhomomorphine_1_1_util_af81e87e9babd7ab4cd37cd3d1725c5b5}} 
+\index{homomorphine::Util@{homomorphine::Util}!copyStreamToBytes@{copyStreamToBytes}}
+\index{copyStreamToBytes@{copyStreamToBytes}!homomorphine::Util@{homomorphine::Util}}
+\subsubsection{\texorpdfstring{copyStreamToBytes()}{copyStreamToBytes()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structbyte__array__t}{bytes}} homomorphine\+::\+Util\+::copy\+Stream\+To\+Bytes (\begin{DoxyParamCaption}\item[{istream \&}]{stream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Loads the content of stream to bytes structure -\/ required for handling byte streams that can\textquotesingle{}t be simply copied into strings, or char arrays without additional encoding
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & input stream \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bytes P\+OD structure 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classhomomorphine_1_1_util_a2dcf1d83028f3d47ba49b80696fefef7}\label{classhomomorphine_1_1_util_a2dcf1d83028f3d47ba49b80696fefef7}} 
 \index{homomorphine::Util@{homomorphine::Util}!getRandomVector@{getRandomVector}}
 \index{getRandomVector@{getRandomVector}!homomorphine::Util@{homomorphine::Util}}

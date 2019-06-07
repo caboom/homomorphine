@@ -16,19 +16,19 @@ ArithmeticBackendWrapper CreateArithmeticBackend(char* type)
   return (void*)backend;
 }
   
-void FreeArithmeticBackend(ArithmeticBackendWrapper wrapper)
+void FreeArithmeticBackend(ArithmeticBackendWrapper& wrapper)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
   delete backend;
 }
 
-void InitArithmeticBackend(ArithmeticBackendWrapper wrapper)
+void InitArithmeticBackend(ArithmeticBackendWrapper& wrapper)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
   backend->init();
 }
 
-void SetArithmeticBackendAlgorithm(ArithmeticBackendWrapper wrapper, char* algorithm)
+void SetArithmeticBackendAlgorithm(ArithmeticBackendWrapper& wrapper, char* algorithm)
 {
   string str_algorithm(algorithm);
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
@@ -36,7 +36,7 @@ void SetArithmeticBackendAlgorithm(ArithmeticBackendWrapper wrapper, char* algor
   backend->setAlgorithm(str_algorithm);
 }
 
-char* GetArithmeticBackendParam(ArithmeticBackendWrapper wrapper, char* key) {
+char* GetArithmeticBackendParam(ArithmeticBackendWrapper& wrapper, char* key) {
   string str_key(key);
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
 
@@ -48,7 +48,7 @@ char* GetArithmeticBackendParam(ArithmeticBackendWrapper wrapper, char* key) {
   return result;
 }
 
-void SetArithmeticBackendParam(ArithmeticBackendWrapper wrapper, char* key, char* value)
+void SetArithmeticBackendParam(ArithmeticBackendWrapper& wrapper, char* key, char* value)
 {
   string str_key(key);
   string str_value(value);
@@ -57,13 +57,13 @@ void SetArithmeticBackendParam(ArithmeticBackendWrapper wrapper, char* key, char
   backend->setParam(str_key, str_value);
 }
   
-void GenerateArithmeticBackendKeys(ArithmeticBackendWrapper wrapper)
+void GenerateArithmeticBackendKeys(ArithmeticBackendWrapper& wrapper)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
   backend->generateKeys();
 }
 
-bytes GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper)
+bytes GetArithmeticBackendPublicKey(ArithmeticBackendWrapper& wrapper)
 {
   bytes result;
   long stream_size;
@@ -85,7 +85,7 @@ bytes GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper)
   return result;
 }
 
-bytes GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper)
+bytes GetArithmeticBackendSecretKey(ArithmeticBackendWrapper& wrapper)
 {
   bytes result;
   long stream_size;
@@ -107,7 +107,7 @@ bytes GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper)
   return result;
 }
 
-void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, bytes& public_key)
+void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper& wrapper, bytes& public_key)
 {
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
@@ -116,7 +116,7 @@ void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, bytes& publ
   backend->readPublicKeyFromStream(stream);
 }
   
-void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, bytes& secret_key)
+void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper& wrapper, bytes& secret_key)
 {
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
@@ -125,7 +125,7 @@ void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, bytes& secr
   backend->readSecretKeyFromStream(stream);
 }
 
-void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, bytes& public_key, bytes& secret_key)
+void SetArithmeticBackendKeys(ArithmeticBackendWrapper& wrapper, bytes& public_key, bytes& secret_key)
 {
   stringstream public_key_stream;
   stringstream secret_key_stream;
@@ -135,7 +135,7 @@ void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, bytes& public_ke
   backend->readSecretKeyFromStream(secret_key_stream);
 }
 
-bytes GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper)
+bytes GetArithmeticBackendCipher(ArithmeticBackendWrapper& wrapper)
 {
   bytes result;
   long stream_size;
@@ -157,7 +157,7 @@ bytes GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper)
   return result;
 }
 
-void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, bytes& cipher)
+void SetArithmeticBackendCipher(ArithmeticBackendWrapper& wrapper, bytes& cipher)
 {
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
@@ -166,32 +166,32 @@ void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, bytes& cipher)
   backend->readCipherFromStream(stream);
 }
 
-void ArithmeticBackendEncrypt(ArithmeticBackendWrapper wrapper, long value)
+void ArithmeticBackendEncrypt(ArithmeticBackendWrapper& wrapper, long value)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
 
   backend->encrypt(value);
 }
 
-long ArithmeticBackendDecrypt(ArithmeticBackendWrapper wrapper)
+long ArithmeticBackendDecrypt(ArithmeticBackendWrapper& wrapper)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
   return backend->decrypt();
 }
 
-void ArithmeticBackendAdd(ArithmeticBackendWrapper wrapper, long value)
+void ArithmeticBackendAdd(ArithmeticBackendWrapper& wrapper, long value)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
   backend->add(value);
 }
 
-void ArithmeticBackendNegate(ArithmeticBackendWrapper wrapper)
+void ArithmeticBackendNegate(ArithmeticBackendWrapper& wrapper)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
   backend->negate();
 }
 
-void ArithmeticBackendMultiply(ArithmeticBackendWrapper wrapper, long value)
+void ArithmeticBackendMultiply(ArithmeticBackendWrapper& wrapper, long value)
 {
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
   backend->multiply(value);

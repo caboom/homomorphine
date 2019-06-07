@@ -18,6 +18,8 @@
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 
+#include "clang_types.hpp"
+
 using namespace std;
 using namespace boost::archive::iterators;
 
@@ -63,6 +65,16 @@ namespace homomorphine
        * \return stream size in bytes
        */
       static const long getStreamSize(istream &stream);
+
+      /*!
+       * Loads the content of stream to bytes structure - required for handling 
+       * byte streams that can't be simply copied into strings, or char arrays
+       * without additional encoding 
+       * 
+       * \param stream input stream
+       * \return bytes POD structure  
+       */
+      static const bytes copyStreamToBytes(istream& stream);
   };
 }
 
