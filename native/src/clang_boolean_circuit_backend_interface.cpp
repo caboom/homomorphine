@@ -73,16 +73,8 @@ bytes GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper& wrapper)
   // fetch the public key
   backend->writePublicKeyToStream(stream);
 
-  // read the content
-  stream_size = Util::getStreamSize(stream);
-  char* content = new char[stream_size+1];
-  stream.read(content, stream_size);
-
-  // package and return POD result
-  result.content = content;
-  result.size = stream_size;
-
-  return result;
+  // return the content of stream
+  return Util::copyStreamToBytes(stream);
 }
 
 bytes GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper& wrapper)
@@ -95,16 +87,8 @@ bytes GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper& wrapper)
   // fetch the secret key
   backend->writeSecretKeyToStream(stream);
   
-  // read the content
-  stream_size = Util::getStreamSize(stream);
-  char* content = new char[stream_size+1];
-  stream.read(content, stream_size);
-
-  // package and return POD result
-  result.content = content;
-  result.size = stream_size;
-
-  return result;
+  // return the content of stream
+  return Util::copyStreamToBytes(stream);
 }
 
 void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper& wrapper, bytes& public_key)
@@ -167,16 +151,8 @@ bytes BooleanCircuitEncode(BooleanCircuitBackendWrapper& wrapper, int value)
   // encode the stream
   backend->encodeToStream(value, stream);
 
-  // read the content
-  stream_size = Util::getStreamSize(stream);
-  char* content = new char[stream_size+1];
-  stream.read(content, stream_size);
-
-  // package and return POD result
-  result.content = content;
-  result.size = stream_size;
-
-  return result;
+  // return the content of stream
+  return Util::copyStreamToBytes(stream);
 }
 
 int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper& wrapper, bytes& cipher)

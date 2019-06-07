@@ -73,16 +73,8 @@ bytes GetArithmeticBackendPublicKey(ArithmeticBackendWrapper& wrapper)
   // fetch the public key
   backend->writePublicKeyToStream(stream);
 
-  // read the content
-  stream_size = Util::getStreamSize(stream);
-  char* content = new char[stream_size+1];
-  stream.read(content, stream_size);
-
-  // package and return POD result
-  result.content = content;
-  result.size = stream_size;
-
-  return result;
+  // return the content of stream
+  return Util::copyStreamToBytes(stream);
 }
 
 bytes GetArithmeticBackendSecretKey(ArithmeticBackendWrapper& wrapper)
@@ -95,16 +87,8 @@ bytes GetArithmeticBackendSecretKey(ArithmeticBackendWrapper& wrapper)
   // fetch the public key
   backend->writeSecretKeyToStream(stream);
 
-  // read the content
-  stream_size = Util::getStreamSize(stream);
-  char* content = new char[stream_size+1];
-  stream.read(content, stream_size);
-
-  // package and return POD result
-  result.content = content;
-  result.size = stream_size;
-
-  return result;
+  // return the content of stream
+  return Util::copyStreamToBytes(stream);
 }
 
 void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper& wrapper, bytes& public_key)
@@ -145,16 +129,8 @@ bytes GetArithmeticBackendCipher(ArithmeticBackendWrapper& wrapper)
   // fetch the cipher stream
   backend->writeCipherToStream(stream);
   
-  // read the content
-  stream_size = Util::getStreamSize(stream);
-  char* content = new char[stream_size+1];
-  stream.read(content, stream_size);
-
-  // package and return POD result
-  result.content = content;
-  result.size = stream_size;
-
-  return result;
+  // return the content of stream
+  return Util::copyStreamToBytes(stream);
 }
 
 void SetArithmeticBackendCipher(ArithmeticBackendWrapper& wrapper, bytes& cipher)
