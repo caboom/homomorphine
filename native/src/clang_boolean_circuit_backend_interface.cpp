@@ -16,19 +16,19 @@ BooleanCircuitBackendWrapper CreateBooleanCircuitBackend(char* type)
   return (void*)backend;
 }
   
-void FreeBooleanCircuitBackend(BooleanCircuitBackendWrapper& wrapper)
+void FreeBooleanCircuitBackend(BooleanCircuitBackendWrapper wrapper)
 {
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
   delete backend;
 }
 
-void InitBooleanCircuitBackend(BooleanCircuitBackendWrapper& wrapper)
+void InitBooleanCircuitBackend(BooleanCircuitBackendWrapper wrapper)
 {
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
   backend->init();
 }
 
-void SetBooleanCircuitBackendAlgorithm(BooleanCircuitBackendWrapper& wrapper, char* algorithm)
+void SetBooleanCircuitBackendAlgorithm(BooleanCircuitBackendWrapper wrapper, char* algorithm)
 {
   string str_algorithm(algorithm);
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -36,7 +36,7 @@ void SetBooleanCircuitBackendAlgorithm(BooleanCircuitBackendWrapper& wrapper, ch
   backend->setAlgorithm(str_algorithm);
 }
 
-char* GetBooleanCircuitBackendParam(BooleanCircuitBackendWrapper& wrapper, char* key) {
+char* GetBooleanCircuitBackendParam(BooleanCircuitBackendWrapper wrapper, char* key) {
   string str_key(key);
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
 
@@ -48,7 +48,7 @@ char* GetBooleanCircuitBackendParam(BooleanCircuitBackendWrapper& wrapper, char*
   return result;
 }
 
-void SetBooleanCircuitBackendParam(BooleanCircuitBackendWrapper& wrapper, char* key, char* value)
+void SetBooleanCircuitBackendParam(BooleanCircuitBackendWrapper wrapper, char* key, char* value)
 {
   string str_key(key);
   string str_value(value);
@@ -57,13 +57,13 @@ void SetBooleanCircuitBackendParam(BooleanCircuitBackendWrapper& wrapper, char* 
   backend->setParam(str_key, str_value);
 }
 
-void GenerateBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper& wrapper)
+void GenerateBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper)
 {
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
   backend->generateKeys();
 }
 
-bytes GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper& wrapper)
+bytes GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper)
 {
   bytes result;
   long stream_size;
@@ -77,7 +77,7 @@ bytes GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper& wrapper)
   return Util::copyStreamToBytes(stream);
 }
 
-bytes GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper& wrapper)
+bytes GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper)
 {
   bytes result;
   long stream_size;
@@ -91,7 +91,7 @@ bytes GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper& wrapper)
   return Util::copyStreamToBytes(stream);
 }
 
-void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper& wrapper, bytes& public_key)
+void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper, bytes public_key)
 {
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -100,7 +100,7 @@ void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper& wrapper, by
   backend->readPublicKeyFromStream(stream);
 }
   
-void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper& wrapper, bytes& secret_key)
+void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper, bytes secret_key)
 {
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -109,7 +109,7 @@ void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper& wrapper, by
   backend->readSecretKeyFromStream(stream);
 }
 
-void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper& wrapper, bytes& public_key, bytes& secret_key)
+void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, bytes public_key, bytes secret_key)
 {
   stringstream public_key_stream;
   stringstream secret_key_stream;
@@ -119,7 +119,7 @@ void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper& wrapper, bytes& 
   backend->readSecretKeyFromStream(secret_key_stream);
 }
 
-bytes BooleanCircuitEncrypt(BooleanCircuitBackendWrapper& wrapper, int value)
+bytes BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value)
 {
   bytes result;
   long stream_size;
@@ -141,7 +141,7 @@ bytes BooleanCircuitEncrypt(BooleanCircuitBackendWrapper& wrapper, int value)
   return result;
 }
 
-bytes BooleanCircuitEncode(BooleanCircuitBackendWrapper& wrapper, int value)
+bytes BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value)
 {
   bytes result;
   long stream_size;
@@ -155,7 +155,7 @@ bytes BooleanCircuitEncode(BooleanCircuitBackendWrapper& wrapper, int value)
   return Util::copyStreamToBytes(stream);
 }
 
-int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper& wrapper, bytes& cipher)
+int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, bytes cipher)
 {
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -164,7 +164,7 @@ int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper& wrapper, bytes& cipher)
   return backend->decryptFromStream(stream);
 }
 
-bytes BooleanCircuitNOT(BooleanCircuitBackendWrapper& wrapper, bytes& cipher)
+bytes BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, bytes cipher)
 {
   stringstream cipher_stream;
   stringstream result_stream;
@@ -180,7 +180,7 @@ bytes BooleanCircuitNOT(BooleanCircuitBackendWrapper& wrapper, bytes& cipher)
   return Util::copyStreamToBytes(result_stream);
 }
 
-bytes BooleanCircuitCOPY(BooleanCircuitBackendWrapper& wrapper, bytes& cipher)
+bytes BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, bytes cipher)
 {
   stringstream cipher_stream;
   stringstream result_stream;
@@ -196,7 +196,7 @@ bytes BooleanCircuitCOPY(BooleanCircuitBackendWrapper& wrapper, bytes& cipher)
   return Util::copyStreamToBytes(result_stream);
 }
 
-bytes BooleanCircuitNAND(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, bytes& cipher_y)
+bytes BooleanCircuitNAND(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -214,7 +214,7 @@ bytes BooleanCircuitNAND(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x,
   return Util::copyStreamToBytes(result_stream);
 }
 
-bytes BooleanCircuitOR(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, bytes& cipher_y)
+bytes BooleanCircuitOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -232,7 +232,7 @@ bytes BooleanCircuitOR(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, b
   return Util::copyStreamToBytes(result_stream);
 }
 
-bytes BooleanCircuitAND(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, bytes& cipher_y)
+bytes BooleanCircuitAND(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -250,7 +250,7 @@ bytes BooleanCircuitAND(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, 
   return Util::copyStreamToBytes(result_stream);
 }
 
-bytes BooleanCircuitXOR(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, bytes& cipher_y)
+bytes BooleanCircuitXOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -268,7 +268,7 @@ bytes BooleanCircuitXOR(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, 
   return Util::copyStreamToBytes(result_stream);
 }
 
-bytes BooleanCircuitXNOR(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, bytes& cipher_y)
+bytes BooleanCircuitXNOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -286,7 +286,7 @@ bytes BooleanCircuitXNOR(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x,
   return Util::copyStreamToBytes(result_stream);
 }
 
-bytes BooleanCircuitNOR(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, bytes& cipher_y)
+bytes BooleanCircuitNOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -304,7 +304,7 @@ bytes BooleanCircuitNOR(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, 
   return Util::copyStreamToBytes(result_stream);
 }
 
-bytes BooleanCircuitMUX(BooleanCircuitBackendWrapper& wrapper, bytes& cipher_x, bytes& cipher_y, bytes& cipher_z)
+bytes BooleanCircuitMUX(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y, bytes cipher_z)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;

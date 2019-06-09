@@ -104,6 +104,7 @@ string(CONCAT HEADER_FILES
   "src/arithmetic_backend.hpp\;"
   "src/boolean_circuit_backend.hpp\;"
   "src/clang_arithmetic_backend_interface.hpp\;"
+  "src/clang_boolean_circuit_backend_interface.hpp\;"
   "src/clang_types.hpp\;"
   "src/constants.hpp\;"
   "src/util.hpp")
