@@ -72,7 +72,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \return public key
    */
-  bytes GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper);
+  Blob GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Returns the secret key
@@ -80,7 +80,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \return secret key
    */
-  bytes GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper);
+  Blob GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper);
 
   /*!
    * Sets the public key 
@@ -88,7 +88,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param public_key public key
    */
-  void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, bytes public_key);
+  void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, Blob public_key);
 
   /*!
    * Sets the secret key 
@@ -96,7 +96,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param secret_key secret key
    */
-  void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, bytes secret_key);
+  void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, Blob secret_key);
 
   /*!
    * Sets the both public and secret keys 
@@ -105,23 +105,23 @@ extern "C" {
    * \param public_key public key
    * \param secret_key secret key
    */
-  void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, bytes public_key, bytes secret_key);
+  void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, Blob public_key, Blob secret_key);
 
   /*!
    * Returns the cipher containing encrypted value, or vector of values
    * 
    * \param wrapper backend wrapper
-   * \return UUEncoded cipher
+   * \return cipher
    */
-  bytes GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper);
+  Blob GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper);
 
   /*!
-   * Sets the UUEncoded cipher containing encrypted value, or vector of values
+   * Sets the cipher containing encrypted value, or vector of values
    * 
    * \param wrapper backend wrappers
-   * \param cipher UUEncoded cipher
+   * \param cipher cipher
    */
-  void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, bytes cipher);
+  void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, Blob cipher);
 
   /*!
    * Encrypts the single value using the public key

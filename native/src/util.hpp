@@ -72,9 +72,9 @@ namespace homomorphine
        * without additional encoding 
        * 
        * \param stream input stream
-       * \return bytes POD structure  
+       * \return blob POD structure  
        */
-      static const bytes copyStreamToBytes(istream& stream);
+      static const Blob copyStreamToBlob(istream& stream);
   };
 }
 

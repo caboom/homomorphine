@@ -72,7 +72,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \return public key
    */
-  bytes GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper);
+  Blob GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper);
 
   /*!
    * Returns the serialized byte array with secret key
@@ -80,7 +80,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \return secret key
    */
-  bytes GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper);
+  Blob GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper);
 
   /*!
    * Sets the public key using the key in serialized byte array format
@@ -88,7 +88,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param public_key public key
    */
-  void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper, bytes public_key);
+  void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper, Blob public_key);
 
   /*!
    * Sets the secret key using the key in serialized byte array format
@@ -96,7 +96,7 @@ extern "C" {
    * \param wrapper backend wrapper
    * \param secret_key secret key
    */
-  void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper, bytes secret_key);
+  void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper, Blob secret_key);
 
   /*!
    * Sets the both public and secret keys using the keys in serialized byte array format
@@ -105,7 +105,7 @@ extern "C" {
    * \param public_key public key
    * \param secret_key secret key
    */
-  void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, bytes public_key, bytes secret_key);
+  void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, Blob public_key, Blob secret_key);
 
   /*!
    * Returns the cipher byte array containing encrypted value
@@ -114,7 +114,7 @@ extern "C" {
    * \param value value
    * \return encrypted cipher 
    */
-  bytes BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value);
+  Blob BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value);
 
   /*!
    * Returns the byte array containing encoded value (using public key)
@@ -123,7 +123,7 @@ extern "C" {
    * \param value value
    * \return encoded cipher
    */
-  bytes BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value);
+  Blob BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value);
 
   /*!
    * Returns a value decrypted from cipher
@@ -132,7 +132,7 @@ extern "C" {
    * \param cipher cipher
    * \return decrypted value
    */
-  int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, bytes cipher);
+  int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, Blob cipher);
 
   /*!
    * Perform boolean NOT operation on cipher
@@ -141,7 +141,7 @@ extern "C" {
    * \param cipher cipher 
    * \return result cipher
    */
-  bytes BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, bytes cipher);
+  Blob BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, Blob cipher);
 
   /*!
    * Perform COPY operation on cipher
@@ -150,7 +150,7 @@ extern "C" {
    * \param cipher cipher with encrypted value
    * \return result cipher
    */
-  bytes BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, bytes cipher);
+  Blob BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, Blob cipher);
 
   /*!
    * Perform boolean NAND operation on two ciphers
@@ -159,7 +159,7 @@ extern "C" {
    * \param cipher_x first cipher with encrypted value
    * \param cipher_y second cipher with encrypted value
    */
-  bytes BooleanCircuitNAND(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y);
+  Blob BooleanCircuitNAND(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y);
 
   /*!
    * Perform boolean OR operation on two ciphers
@@ -168,7 +168,7 @@ extern "C" {
    * \param cipher_x first cipher with encrypted value
    * \param cipher_y second cipher with encrypted value
    */
-  bytes BooleanCircuitOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y);
+  Blob BooleanCircuitOR(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y);
 
   /*!
    * Perform boolean AND operation on two ciphers
@@ -177,7 +177,7 @@ extern "C" {
    * \param cipher_x first cipher with encrypted value
    * \param cipher_y second cipher with encrypted value
    */
-  bytes BooleanCircuitAND(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y);
+  Blob BooleanCircuitAND(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y);
 
   /*!
    * Perform boolean XOR operation on two ciphers
@@ -186,7 +186,7 @@ extern "C" {
    * \param cipher_x first cipher with encrypted value
    * \param cipher_y second cipher with encrypted value
    */
-  bytes BooleanCircuitXOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y);
+  Blob BooleanCircuitXOR(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y);
 
   /*!
    * Perform boolean XNOR operation on two ciphers
@@ -195,7 +195,7 @@ extern "C" {
    * \param cipher_x first cipher with encrypted value
    * \param cipher_y second cipher with encrypted value
    */
-  bytes BooleanCircuitXNOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y);
+  Blob BooleanCircuitXNOR(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y);
 
   /*!
    * Perform boolean NOR operation on two ciphers
@@ -204,7 +204,7 @@ extern "C" {
    * \param cipher_x first cipher with encrypted value
    * \param cipher_y second cipher with encrypted value
    */
-  bytes BooleanCircuitNOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y);
+  Blob BooleanCircuitNOR(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y);
 
   /*!
    * Perform boolean MUX operation on two ciphers
@@ -213,7 +213,7 @@ extern "C" {
    * \param cipher_x first cipher with encrypted value
    * \param cipher_y second cipher with encrypted value
    */
-  bytes BooleanCircuitMUX(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y, bytes cipher_z);
+  Blob BooleanCircuitMUX(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y, Blob cipher_z);
 
 #ifdef __cplusplus
 }

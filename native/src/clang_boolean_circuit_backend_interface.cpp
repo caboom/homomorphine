@@ -63,9 +63,9 @@ void GenerateBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper)
   backend->generateKeys();
 }
 
-bytes GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper)
+Blob GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper)
 {
-  bytes result;
+  Blob result;
   long stream_size;
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -74,12 +74,12 @@ bytes GetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper)
   backend->writePublicKeyToStream(stream);
 
   // return the content of stream
-  return Util::copyStreamToBytes(stream);
+  return Util::copyStreamToBlob(stream);
 }
 
-bytes GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper)
+Blob GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper)
 {
-  bytes result;
+  Blob result;
   long stream_size;
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -88,10 +88,10 @@ bytes GetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper)
   backend->writeSecretKeyToStream(stream);
   
   // return the content of stream
-  return Util::copyStreamToBytes(stream);
+  return Util::copyStreamToBlob(stream);
 }
 
-void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper, bytes public_key)
+void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper, Blob public_key)
 {
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -100,7 +100,7 @@ void SetBooleanCircuitBackendPublicKey(BooleanCircuitBackendWrapper wrapper, byt
   backend->readPublicKeyFromStream(stream);
 }
   
-void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper, bytes secret_key)
+void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper, Blob secret_key)
 {
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -109,7 +109,7 @@ void SetBooleanCircuitBackendSecretKey(BooleanCircuitBackendWrapper wrapper, byt
   backend->readSecretKeyFromStream(stream);
 }
 
-void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, bytes public_key, bytes secret_key)
+void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, Blob public_key, Blob secret_key)
 {
   stringstream public_key_stream;
   stringstream secret_key_stream;
@@ -119,9 +119,9 @@ void SetBooleanCircuitBackendKeys(BooleanCircuitBackendWrapper wrapper, bytes pu
   backend->readSecretKeyFromStream(secret_key_stream);
 }
 
-bytes BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value)
+Blob BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value)
 {
-  bytes result;
+  Blob result;
   long stream_size;
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -141,9 +141,9 @@ bytes BooleanCircuitEncrypt(BooleanCircuitBackendWrapper wrapper, int value)
   return result;
 }
 
-bytes BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value)
+Blob BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value)
 {
-  bytes result;
+  Blob result;
   long stream_size;
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -152,10 +152,10 @@ bytes BooleanCircuitEncode(BooleanCircuitBackendWrapper wrapper, int value)
   backend->encodeToStream(value, stream);
 
   // return the content of stream
-  return Util::copyStreamToBytes(stream);
+  return Util::copyStreamToBlob(stream);
 }
 
-int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, bytes cipher)
+int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, Blob cipher)
 {
   stringstream stream;
   BooleanCircuitBackend* backend = (BooleanCircuitBackend*)wrapper;
@@ -164,7 +164,7 @@ int BooleanCircuitDecrypt(BooleanCircuitBackendWrapper wrapper, bytes cipher)
   return backend->decryptFromStream(stream);
 }
 
-bytes BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, bytes cipher)
+Blob BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, Blob cipher)
 {
   stringstream cipher_stream;
   stringstream result_stream;
@@ -176,11 +176,11 @@ bytes BooleanCircuitNOT(BooleanCircuitBackendWrapper wrapper, bytes cipher)
   // perform NOT operation
   backend->NOT(result_stream, cipher_stream);
 
-  // copy result stream to bytes
-  return Util::copyStreamToBytes(result_stream);
+  // copy result stream to blob
+  return Util::copyStreamToBlob(result_stream);
 }
 
-bytes BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, bytes cipher)
+Blob BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, Blob cipher)
 {
   stringstream cipher_stream;
   stringstream result_stream;
@@ -192,11 +192,11 @@ bytes BooleanCircuitCOPY(BooleanCircuitBackendWrapper wrapper, bytes cipher)
   // perform COPY operation
   backend->COPY(result_stream, cipher_stream);
 
-  // copy result stream to bytes
-  return Util::copyStreamToBytes(result_stream);
+  // copy result stream to blob
+  return Util::copyStreamToBlob(result_stream);
 }
 
-bytes BooleanCircuitNAND(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
+Blob BooleanCircuitNAND(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -210,11 +210,11 @@ bytes BooleanCircuitNAND(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, b
   // perform NAND operation
   backend->NAND(result_stream, cipher_x_stream, cipher_y_stream);
 
-  // copy result stream to bytes
-  return Util::copyStreamToBytes(result_stream);
+  // copy result stream to blob
+  return Util::copyStreamToBlob(result_stream);
 }
 
-bytes BooleanCircuitOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
+Blob BooleanCircuitOR(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -228,11 +228,11 @@ bytes BooleanCircuitOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, byt
   // perform OR operation
   backend->OR(result_stream, cipher_x_stream, cipher_y_stream);
 
-  // copy result stream to bytes
-  return Util::copyStreamToBytes(result_stream);
+  // copy result stream to Blob
+  return Util::copyStreamToBlob(result_stream);
 }
 
-bytes BooleanCircuitAND(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
+Blob BooleanCircuitAND(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -246,11 +246,11 @@ bytes BooleanCircuitAND(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, by
   // perform AND operation
   backend->AND(result_stream, cipher_x_stream, cipher_y_stream);
 
-  // copy result stream to bytes
-  return Util::copyStreamToBytes(result_stream);
+  // copy result stream to blob
+  return Util::copyStreamToBlob(result_stream);
 }
 
-bytes BooleanCircuitXOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
+Blob BooleanCircuitXOR(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -264,11 +264,11 @@ bytes BooleanCircuitXOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, by
   // perform XOR operation
   backend->XOR(result_stream, cipher_x_stream, cipher_y_stream);
 
-  // copy result stream to bytes
-  return Util::copyStreamToBytes(result_stream);
+  // copy result stream to blob 
+  return Util::copyStreamToBlob(result_stream);
 }
 
-bytes BooleanCircuitXNOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
+Blob BooleanCircuitXNOR(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -282,11 +282,11 @@ bytes BooleanCircuitXNOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, b
   // perform XNOR operation
   backend->XNOR(result_stream, cipher_x_stream, cipher_y_stream);
 
-  // copy result stream to bytes
-  return Util::copyStreamToBytes(result_stream);
+  // copy result stream to Blob
+  return Util::copyStreamToBlob(result_stream);
 }
 
-bytes BooleanCircuitNOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y)
+Blob BooleanCircuitNOR(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -300,11 +300,11 @@ bytes BooleanCircuitNOR(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, by
   // perform NOR operation
   backend->NOR(result_stream, cipher_x_stream, cipher_y_stream);
 
-  // copy result stream to bytes
-  return Util::copyStreamToBytes(result_stream);
+  // copy result stream to blob 
+  return Util::copyStreamToBlob(result_stream);
 }
 
-bytes BooleanCircuitMUX(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, bytes cipher_y, bytes cipher_z)
+Blob BooleanCircuitMUX(BooleanCircuitBackendWrapper wrapper, Blob cipher_x, Blob cipher_y, Blob cipher_z)
 {
   stringstream cipher_x_stream;
   stringstream cipher_y_stream;
@@ -320,6 +320,6 @@ bytes BooleanCircuitMUX(BooleanCircuitBackendWrapper wrapper, bytes cipher_x, by
   // perform NOR operation
   backend->MUX(result_stream, cipher_x_stream, cipher_y_stream, cipher_z_stream);
 
-  // copy result stream to bytes
-  return Util::copyStreamToBytes(result_stream);
+  // copy result stream to blob
+  return Util::copyStreamToBlob(result_stream);
 }

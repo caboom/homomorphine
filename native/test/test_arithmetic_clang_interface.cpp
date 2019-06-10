@@ -38,8 +38,8 @@ BOOST_AUTO_TEST_CASE( test_arithmetic_backend_clang_interface )
   InitArithmeticBackend(wrapper);
 
   GenerateArithmeticBackendKeys(wrapper);
-  bytes public_key = GetArithmeticBackendPublicKey(wrapper);
-  bytes secret_key = GetArithmeticBackendSecretKey(wrapper);
+  Blob public_key = GetArithmeticBackendPublicKey(wrapper);
+  Blob secret_key = GetArithmeticBackendSecretKey(wrapper);
 
   // test the encryption
   SetArithmeticBackendAlgorithm(encrypt_wrapper, (char *)algorithm.c_str());

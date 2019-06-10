@@ -63,9 +63,9 @@ void GenerateArithmeticBackendKeys(ArithmeticBackendWrapper wrapper)
   backend->generateKeys();
 }
 
-bytes GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper)
+Blob GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper)
 {
-  bytes result;
+  Blob result;
   long stream_size;
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
@@ -74,12 +74,12 @@ bytes GetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper)
   backend->writePublicKeyToStream(stream);
 
   // return the content of stream
-  return Util::copyStreamToBytes(stream);
+  return Util::copyStreamToBlob(stream);
 }
 
-bytes GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper)
+Blob GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper)
 {
-  bytes result;
+  Blob result;
   long stream_size;
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
@@ -88,10 +88,10 @@ bytes GetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper)
   backend->writeSecretKeyToStream(stream);
 
   // return the content of stream
-  return Util::copyStreamToBytes(stream);
+  return Util::copyStreamToBlob(stream);
 }
 
-void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, bytes public_key)
+void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, Blob public_key)
 {
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
@@ -100,7 +100,7 @@ void SetArithmeticBackendPublicKey(ArithmeticBackendWrapper wrapper, bytes publi
   backend->readPublicKeyFromStream(stream);
 }
   
-void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, bytes secret_key)
+void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, Blob secret_key)
 {
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
@@ -109,7 +109,7 @@ void SetArithmeticBackendSecretKey(ArithmeticBackendWrapper wrapper, bytes secre
   backend->readSecretKeyFromStream(stream);
 }
 
-void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, bytes public_key, bytes secret_key)
+void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, Blob public_key, Blob secret_key)
 {
   stringstream public_key_stream;
   stringstream secret_key_stream;
@@ -119,9 +119,9 @@ void SetArithmeticBackendKeys(ArithmeticBackendWrapper wrapper, bytes public_key
   backend->readSecretKeyFromStream(secret_key_stream);
 }
 
-bytes GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper)
+Blob GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper)
 {
-  bytes result;
+  Blob result;
   long stream_size;
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;
@@ -130,10 +130,10 @@ bytes GetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper)
   backend->writeCipherToStream(stream);
   
   // return the content of stream
-  return Util::copyStreamToBytes(stream);
+  return Util::copyStreamToBlob(stream);
 }
 
-void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, bytes cipher)
+void SetArithmeticBackendCipher(ArithmeticBackendWrapper wrapper, Blob cipher)
 {
   stringstream stream;
   ArithmeticBackend* backend = (ArithmeticBackend*)wrapper;

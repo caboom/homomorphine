@@ -78,9 +78,9 @@ namespace homomorphine
     return end - start;
   }
 
-  const bytes Util::copyStreamToBytes(istream& stream) 
+  const Blob Util::copyStreamToBlob(istream& stream) 
   {
-    bytes result;
+    Blob result;
     long stream_size;
 
     stream_size = Util::getStreamSize(stream);
